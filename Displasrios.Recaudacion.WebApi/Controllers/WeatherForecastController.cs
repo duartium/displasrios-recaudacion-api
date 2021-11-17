@@ -26,8 +26,6 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            _logger.LogError("Prueba");
-            _logger.LogInformation("Prueba");
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
