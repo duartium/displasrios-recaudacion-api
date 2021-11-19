@@ -12,6 +12,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
@@ -21,22 +22,6 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             _logger = logger;
         }
         
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Authenticate(UserLogin user)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return Conflict();
-            }
-        }
-
-        [Authorize]
         [HttpGet]
         public IActionResult GetUsers()
         {

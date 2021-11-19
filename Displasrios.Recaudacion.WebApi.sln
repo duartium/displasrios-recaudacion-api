@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Displasrios.Recaudacion.WebApi", "Displasrios.Recaudacion.WebApi\Displasrios.Recaudacion.WebApi.csproj", "{ABA20082-54F6-47BD-A8A1-057B539A4428}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displasrios.Recaudacion.WebApi", "Displasrios.Recaudacion.WebApi\Displasrios.Recaudacion.WebApi.csproj", "{ABA20082-54F6-47BD-A8A1-057B539A4428}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{648C1805-70A0-430B-8A27-862FA6AF6023}"
 EndProject
@@ -11,9 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{7C91E9F2-3DE7-4DA0-BC61-3D1E7D326715}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Displasrios.Recaudacion.Core", "Displasrios.Recaudacion.Core\Displasrios.Recaudacion.Core.csproj", "{3841D5F4-E948-4EB0-A333-F00E62120EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displasrios.Recaudacion.Core", "Displasrios.Recaudacion.Core\Displasrios.Recaudacion.Core.csproj", "{3841D5F4-E948-4EB0-A333-F00E62120EA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Displasrios.Recaudacion.Infraestructure", "Displasrios.Recaudacion.Infraestructure\Displasrios.Recaudacion.Infraestructure.csproj", "{57FE8C40-A313-4912-AD6F-E21D1680588E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Displasrios.Recaudacion.Infraestructure", "Displasrios.Recaudacion.Infraestructure\Displasrios.Recaudacion.Infraestructure.csproj", "{57FE8C40-A313-4912-AD6F-E21D1680588E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FA7E9054-817B-49C8-8185-86CEA5DD2104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

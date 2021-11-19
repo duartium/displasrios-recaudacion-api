@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
@@ -14,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Displasrios.Recaudacion.Core\Displasrios.Recaudacion.Core.csproj" />
+    <ProjectReference Include="..\Displasrios.Recaudacion.Infraestructure\Displasrios.Recaudacion.Infraestructure.csproj" />
   </ItemGroup>
 
 
