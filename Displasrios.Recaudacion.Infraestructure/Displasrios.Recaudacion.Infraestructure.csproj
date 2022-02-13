@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Displasrios.Recaudacion.Core\Displasrios.Recaudacion.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Facades\" />
+    <Folder Include="Adapters\" />
+    <Folder Include="Factories\" />
+  </ItemGroup>
+
 </Project>

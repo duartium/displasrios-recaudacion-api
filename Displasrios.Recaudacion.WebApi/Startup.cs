@@ -39,12 +39,12 @@ namespace Displasrios.Recaudacion.WebApi
                 var groupName = "v1";
                 options.SwaggerDoc(groupName, new OpenApiInfo
                 {
-                    Title = $"NEO {groupName}",
+                    Title = $"DISPLASRIOS API {groupName}",
                     Version = groupName,
                     Description = "API GESTIÓN DE RECAUDACIÓN Y VENTAS",
                     Contact = new OpenApiContact
                     {
-                        Name = "DISPLASRÍOS API",
+                        Name = "Byron Duarte",
                         Email = "byronduarte95@gmail.com",
                         Url = new Uri("http://neutrinodevs.com/"),
                     }
@@ -90,7 +90,7 @@ namespace Displasrios.Recaudacion.WebApi
 
             app.UseSwagger();
             app.UseSwaggerUI(setup => {
-                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "NEO API");
+                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "DISPLASRIOS API");
             });
 
             app.UseAuthentication();

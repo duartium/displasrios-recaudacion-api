@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -26,23 +26,19 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost, Route("requestToken")]
+        [HttpPost, Route("login")]
         public ActionResult Authenticate([FromBody] UserLogin request)
         {
             try
             {
                 if (!ModelState.IsValid)
-                {
-                    return BadRequest("Invalid Request");
-                }
+                    return BadRequest("Los datos de entrada son inválidos");
 
                 string token;
-                if (_srvAuthentication.IsAuthenticated(request, out token))
-                {
-                    return Ok(token);
-                }
+                if (!_srvAuthentication.IsAuthenticated(request, out token))
+                    return BadRequest("Invalid Request");
 
-                return BadRequest("Invalid Request");
+                return Ok(token);
             }
             catch (Exception ex)
             {
