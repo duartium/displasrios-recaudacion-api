@@ -44,8 +44,8 @@ namespace Displasrios.Recaudacion.WebApi
                     Description = "API GESTIÓN DE RECAUDACIÓN Y VENTAS",
                     Contact = new OpenApiContact
                     {
-                        Name = "NEO",
-                        Email = "neutrinodevs.com",
+                        Name = "DISPLASRÍOS API",
+                        Email = "byronduarte95@gmail.com",
                         Url = new Uri("http://neutrinodevs.com/"),
                     }
                 });
