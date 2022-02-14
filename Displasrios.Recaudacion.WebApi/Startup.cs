@@ -5,19 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Displasrios.Recaudacion.Core.Contracts;
 using Displasrios.Recaudacion.Core.Models.Security;
+using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Displasrios.Recaudacion.Infraestructure.Repositories;
 using Displasrios.Recaudacion.Infraestructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-
+using Neutrinodevs.PedidosOnline.Infraestructure.Security;
 
 namespace Displasrios.Recaudacion.WebApi
 {
@@ -73,6 +75,14 @@ namespace Displasrios.Recaudacion.WebApi
                 };
                 
             });
+
+            services.AddSingleton(Configuration);
+            services.AddDbContext<DISPLASRIOSContext>(options =>
+            {
+                options.UseSqlServer(Encoding.UTF8.GetString(Convert.FromBase64String(Configuration.GetSection("ConnectionStrings:displasrios_db").Value)));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+
 
             services.AddScoped<IAuthenticationService, TokenAuthenticationService>();
             services.AddScoped<IUserRepository, UserRepository>();

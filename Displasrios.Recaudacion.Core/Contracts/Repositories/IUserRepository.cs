@@ -1,12 +1,12 @@
-﻿using Displasrios.Recaudacion.Core.Entities;
-using System;
+﻿using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.Entities;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Displasrios.Recaudacion.Core.Contracts
 {
     public interface IUserRepository
     {
         User GetByAuth(string username, string password);
+        IEnumerable<UserDto> GetAll();
     }
 }

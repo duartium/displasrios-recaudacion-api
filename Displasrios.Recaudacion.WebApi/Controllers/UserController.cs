@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Displasrios.Recaudacion.Core.Models;
+﻿using Displasrios.Recaudacion.Core.Contracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/users")]
     [ApiController]
     [Authorize]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
+        private readonly IUserRepository _rpsUser;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger, IUserRepository userRepository)
         {
             _logger = logger;
+            _rpsUser = userRepository;
         }
         
         [HttpGet]
@@ -27,7 +25,8 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         {
             try
             {
-                return Ok();
+                var users = _rpsUser.GetAll();
+                return Ok(users);
             }
             catch (Exception ex)
             {
