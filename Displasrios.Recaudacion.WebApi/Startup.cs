@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Displasrios.Recaudacion.Core.Contracts;
@@ -8,6 +9,7 @@ using Displasrios.Recaudacion.Core.Models.Security;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Displasrios.Recaudacion.Infraestructure.Repositories;
 using Displasrios.Recaudacion.Infraestructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -83,6 +85,7 @@ namespace Displasrios.Recaudacion.WebApi
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IAuthenticationService, TokenAuthenticationService>();
             services.AddScoped<IUserRepository, UserRepository>();

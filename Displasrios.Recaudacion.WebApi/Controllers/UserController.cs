@@ -9,17 +9,16 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
     [Route("api/v1/users")]
     [ApiController]
     [Authorize]
-    public class UserController : ControllerBase
+    public class UserController : BaseApiController<UserController>
     {
-        private readonly ILogger<UserController> _logger;
         private readonly IUserRepository _rpsUser;
 
-        public UserController(ILogger<UserController> logger, IUserRepository userRepository)
+        public UserController(IUserRepository userRepository)
         {
-            _logger = logger;
             _rpsUser = userRepository;
         }
-        
+
+
         [HttpGet]
         public IActionResult GetUsers()
         {
@@ -30,7 +29,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                Logger.LogError(ex.ToString());
                 return Conflict();
             }
         }

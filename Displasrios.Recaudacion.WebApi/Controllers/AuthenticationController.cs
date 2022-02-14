@@ -13,15 +13,13 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 {
     [Route("api/v1/authentication")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : BaseApiController<AuthenticationController>
     {
 
-        private readonly ILogger<AuthenticationController> _logger;
         private readonly IAuthenticationService _srvAuthentication;
 
-        public AuthenticationController(ILogger<AuthenticationController> logger, IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService)
         {
-            _logger = logger;
             _srvAuthentication = authenticationService;
         }
 
@@ -42,7 +40,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                Logger.LogError(ex.ToString());
                 return Conflict(ex.Message);
             }
         }
