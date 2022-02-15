@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Displasrios.Recaudacion.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetUser(System.Int32)">
+            <summary>
+            Obtiene un usuario por id.
+            </summary>
+            <param name="id">Example id.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

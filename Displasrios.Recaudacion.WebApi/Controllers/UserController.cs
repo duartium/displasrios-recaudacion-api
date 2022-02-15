@@ -18,6 +18,29 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             _rpsUser = userRepository;
         }
 
+        /// <summary>
+        /// Obtiene un usuario por id.
+        /// </summary>
+        /// <param name="id">Example id.</param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public IActionResult GetUser(int id)
+        {
+            try
+            {
+                var user = _rpsUser.Get(id);
+                if (user == null)
+                    return NotFound("El usuario no existe.");
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict();
+            }
+        }
+
 
         [HttpGet]
         public IActionResult GetUsers()

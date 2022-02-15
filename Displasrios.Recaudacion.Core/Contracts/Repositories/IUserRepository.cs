@@ -8,5 +8,6 @@ namespace Displasrios.Recaudacion.Core.Contracts
     {
         User GetByAuth(string username, string password);
         IEnumerable<UserDto> GetAll();
+        UserDto Get(int id);
     }
 }

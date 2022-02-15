@@ -30,5 +30,15 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 }).ToList();
         }
 
+        public UserDto Get(int id)
+        {
+            return _context.Usuarios.Where(x => x.Estado && x.IdUsuario == id)
+                .Select(x => new UserDto
+                {
+                    Id = x.IdUsuario,
+                    Username = x.Usuario,
+                    CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
+                }).FirstOrDefault();
+        }
     }
 }

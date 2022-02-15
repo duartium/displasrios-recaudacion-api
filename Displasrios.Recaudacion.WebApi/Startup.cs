@@ -53,6 +53,10 @@ namespace Displasrios.Recaudacion.WebApi
                         Url = new Uri("http://neutrinodevs.com/"),
                     }
                 });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
             });
 
             services.Configure<TokenManagement>(Configuration.GetSection("TokenManagement"));
