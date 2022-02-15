@@ -21,7 +21,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// <summary>
         /// Obtiene un usuario por id.
         /// </summary>
-        /// <param name="id">Example id.</param>
+        /// <param name="id">Example id</param>
         /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult GetUser(int id)
@@ -42,6 +42,10 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         }
 
 
+        /// <summary>
+        /// Obtener una lista de usuarios
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetUsers()
         {

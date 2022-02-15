@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Displasrios.Recaudacion.Core.Contracts;
+using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.Models.Security;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Displasrios.Recaudacion.Infraestructure.Repositories;
@@ -92,6 +93,7 @@ namespace Displasrios.Recaudacion.WebApi
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IAuthenticationService, TokenAuthenticationService>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
         }
