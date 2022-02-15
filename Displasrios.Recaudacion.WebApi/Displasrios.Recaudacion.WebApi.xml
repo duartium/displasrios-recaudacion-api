@@ -4,11 +4,37 @@
         <name>Displasrios.Recaudacion.WebApi</name>
     </assembly>
     <members>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomer(System.String)">
+            <summary>
+            Obtiene un cliente por identificación
+            </summary>
+            <param name="identification"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomer(System.Int32)">
+            <summary>
+            Obtiene un cliente por id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomers">
+            <summary>
+            Obtener una lista de clientes
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetUser(System.Int32)">
             <summary>
             Obtiene un usuario por id.
             </summary>
-            <param name="id">Example id.</param>
+            <param name="id">Example id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetUsers">
+            <summary>
+            Obtener una lista de usuarios
+            </summary>
             <returns></returns>
         </member>
     </members>

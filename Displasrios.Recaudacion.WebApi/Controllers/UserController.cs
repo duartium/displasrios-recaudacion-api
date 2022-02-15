@@ -1,8 +1,12 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts;
+using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
@@ -26,18 +30,20 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetUser(int id)
         {
+            var response = new Response<UserDto>(true, "OK");
             try
             {
                 var user = _rpsUser.Get(id);
                 if (user == null)
-                    return NotFound("El usuario no existe.");
+                    return NotFound(response.Update(false, "No se encontró el usuario.", null));
 
-                return Ok(user);
+                response.Data = user;
+                return Ok(response);
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex.ToString());
-                return Conflict();
+                return Conflict(response.Update(false, ex.Message, null));
             }
         }
 
@@ -49,15 +55,20 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpGet]
         public IActionResult GetUsers()
         {
+            var response = new Response<IEnumerable<UserDto>>(true, "OK");
             try
             {
                 var users = _rpsUser.GetAll();
-                return Ok(users);
+                if (users.ToList().Count == 0)
+                    return NotFound(response.Update(false, "No se encontraron usuarios.", null));
+
+                response.Data = users;
+                return Ok(response);
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex.ToString());
-                return Conflict();
+                return Conflict(response.Update(false, ex.Message, null));
             }
         }
     }
