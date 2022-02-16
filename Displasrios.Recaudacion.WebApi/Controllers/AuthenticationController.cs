@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Neutrinodevs.PedidosOnline.Infraestructure.Security;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
@@ -27,21 +28,25 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpPost, Route("login")]
         public ActionResult Authenticate([FromBody] UserLogin request)
         {
+            var response = new Response<string>(true, "OK");
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest("Los datos de entrada son inválidos");
+                    return BadRequest(response.Update(false, "Los datos de entrada son inválidos", null));
 
                 string token;
-                if (!_srvAuthentication.IsAuthenticated(request, out token))
-                    return BadRequest("Invalid Request");
+                request.Password = Security.GetSHA256(request.Password);
 
-                return Ok(token);
+                if (!_srvAuthentication.IsAuthenticated(request, out token))
+                    return BadRequest(response.Update(false, "Usuario o contraseña incorrectas.", null));
+
+                response.Data = token;
+                return Ok(response);
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex.ToString());
-                return Conflict(ex.Message);
+                return Conflict(response.Update(false, ex.Message, null));
             }
         }
 

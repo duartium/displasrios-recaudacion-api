@@ -17,7 +17,12 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public User GetByAuth(string username, string password)
         {
-            return new User { IdUser = 213, Username = "Byron Duarte", CreatedAt = "2021/11/19" };
+            return _context.Usuarios.Where(x => x.Estado && x.Usuario.Equals(username) && x.Clave.Equals(password))
+                .Select(x => new User { 
+                    IdUser = x.IdUsuario,
+                    Username = x.Usuario,
+                    CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
+                }).FirstOrDefault();
         }
 
         public IEnumerable<UserDto> GetAll()
