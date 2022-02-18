@@ -94,6 +94,7 @@ namespace Displasrios.Recaudacion.WebApi
 
             services.AddScoped<IAuthenticationService, TokenAuthenticationService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICatalogueRepository, CatalogueRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
         }

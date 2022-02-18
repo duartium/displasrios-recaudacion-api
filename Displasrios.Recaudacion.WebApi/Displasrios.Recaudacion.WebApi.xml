@@ -4,6 +4,12 @@
         <name>Displasrios.Recaudacion.WebApi</name>
     </assembly>
     <members>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CatalogueController.GetCatalogs">
+            <summary>
+            Obtiene un cliente por identificación
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomer(System.String)">
             <summary>
             Obtiene un cliente por identificación
