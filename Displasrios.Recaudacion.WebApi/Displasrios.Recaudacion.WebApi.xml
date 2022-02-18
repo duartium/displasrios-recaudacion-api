@@ -6,8 +6,15 @@
     <members>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CatalogueController.GetCatalogs">
             <summary>
-            Obtiene un cliente por identificación
+            Obtiene una lista de catálogos
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CatalogueController.GetCatalogue(System.String)">
+            <summary>
+            Obtiene una lista de catálogos
+            </summary>
+            <param name="name"></param>
             <returns></returns>
         </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomer(System.String)">

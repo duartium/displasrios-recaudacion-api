@@ -23,7 +23,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         }
 
         /// <summary>
-        /// Obtiene un cliente por identificación
+        /// Obtiene una lista de catálogos
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -46,5 +46,33 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 return Conflict(response.Update(false, ex.Message, null));
             }
         }
+
+        /// <summary>
+        /// Obtiene un catálogo por nombre
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpGet("{name}")]
+        public IActionResult GetCatalogue(string name)
+        {
+            var response = new Response<CatalogueDto>(true, "OK");
+
+            try
+            {
+                var catalogue = _rpsCatalogue.Get(name);
+                if (catalogue == null)
+                    return NotFound(response.Update(false, "No se encontró el catálogo.", null));
+
+                response.Data = catalogue;
+                return Ok(catalogue);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+
     }
 }
