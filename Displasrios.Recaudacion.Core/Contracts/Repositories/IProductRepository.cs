@@ -8,7 +8,7 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
     public interface IProductRepository
     {
         IEnumerable<ProductDto> GetAll();
-        ProductDto GetById(string id);
+        ProductDto GetById(int id);
 
     }
 }

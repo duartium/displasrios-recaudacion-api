@@ -12,7 +12,7 @@
         </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CatalogueController.GetCatalogue(System.String)">
             <summary>
-            Obtiene una lista de catálogos
+            Obtiene un catálogo por nombre
             </summary>
             <param name="name"></param>
             <returns></returns>
@@ -34,6 +34,12 @@
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomers">
             <summary>
             Obtener una lista de clientes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.GetProducts">
+            <summary>
+            Obtener una lista de productos
             </summary>
             <returns></returns>
         </member>

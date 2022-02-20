@@ -16,7 +16,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public decimal Costo { get; set; }
-        public string PrecioVenta { get; set; }
+        public decimal PrecioVenta { get; set; }
         public int Stock { get; set; }
         public int? CantXPaquete { get; set; }
         public int? CantXBulto { get; set; }

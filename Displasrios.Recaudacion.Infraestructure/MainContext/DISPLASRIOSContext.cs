@@ -573,7 +573,6 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                 entity.Property(e => e.CatalogoId).HasColumnName("catalogo_id");
 
                 entity.Property(e => e.Codigo)
-                    .IsRequired()
                     .HasColumnName("codigo")
                     .HasMaxLength(8)
                     .IsUnicode(false);
@@ -861,10 +860,8 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .IsUnicode(false);
 
                 entity.Property(e => e.PrecioVenta)
-                    .IsRequired()
                     .HasColumnName("precio_venta")
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.ProveedorId).HasColumnName("proveedor_id");
 

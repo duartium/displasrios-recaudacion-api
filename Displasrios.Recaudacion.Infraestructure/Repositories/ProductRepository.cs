@@ -20,7 +20,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         public IEnumerable<ProductDto> GetAll()
         {
             return _context.Productos.Where(x => x.Estado)
-                .Include(x => x.ProveedorId)
+                .Include(x => x.Proveedor)
                 .Select(x => new ProductDto
                 {
                     Id = x.IdProducto,
@@ -28,7 +28,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Name = x.Nombre,
                     Description = x.Descripcion,
                     Cost = x.Costo.ToString(),
-                    SalePrice = x.PrecioVenta,
+                    SalePrice = x.PrecioVenta.ToString(),
                     Stock = x.Stock,
                     QuantityPackage = (int)x.CantXPaquete,
                     QuantityLump = (int)x.CantXBulto,
@@ -40,9 +40,26 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 }).ToList();
         }
 
-        public ProductDto GetById(string id)
+        public ProductDto GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Productos.Where(x => x.Estado && x.IdProducto == id)
+               .Select(x => new ProductDto
+               {
+                   Id = x.IdProducto,
+                   Code = x.Codigo,
+                   Name = x.Nombre,
+                   Description = x.Descripcion,
+                   Cost = x.Costo.ToString(),
+                   SalePrice = x.PrecioVenta.ToString(),
+                   Stock = x.Stock,
+                   QuantityPackage = (int)x.CantXPaquete,
+                   QuantityLump = (int)x.CantXBulto,
+                   Discount = x.Descuento.ToString(),
+                   IvaTariff = (int)x.TarifaIva,
+                   CategoryId = (int)x.CategoriaId,
+                   ProdiverId = x.ProveedorId,
+                   ProdiverName = x.Proveedor.Nombre
+               }).FirstOrDefault();
         }
     }
 }
