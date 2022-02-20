@@ -1,4 +1,5 @@
-﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+﻿using AutoMapper;
+using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Http;
@@ -62,6 +63,32 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return NotFound(response.Update(false, "No se encontraró el producto.", null));
 
                 return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        /// <summary>
+        /// Obtener una lista de productos
+        /// /// <param name="id"></param>
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-for-sale/{id}")]
+        public IActionResult GetBySale(int id)
+        {
+            var response = new Response<ProductSaleDto>(true, "OK");
+
+            try
+            {
+                var product = _rpsProduct.GetById(id);
+                if (product == null)
+                    return NotFound(response.Update(false, "No se encontraró el producto.", null));
+
+                response.Data = Mapper.Map<ProductSaleDto>(product);
+                return Ok(response);
             }
             catch (Exception ex)
             {

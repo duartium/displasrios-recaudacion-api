@@ -49,4 +49,22 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("provider_name")]
         public string ProdiverName { get; set; }
     }
+
+    public class ProductSaleDto
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("code")]
+        public string Code { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("stock")]
+        public int Stock { get; set; }
+
+        [JsonPropertyName("sale_price")]
+        public string SalePrice { get; set; }
+    }
 }

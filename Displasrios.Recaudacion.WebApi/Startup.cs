@@ -91,6 +91,8 @@ namespace Displasrios.Recaudacion.WebApi
             });
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
             services.AddScoped<IAuthenticationService, TokenAuthenticationService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
