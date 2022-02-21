@@ -1,4 +1,5 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts;
+using Displasrios.Recaudacion.Core.Entities;
 using Displasrios.Recaudacion.Core.Models;
 
 namespace Displasrios.Recaudacion.Infraestructure.Services
@@ -10,10 +11,10 @@ namespace Displasrios.Recaudacion.Infraestructure.Services
         {
             _rpsUser = userRepository;
         }
-        public bool IsValid(UserLogin req)
+        public Core.Entities.User GetByAuth(UserLogin req)
         {
-            var user =_rpsUser.GetByAuth(req.Username, req.Password);
-            return user != null;
+            return _rpsUser.GetByAuth(req.Username, req.Password);
         }
+
     }
 }

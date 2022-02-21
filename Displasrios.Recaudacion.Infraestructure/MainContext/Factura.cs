@@ -11,8 +11,8 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         }
 
         public int IdFactura { get; set; }
-        public int Secuencial { get; set; }
-        public int? NumeroPedido { get; set; }
+        public int? Secuencial { get; set; }
+        public int NumeroPedido { get; set; }
         public int UsuarioId { get; set; }
         public int ClienteId { get; set; }
         public int Etapa { get; set; }

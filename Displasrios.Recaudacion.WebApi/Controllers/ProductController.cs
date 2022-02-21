@@ -2,6 +2,7 @@
 using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 {
     [Route("api/v1/products")]
     [ApiController]
+    [Authorize]
     public class ProductController : BaseApiController<ProductController>
     {
         private readonly IProductRepository _rpsProduct;
@@ -48,10 +50,10 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
         /// <summary>
         /// Obtener una lista de productos
-        /// /// <param name="id"></param>
+        /// <param name="id"></param>
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetProduct(int id)
         {
             var response = new Response<ProductDto>(true, "OK");
@@ -60,7 +62,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             {
                 var product = _rpsProduct.GetById(id);
                 if (product == null)
-                    return NotFound(response.Update(false, "No se encontraró el producto.", null));
+                    return NotFound(response.Update(false, "No se encontró el producto.", null));
 
                 return Ok(product);
             }
@@ -73,7 +75,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
         /// <summary>
         /// Obtener una lista de productos
-        /// /// <param name="id"></param>
+        /// <param name="id"></param>
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-for-sale/{id}")]
@@ -85,7 +87,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             {
                 var product = _rpsProduct.GetById(id);
                 if (product == null)
-                    return NotFound(response.Update(false, "No se encontraró el producto.", null));
+                    return NotFound(response.Update(false, "No se encontró el producto.", null));
 
                 response.Data = Mapper.Map<ProductSaleDto>(product);
                 return Ok(response);

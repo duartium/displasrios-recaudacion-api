@@ -984,6 +984,10 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
 
                 entity.ToTable("USUARIOS");
 
+                entity.HasIndex(e => e.Usuario)
+                    .HasName("UQ_USUARIOS")
+                    .IsUnique();
+
                 entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
 
                 entity.Property(e => e.Clave)

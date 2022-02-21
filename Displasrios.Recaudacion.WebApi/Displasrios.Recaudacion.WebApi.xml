@@ -46,14 +46,20 @@
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.GetProduct(System.Int32)">
             <summary>
             Obtener una lista de productos
-            /// <param name="id"></param>
+            <param name="id"></param>
             </summary>
             <returns></returns>
         </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.GetBySale(System.Int32)">
             <summary>
             Obtener una lista de productos
-            /// <param name="id"></param>
+            <param name="id"></param>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.Create(Displasrios.Recaudacion.Core.DTOs.FullOrderDto)">
+            <summary>
+            Registra un nuevo pedido
             </summary>
             <returns></returns>
         </member>

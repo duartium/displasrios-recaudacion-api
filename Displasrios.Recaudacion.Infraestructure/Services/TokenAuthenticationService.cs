@@ -27,12 +27,14 @@ namespace Displasrios.Recaudacion.Infraestructure.Services
         {
             //TODO: call user repository for authenticate
             token = string.Empty;
-            if (!_userService.IsValid(request))
+            var user = _userService.GetByAuth(request);
+            if (user == null)
                 return false;
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, request.Username)
+                new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()),
+                new Claim(ClaimTypes.Name, user.Username.ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
