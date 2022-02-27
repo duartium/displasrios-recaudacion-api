@@ -101,6 +101,13 @@ namespace Displasrios.Recaudacion.WebApi
             services.AddScoped<ISaleRepository, SaleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddCors(options => options.AddPolicy("DisplasiosPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -121,11 +128,13 @@ namespace Displasrios.Recaudacion.WebApi
             app.UseRouting();
             
             app.UseAuthorization();
-
+            app.UseCors("DisplasiosPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+           
         }
     }
 }
