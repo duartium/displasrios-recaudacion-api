@@ -38,6 +38,14 @@ namespace Displasrios.Recaudacion.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("DisplasriosPolicy", builder =>
+            {
+            builder.WithOrigins("http://localhost:4200")
+                //builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {
@@ -102,12 +110,7 @@ namespace Displasrios.Recaudacion.WebApi
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 
-            services.AddCors(options => options.AddPolicy("DisplasiosPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,18 +126,19 @@ namespace Displasrios.Recaudacion.WebApi
             app.UseSwaggerUI(setup => {
                 setup.SwaggerEndpoint("/swagger/v1/swagger.json", "DISPLASRIOS API");
             });
-
+            app.UseCors("DisplasriosPolicy");
             app.UseAuthentication();
             app.UseRouting();
             
             app.UseAuthorization();
-            app.UseCors("DisplasiosPolicy");
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-           
+            app.UseHttpsRedirection();
+
         }
     }
 }

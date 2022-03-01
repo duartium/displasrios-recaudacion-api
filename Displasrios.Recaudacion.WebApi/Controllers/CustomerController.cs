@@ -27,7 +27,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// </summary>
         /// <param name="identification"></param>
         /// <returns></returns>
-        [HttpGet("{identification}")]
+        [HttpGet("identification/{identification}")]
         public IActionResult GetCustomer(string identification)
         {
             var response = new Response<CustomerDto>(true, "OK");
