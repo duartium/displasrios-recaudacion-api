@@ -10,5 +10,7 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         IEnumerable<CustomerDto> GetAll();
         CustomerDto Get(int id);
         CustomerSearchOrderDto GetByIdentification(string identification);
+        CustomerSearchOrderDto[] GetByNames(string names);
+
     }
 }

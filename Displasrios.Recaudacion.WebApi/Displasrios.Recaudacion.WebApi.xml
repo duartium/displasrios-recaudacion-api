@@ -24,6 +24,13 @@
             <param name="identification"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomerByNames(System.String)">
+            <summary>
+            Obtiene un cliente por identificación
+            </summary>
+            <param name="names"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomer(System.Int32)">
             <summary>
             Obtiene un cliente por id

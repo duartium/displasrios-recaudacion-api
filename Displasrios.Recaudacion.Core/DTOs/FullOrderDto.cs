@@ -38,6 +38,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("change")]
         public string Change { get; set; }
 
+        [JsonPropertyName("discount")]
+        public string Discount { get; set; }
+
         [JsonPropertyName("subtotal")]
         public string Subtotal { get; set; }
 

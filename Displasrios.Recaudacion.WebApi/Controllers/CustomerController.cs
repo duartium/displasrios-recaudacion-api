@@ -30,7 +30,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpGet("identification/{identification}")]
         public IActionResult GetCustomer(string identification)
         {
-            var response = new Response<CustomerDto>(true, "OK");
+            var response = new Response<CustomerSearchOrderDto>(true, "OK");
 
             try
             {
@@ -38,7 +38,35 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (customers == null)
                     return NotFound(response.Update(false, "No se encontró el cliente.", null));
 
-                return Ok(customers);
+                response.Data = customers;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+
+        /// <summary>
+        /// Obtiene un cliente por identificación
+        /// </summary>
+        /// <param name="names"></param>
+        /// <returns></returns>
+        [HttpGet("names/{names}")]
+        public IActionResult GetCustomerByNames(string names)
+        {
+            var response = new Response<CustomerSearchOrderDto[]>(true, "OK");
+
+            try
+            {
+                var customers = _rpsCustomer.GetByNames(names);
+                if (customers == null)
+                    return NotFound(response.Update(false, "No se encontraron clientes.", null));
+
+                response.Data = customers;
+                return Ok(response);
             }
             catch (Exception ex)
             {

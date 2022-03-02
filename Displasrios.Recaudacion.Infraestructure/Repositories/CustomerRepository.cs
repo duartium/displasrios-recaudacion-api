@@ -1,6 +1,7 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -58,6 +59,28 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     FullNames = $"{x.Nombres} {x.Apellidos}",
                     Identification = x.Identificacion
                 }).FirstOrDefault();
+        }
+
+        public CustomerSearchOrderDto GetByNames(string names)
+        {
+            return _context.Clientes.Where(x => x.Estado && x.Identificacion.Equals(names))
+                .Select(x => new CustomerSearchOrderDto
+                {
+                    Id = x.IdCliente,
+                    FullNames = $"{x.Nombres} {x.Apellidos}",
+                    Identification = x.Identificacion
+                }).FirstOrDefault();
+        }
+
+        CustomerSearchOrderDto[] ICustomerRepository.GetByNames(string names)
+        {
+            return _context.Clientes.Where(x => x.Estado && (EF.Functions.Like(x.Nombres, $"%{names}%") 
+                || EF.Functions.Like(x.Apellidos, $"%{names}%")))
+                .Select(x => new CustomerSearchOrderDto {
+                    Id = x.IdCliente,
+                    FullNames = $"{x.Nombres} {x.Apellidos}",
+                    Identification = x.Identificacion
+                }).ToArray();
         }
     }
 }
