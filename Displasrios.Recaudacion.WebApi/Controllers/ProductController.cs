@@ -31,7 +31,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpGet]
         public IActionResult GetProducts()
         {
-            var response = new Response<ProductDto>(true, "OK");
+            var response = new Response<IEnumerable<ProductDto>>(true, "OK");
 
             try
             {
@@ -39,6 +39,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (products == null)
                     return NotFound(response.Update(false, "No se encontraron productos.", null));
 
+                response.Data = products;
                 return Ok(products);
             }
             catch (Exception ex)
@@ -64,7 +65,35 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (product == null)
                     return NotFound(response.Update(false, "No se encontró el producto.", null));
 
+                response.Data = product;
                 return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+
+        /// <summary>
+        /// Obtener una lista de productos
+        /// <param name="name"></param>
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-for-sale/name/{name}")]
+        public IActionResult GetProducts(string name)
+        {
+            var response = new Response<IEnumerable<ProductSaleDto>>(true, "OK");
+
+            try
+            {
+                var product = _rpsProduct.GetForSale(name);
+                if (product == null)
+                    return NotFound(response.Update(false, "No se encontraron productos.", null));
+
+                response.Data = product;
+                return Ok(response);
             }
             catch (Exception ex)
             {

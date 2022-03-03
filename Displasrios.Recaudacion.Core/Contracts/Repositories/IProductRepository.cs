@@ -1,7 +1,5 @@
 ﻿using Displasrios.Recaudacion.Core.DTOs;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Displasrios.Recaudacion.Core.Contracts.Repositories
 {
@@ -9,6 +7,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
     {
         IEnumerable<ProductDto> GetAll();
         ProductDto GetById(int id);
-
+        IEnumerable<ProductSaleDto> GetForSale(string name);
     }
 }

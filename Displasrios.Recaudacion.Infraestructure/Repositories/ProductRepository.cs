@@ -40,6 +40,19 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 }).ToList();
         }
 
+        public IEnumerable<ProductSaleDto> GetForSale(string name)
+        {
+            return _context.Productos.Where(x => x.Estado && EF.Functions.Like(x.Nombre, $"%{name}%"))
+                .Select(x => new ProductSaleDto
+                {
+                    Id = x.IdProducto,
+                    Code = x.Codigo,
+                    Name = x.Nombre,
+                    SalePrice = x.PrecioVenta.ToString(),
+                    Stock = x.Stock
+                }).ToList();
+        }
+
         public ProductDto GetById(int id)
         {
             return _context.Productos.Where(x => x.Estado && x.IdProducto == id)
