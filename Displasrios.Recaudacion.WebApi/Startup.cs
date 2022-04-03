@@ -40,8 +40,8 @@ namespace Displasrios.Recaudacion.WebApi
         {
             services.AddCors(options => options.AddPolicy("DisplasriosPolicy", builder =>
             {
-            builder.WithOrigins("http://localhost:4200")
-                //builder.AllowAnyOrigin()
+            //builder.WithOrigins("http://localhost:4200")
+                builder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
