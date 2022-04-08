@@ -12,7 +12,7 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public string Name { get; set; }
 
         [JsonPropertyName("price")]
-        public string Price { get; set; }
+        public decimal Price { get; set; }
 
         [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
@@ -33,22 +33,22 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public int PaymentMode { get; set; }
 
         [JsonPropertyName("customer_payment")]
-        public string CustomerPayment { get; set; }
+        public decimal CustomerPayment { get; set; }
 
         [JsonPropertyName("change")]
-        public string Change { get; set; }
+        public decimal Change { get; set; }
 
         [JsonPropertyName("discount")]
-        public string Discount { get; set; }
+        public decimal Discount { get; set; }
 
         [JsonPropertyName("subtotal")]
-        public string Subtotal { get; set; }
+        public decimal Subtotal { get; set; }
 
         [JsonPropertyName("iva")]
-        public string Iva { get; set; }
+        public decimal Iva { get; set; }
 
         [JsonPropertyName("total")]
-        public string Total { get; set; }
+        public decimal Total { get; set; }
 
         [JsonIgnore]
         public int IdUser { get; set; }

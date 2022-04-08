@@ -45,10 +45,10 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (order.Items == null || order.Items.Count == 0)
                     return BadRequest(response.Update(false, "Se esperaba al menos 1 producto para procesar la venta.", null));
 
-                if (String.IsNullOrWhiteSpace(order.Subtotal))
+                if (order.Subtotal == 0)
                     return BadRequest(response.Update(false, "El subtotal debe ser mayor a cero.", null));
                 
-                if (String.IsNullOrWhiteSpace(order.Total) || order.Total.Equals("0"))
+                if (order.Total == 0)
                     return BadRequest(response.Update(false, "El total debe ser mayor a cero.", null));
 
 

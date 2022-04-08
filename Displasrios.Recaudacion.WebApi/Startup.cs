@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Neutrinodevs.PedidosOnline.Infraestructure.Security;
+using Newtonsoft.Json;
 
 namespace Displasrios.Recaudacion.WebApi
 {
@@ -46,7 +47,15 @@ namespace Displasrios.Recaudacion.WebApi
                        .AllowAnyHeader();
             }));
 
-            services.AddControllers();
+            //services.AddControllers().AddNewtonsoftJson(options =>
+            //{
+            //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            //});
+            services.AddControllers().AddJsonOptions(o =>
+             {
+                 o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                 o.JsonSerializerOptions.DictionaryKeyPolicy = null;
+             });
             services.AddSwaggerGen(options =>
             {
                 var groupName = "v1";
