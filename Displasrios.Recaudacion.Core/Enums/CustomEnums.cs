@@ -9,6 +9,6 @@
     public enum MetodoPago
     {
         CONTADO = 1,
-        CREDITO = 2
+        CREDITO = 1019
     }
 }

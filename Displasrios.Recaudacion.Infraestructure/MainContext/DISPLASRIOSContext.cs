@@ -468,6 +468,8 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("iva")
                     .HasColumnType("decimal(10, 2)");
 
+                entity.Property(e => e.MetodoPago).HasColumnName("metodo_pago");
+
                 entity.Property(e => e.ModificadoEn)
                     .HasColumnName("modificado_en")
                     .HasColumnType("datetime");

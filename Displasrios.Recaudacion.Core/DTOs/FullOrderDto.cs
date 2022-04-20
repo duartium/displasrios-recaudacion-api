@@ -57,4 +57,22 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public string Username { get; set; }
     }
 
+    public class OrderSummaryDto
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("order_number")]
+        public string OrderNumber { get; set; }
+
+        [JsonPropertyName("full_names")]
+        public string FullNames { get; set; }
+
+        [JsonPropertyName("total_amount")]
+        public string TotalAmount { get; set; }
+
+        [JsonPropertyName("date")]
+        public string Date { get; set; }
+    }
+
 }

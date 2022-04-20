@@ -58,7 +58,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 int resp =_rpsSale.Create(order);
 
                 if (resp <= 0)
-                    return BadRequest(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
+                    return Ok(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
 
                 response.Data = resp.ToString();
                 return Created("http://localhost:63674/api/v1/sales/1", response);

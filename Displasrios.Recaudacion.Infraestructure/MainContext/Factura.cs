@@ -19,12 +19,13 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public DateTime FechaEmision { get; set; }
         public decimal BaseImponible { get; set; }
         public decimal Iva { get; set; }
-        public decimal? Subtotal0 { get; set; }
-        public decimal? Subtotal12 { get; set; }
-        public decimal? Subtotal { get; set; }
+        public decimal Subtotal0 { get; set; }
+        public decimal Subtotal12 { get; set; }
+        public decimal Subtotal { get; set; }
         public decimal Total { get; set; }
-        public decimal? Descuento { get; set; }
-        public int? FormaPago { get; set; }
+        public decimal Descuento { get; set; }
+        public int FormaPago { get; set; }
+        public int MetodoPago { get; set; }
         public decimal? PagoCliente { get; set; }
         public decimal? Cambio { get; set; }
         public int Estado { get; set; }
