@@ -25,7 +25,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
                     FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
                     TotalAmount = order.Total.ToString(),
-                    Date = order.FechaEmision.ToString("dd-MM-yyyy")
+                    Date = order.FechaEmision.ToString("dd/MM/yyyy")
                 }).ToArray();
         }
     }
