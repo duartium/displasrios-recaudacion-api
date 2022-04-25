@@ -8,6 +8,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public Factura()
         {
             FacturaDetalle = new HashSet<FacturaDetalle>();
+            Pagos = new HashSet<Pagos>();
         }
 
         public int IdFactura { get; set; }
@@ -40,5 +41,6 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual Clientes Cliente { get; set; }
         public virtual Usuarios Usuario { get; set; }
         public virtual ICollection<FacturaDetalle> FacturaDetalle { get; set; }
+        public virtual ICollection<Pagos> Pagos { get; set; }
     }
 }

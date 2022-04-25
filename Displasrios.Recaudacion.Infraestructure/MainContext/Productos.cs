@@ -9,6 +9,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         {
             BajaProductos = new HashSet<BajaProductos>();
             EntradasDetalle = new HashSet<EntradasDetalle>();
+            FacturaDetalle = new HashSet<FacturaDetalle>();
         }
 
         public int IdProducto { get; set; }
@@ -35,5 +36,6 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual Proveedores Proveedor { get; set; }
         public virtual ICollection<BajaProductos> BajaProductos { get; set; }
         public virtual ICollection<EntradasDetalle> EntradasDetalle { get; set; }
+        public virtual ICollection<FacturaDetalle> FacturaDetalle { get; set; }
     }
 }

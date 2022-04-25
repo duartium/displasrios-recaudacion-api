@@ -7,5 +7,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
     public interface IOrderRepository
     {
         IEnumerable<OrderSummaryDto> GetOrdersReceivable(FiltersOrdersReceivable filters);
+        OrderReceivableDto GetOrderReceivable(int idOrder);
     }
 }

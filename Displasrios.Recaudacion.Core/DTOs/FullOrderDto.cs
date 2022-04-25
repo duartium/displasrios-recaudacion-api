@@ -75,4 +75,46 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public string Date { get; set; }
     }
 
+    public class OrderReceivableDto
+    {
+        [JsonPropertyName("order_number")]
+        public string OrderNumber { get; set; }
+
+        [JsonPropertyName("full_names")]
+        public string FullNames { get; set; }
+
+        [JsonPropertyName("date")]
+        public string Date { get; set; }
+
+        [JsonPropertyName("days_debt")]
+        public int DaysDebt { get; set; }
+
+        [JsonPropertyName("payments")]
+        public PaymentDto[] Payments { get; set; }
+
+        [JsonPropertyName("products")]
+        public ProductResumeDto[] Products { get; set; }
+
+        [JsonPropertyName("balance")]
+        public decimal Balance { get; set; }
+
+        [JsonPropertyName("total_amount")]
+        public decimal TotalAmount { get; set; }
+    }
+
+    public class OrderReceivableCreateRequest
+    {
+        [JsonPropertyName("id_invoice")]
+        public decimal IdInvoice { get; set; }
+
+        [JsonPropertyName("change")]
+        public decimal Change { get; set; }
+
+        [JsonPropertyName("customer_payment")]
+        public decimal CustomerPayment { get; set; }
+
+        [JsonPropertyName("total")]
+        public decimal Total { get; set; }
+    }
+
 }

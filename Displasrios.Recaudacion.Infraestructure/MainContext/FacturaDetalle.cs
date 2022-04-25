@@ -14,5 +14,6 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public bool Estado { get; set; }
 
         public virtual Factura Factura { get; set; }
+        public virtual Productos Producto { get; set; }
     }
 }

@@ -67,4 +67,20 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("sale_price")]
         public string SalePrice { get; set; }
     }
+
+    public class ProductResumeDto
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("price")]
+        public decimal Price { get; set; }
+
+        [JsonPropertyName("quantity")]
+        public int Quantity { get; set; }
+
+        [JsonPropertyName("total")]
+        public decimal Total { get; set; }
+    }
+
 }

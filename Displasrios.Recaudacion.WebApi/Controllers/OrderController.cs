@@ -40,5 +40,24 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 return Conflict(response.Update(false, ex.Message, null));
             }
         }
+
+
+        [HttpGet("receivable/{id}")]
+        public IActionResult GetOrderReceivable(int id)
+        {
+            var response = new Response<OrderReceivableDto>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsOrder.GetOrderReceivable(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }

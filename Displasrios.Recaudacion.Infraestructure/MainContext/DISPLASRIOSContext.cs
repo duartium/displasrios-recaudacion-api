@@ -28,6 +28,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual DbSet<MovimientosCaja> MovimientosCaja { get; set; }
         public virtual DbSet<NotaCredito> NotaCredito { get; set; }
         public virtual DbSet<NotaCreditoDetalle> NotaCreditoDetalle { get; set; }
+        public virtual DbSet<Pagos> Pagos { get; set; }
         public virtual DbSet<Parametros> Parametros { get; set; }
         public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<Proveedores> Proveedores { get; set; }
@@ -562,6 +563,12 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .WithMany(p => p.FacturaDetalle)
                     .HasForeignKey(d => d.FacturaId)
                     .HasConstraintName("FK_FACTURA_DETALLE_FACTURA");
+
+                entity.HasOne(d => d.Producto)
+                    .WithMany(p => p.FacturaDetalle)
+                    .HasForeignKey(d => d.ProductoId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FACTURA_DETALLE_PRODUCTOS");
             });
 
             modelBuilder.Entity<ItemCatalogo>(entity =>
@@ -781,6 +788,35 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .WithMany(p => p.NotaCreditoDetalle)
                     .HasForeignKey(d => d.NotaCreditoId)
                     .HasConstraintName("FK_NOTA_CREDITO_DETALLE_NOTA_CREDITO");
+            });
+
+            modelBuilder.Entity<Pagos>(entity =>
+            {
+                entity.HasKey(e => e.IdPago);
+
+                entity.ToTable("PAGOS");
+
+                entity.Property(e => e.IdPago).HasColumnName("id_pago");
+
+                entity.Property(e => e.Cambio)
+                    .HasColumnName("cambio")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.FacturaId).HasColumnName("factura_id");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Pago)
+                    .HasColumnName("pago")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.Factura)
+                    .WithMany(p => p.Pagos)
+                    .HasForeignKey(d => d.FacturaId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PAGOS_FACTURA");
             });
 
             modelBuilder.Entity<Parametros>(entity =>
