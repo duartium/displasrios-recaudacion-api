@@ -104,17 +104,14 @@ namespace Displasrios.Recaudacion.Core.DTOs
 
     public class OrderReceivableCreateRequest
     {
-        [JsonPropertyName("id_invoice")]
-        public decimal IdInvoice { get; set; }
+        [JsonPropertyName("id_order")]
+        public int IdOrder { get; set; }
 
         [JsonPropertyName("change")]
         public decimal Change { get; set; }
 
         [JsonPropertyName("customer_payment")]
         public decimal CustomerPayment { get; set; }
-
-        [JsonPropertyName("total")]
-        public decimal Total { get; set; }
     }
 
 }

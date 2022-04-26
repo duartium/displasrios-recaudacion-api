@@ -19,7 +19,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public OrderReceivableDto GetOrderReceivable(int idOrder)
         {
-            var orderReceivable = _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1)
+            var orderReceivable = _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.NumeroPedido == idOrder)
                 .Include(detail => detail.FacturaDetalle).ThenInclude(product => product.Producto)
                 .Include(paymenths => paymenths.Pagos)
                 .Include(client => client.Cliente)
@@ -45,6 +45,52 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 ? orderReceivable.TotalAmount - orderReceivable.Payments.Sum(x => x.Amount) : orderReceivable.TotalAmount; 
 
             return orderReceivable;
+        }
+
+        public bool RegisterPayment(OrderReceivableCreateRequest order, out string mensaje)
+        {
+            mensaje = $"Se ha registrado el abono de {order.CustomerPayment}.";
+            using (var trans = _context.Database.BeginTransaction())
+            {
+                //registra el nuevo pago
+                var pago = new Pagos
+                {
+                    Fecha = DateTime.Now,
+                    FacturaId = order.IdOrder,
+                    Pago = order.CustomerPayment,
+                    Cambio = order.Change
+                };
+                _context.Pagos.Add(pago);
+                _context.SaveChanges();
+
+                var totals = _context.Factura.Where(x => x.Estado == 1 && x.IdFactura == order.IdOrder)
+                    .Include(order => order.Pagos)
+                    .Select(order => new PaymentsTotal { 
+                        TotalOrder = order.Total,
+                        TotalPaymentsCurrent = order.Pagos.Select(x => x.Pago).Sum()
+                    }).First();
+
+                int nuevoSecuencial = 0;
+                if (totals.TotalPaymentsCurrent == totals.TotalOrder)//Pedido pagado a totalidad: genera factura
+                {
+                    //establece el nuevo secuencial
+                    var secuencialRow = _context.Secuenciales.First(x => x.Nombre.Equals("factura"));
+                    secuencialRow.Secuencial = nuevoSecuencial;
+                    _context.Secuenciales.Update(secuencialRow);
+                    _context.SaveChanges();
+
+                    var invoice = _context.Factura.Where(x => x.Estado == 1 && x.IdFactura == order.IdOrder).First();
+                    invoice.Secuencial = nuevoSecuencial;
+                    _context.Factura.Update(invoice);
+                    _context.SaveChanges();
+
+                    mensaje = $"Se ha generado la factura Nº{nuevoSecuencial.ToString().PadLeft(5, '0')}";
+                }
+                
+                _context.Database.CommitTransaction();
+            }
+
+            return true;
         }
 
         public IEnumerable<OrderSummaryDto> GetOrdersReceivable(FiltersOrdersReceivable filters)

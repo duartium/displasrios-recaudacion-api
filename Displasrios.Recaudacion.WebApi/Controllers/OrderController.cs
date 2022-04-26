@@ -59,5 +59,26 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        [HttpPost("receivable/pay")]
+        public IActionResult RegisterPayment([FromBody] OrderReceivableCreateRequest order_payment)
+        {
+            var response = new Response<string>(true, "OK");
+
+            try
+            {
+                string message = String.Empty;
+                _rpsOrder.RegisterPayment(order_payment, out message);
+
+                response.Data = message;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+
     }
 }
