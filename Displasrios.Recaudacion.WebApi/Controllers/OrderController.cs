@@ -69,7 +69,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 string message = String.Empty;
                 _rpsOrder.RegisterPayment(order_payment, out message);
 
-                response.Data = message;
+                response.Message = message;
                 return Ok(response);
             }
             catch (Exception ex)

@@ -30,7 +30,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     TotalAmount = order.Total,
                     FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
                     Payments = order.Pagos.Select(x => new PaymentDto { 
-                        Amount = x.Cambio,
+                        Amount = x.Pago,
                         Date = x.Fecha.ToString("dd/mm/yyyy")
                         }).ToArray(),
                     Products = order.FacturaDetalle.Select(det => new ProductResumeDto { 
@@ -71,8 +71,11 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     }).First();
 
                 int nuevoSecuencial = 0;
-                if (totals.TotalPaymentsCurrent == totals.TotalOrder)//Pedido pagado a totalidad: genera factura
+                if (totals.TotalPaymentsCurrent >= totals.TotalOrder)//Pedido pagado a totalidad: genera factura
                 {
+                    nuevoSecuencial = (int)_context.Secuenciales.Where(x => x.Nombre.Equals("factura"))
+                                 .Select(x => x.Secuencial).FirstOrDefault() + 1;
+
                     //establece el nuevo secuencial
                     var secuencialRow = _context.Secuenciales.First(x => x.Nombre.Equals("factura"));
                     secuencialRow.Secuencial = nuevoSecuencial;
@@ -97,11 +100,13 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         {
             return _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.Secuencial == null)
                 .Include(client => client.Cliente)
+                .Include(pagos => pagos.Pagos)
                 .Select(order => new OrderSummaryDto { 
                     Id = order.IdFactura,
                     OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
                     FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
-                    TotalAmount = order.Total.ToString(),
+                    TotalAmount = order.Pagos.Count > 0 
+                        ? Math.Round(order.Total - order.Pagos.Sum(x => x.Pago), 2).ToString() : order.Total.ToString(),
                     Date = order.FechaEmision.ToString("dd/MM/yyyy")
                 }).ToArray();
         }
