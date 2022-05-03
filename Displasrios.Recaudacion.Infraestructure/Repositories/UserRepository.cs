@@ -21,6 +21,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 .Select(x => new User { 
                     IdUser = x.IdUsuario,
                     Username = x.Usuario,
+                    ProfileId = x.PerfilId.ToString(),
                     CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
                 }).FirstOrDefault();
         }
@@ -42,8 +43,10 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 {
                     Id = x.IdUsuario,
                     Username = x.Usuario,
+                    RoleId = x.PerfilId,
                     CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
                 }).FirstOrDefault();
         }
+
     }
 }

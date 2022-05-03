@@ -16,6 +16,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public int IdUsuario { get; set; }
         public string Usuario { get; set; }
         public string Clave { get; set; }
+        public int PerfilId { get; set; }
         public bool Estado { get; set; }
         public DateTime CreadoEn { get; set; }
         public string UsuarioCrea { get; set; }

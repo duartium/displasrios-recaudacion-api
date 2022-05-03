@@ -10,6 +10,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("username")]
         public string Username { get; set; }
 
+        [JsonPropertyName("role")]
+        public int RoleId { get; set; }
+
         [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
     }

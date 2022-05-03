@@ -1048,6 +1048,8 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("modificado_en")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.PerfilId).HasColumnName("perfil_id");
+
                 entity.Property(e => e.Usuario)
                     .IsRequired()
                     .HasColumnName("usuario")

@@ -84,6 +84,12 @@
             <param name="id">Example id</param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetProfile">
+            <summary>
+            Obtiene el perfil de un usuario.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetUsers">
             <summary>
             Obtener una lista de usuarios

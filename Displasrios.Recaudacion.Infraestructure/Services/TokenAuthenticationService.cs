@@ -25,7 +25,6 @@ namespace Displasrios.Recaudacion.Infraestructure.Services
 
         public bool IsAuthenticated(UserLogin request, out string token)
         {
-            //TODO: call user repository for authenticate
             token = string.Empty;
             var user = _userService.GetByAuth(request);
             if (user == null)
@@ -33,8 +32,9 @@ namespace Displasrios.Recaudacion.Infraestructure.Services
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()),
-                new Claim(ClaimTypes.Name, user.Username.ToString())
+                new Claim(ClaimTypes.PrimarySid, user.IdUser.ToString()),
+                new Claim(ClaimTypes.Name, user.Username.ToString()),
+                new Claim(ClaimTypes.Role, user.ProfileId)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
