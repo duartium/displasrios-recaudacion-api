@@ -79,6 +79,23 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        [HttpGet("orders-of-day")]
+        public IActionResult GetOrdersOfDay()
+        {
+            var response = new Response<IEnumerable<SummaryOrdersOfDay>>(true, "OK");
+
+            try
+            {
+                response.Data =_rpsOrder.GetSummaryOrdersOfDay();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
 
     }
 }

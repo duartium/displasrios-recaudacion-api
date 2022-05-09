@@ -9,5 +9,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         IEnumerable<OrderSummaryDto> GetOrdersReceivable(FiltersOrdersReceivable filters);
         OrderReceivableDto GetOrderReceivable(int idOrder);
         bool RegisterPayment(OrderReceivableCreateRequest order, out string mensaje);
+        IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersOfDay();
     }
 }

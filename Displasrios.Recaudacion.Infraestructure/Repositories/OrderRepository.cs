@@ -110,5 +110,17 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Date = order.FechaEmision.ToString("dd/MM/yyyy")
                 }).ToArray();
         }
+
+        public IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersOfDay()
+        {
+            return _context.Factura.Where(x => x.Estado == 1)
+                .Select(x => new SummaryOrdersOfDay {
+                    IdOrder = x.IdFactura,
+                    Date = x.CreadoEn.ToString("dd-MM-yyyy"),
+                    OrderNumber = x.NumeroPedido.ToString().PadLeft(5, '0'),
+                    Stage = x.Etapa,
+                    TotalAmount = x.Total
+                }).ToList();
+        }
     }
 }
