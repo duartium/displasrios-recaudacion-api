@@ -52,7 +52,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return BadRequest(response.Update(false, "El total debe ser mayor a cero.", null));
 
 
-                order.IdUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                order.IdUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid).Value);
                 order.Username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
                 int resp =_rpsSale.Create(order);
@@ -60,7 +60,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (resp <= 0)
                     return Ok(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
 
-                response.Data = resp.ToString();
+                response.Data = resp.ToString().PadLeft(5, '0');
                 return Created("http://localhost:63674/api/v1/sales/1", response);
             }
             catch (Exception ex)

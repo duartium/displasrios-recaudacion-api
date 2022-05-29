@@ -113,12 +113,14 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersOfDay()
         {
-            return _context.Factura.Where(x => x.Estado == 1)
+            return _context.Factura.Where(x => x.Estado == 1 && x.FechaEmision == DateTime.Now.Date)
+                .Include(fac => fac.Cliente)
                 .Select(x => new SummaryOrdersOfDay {
                     IdOrder = x.IdFactura,
                     Date = x.CreadoEn.ToString("dd-MM-yyyy"),
                     OrderNumber = x.NumeroPedido.ToString().PadLeft(5, '0'),
                     Stage = x.Etapa,
+                    FullNames = x.Cliente.Nombres + " " + x.Cliente.Apellidos,
                     TotalAmount = x.Total
                 }).ToList();
         }

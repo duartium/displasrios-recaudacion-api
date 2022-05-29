@@ -10,6 +10,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("order_number")]
         public string OrderNumber { get; set; }
 
+        [JsonPropertyName("full_names")]
+        public string FullNames { get; set; }
+
         [JsonPropertyName("date")]
         public string Date { get; set; }
 
