@@ -238,6 +238,12 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("eliminado_en")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("email")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Estado).HasColumnName("estado");
 
                 entity.Property(e => e.Identificacion)

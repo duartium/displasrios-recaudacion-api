@@ -4,6 +4,6 @@ namespace Displasrios.Recaudacion.Core.Contracts
 {
     public interface IUserService
     {
-        Entities.User GetByAuth(UserLogin req);
+        Entities.UserEntity GetByAuth(UserLogin req);
     }
 }

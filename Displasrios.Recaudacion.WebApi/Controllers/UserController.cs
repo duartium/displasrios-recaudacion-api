@@ -97,5 +97,30 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 return Conflict(response.Update(false, ex.Message, null));
             }
         }
+
+        /// <summary>
+        /// Crea un nuevo usuario
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Create([FromBody] UserCreation user)
+        {
+            var response = new Response<string>(true, "OK");
+
+            try
+            {
+                if (!_rpsUser.Create(user))
+                    return Ok(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
+                
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }

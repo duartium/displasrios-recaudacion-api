@@ -21,5 +21,8 @@ namespace Displasrios.Recaudacion.Core.DTOs
 
         [JsonPropertyName("total_amount")]
         public decimal TotalAmount { get; set; }
+
+        [JsonPropertyName("username")]
+        public string Username { get; set; }
     }
 }

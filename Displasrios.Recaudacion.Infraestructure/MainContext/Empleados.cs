@@ -10,6 +10,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public int TipoEmpleado { get; set; }
+        public string Email { get; set; }
         public int Estado { get; set; }
         public DateTime CreadoEn { get; set; }
         public string UsuarioCrea { get; set; }

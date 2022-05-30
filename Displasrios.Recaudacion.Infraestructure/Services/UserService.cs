@@ -11,7 +11,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Services
         {
             _rpsUser = userRepository;
         }
-        public Core.Entities.User GetByAuth(UserLogin req)
+        public Core.Entities.UserEntity GetByAuth(UserLogin req)
         {
             return _rpsUser.GetByAuth(req.Username, req.Password);
         }
