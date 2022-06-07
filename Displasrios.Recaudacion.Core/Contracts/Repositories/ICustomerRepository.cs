@@ -1,7 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.DTOs;
-using System;
+using Displasrios.Recaudacion.Core.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Displasrios.Recaudacion.Core.Contracts.Repositories
 {
@@ -11,6 +10,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         CustomerDto Get(int id);
         CustomerSearchOrderDto GetByIdentification(string identification);
         CustomerSearchOrderDto[] GetByNames(string names);
-
+        bool Update(CustomerUpdate customer);
     }
 }

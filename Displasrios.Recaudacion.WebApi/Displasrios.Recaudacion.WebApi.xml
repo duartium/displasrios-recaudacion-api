@@ -96,5 +96,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.Create(Displasrios.Recaudacion.Core.Models.UserCreation)">
+            <summary>
+            Crea un nuevo usuario
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

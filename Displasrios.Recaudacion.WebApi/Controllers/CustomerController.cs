@@ -127,5 +127,29 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza la información de un cliente
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Update([FromBody] CustomerUpdate customer)
+        {
+            var response = new Response<string>(true, "OK");
+
+            try
+            {
+                if (!_rpsCustomer.Update(customer))
+                    return Ok(response.Update(false, "Lo sentimos, no se pudo actualizar el cliente.", null));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }

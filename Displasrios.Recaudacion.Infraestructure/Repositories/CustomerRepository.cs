@@ -1,7 +1,9 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -82,5 +84,34 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Identification = x.Identificacion
                 }).ToArray();
         }
+
+        public bool Update(CustomerUpdate customer)
+        {
+            int rowAffected = 0;
+
+            using (var db = _context.Database.BeginTransaction())
+            {
+                var _customer = _context.Clientes.Where(x => x.IdCliente == customer.Id).FirstOrDefault();
+
+                _customer.Identificacion = customer.Identification;
+                _customer.Nombres = customer.Names;
+                _customer.Apellidos = customer.Surnames;
+                _customer.Direccion = customer.Address;
+                _customer.Email = customer.Email;
+                _customer.Telefono = customer.Phone;
+                _customer.ModificadoEn = DateTime.Now;
+                _customer.UsuarioMod = "default";
+                
+                _context.Clientes.Update(_customer);
+                _context.Entry(_customer).State = EntityState.Modified;
+
+                rowAffected = _context.SaveChanges();
+
+                _context.Database.CommitTransaction();
+            }
+
+            return (rowAffected > 0);
+        }
+
     }
 }
