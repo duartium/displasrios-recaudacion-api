@@ -44,6 +44,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.Update(Displasrios.Recaudacion.Core.Models.CustomerUpdate)">
+            <summary>
+            Actualiza la información de un cliente
+            </summary>
+            <param name="customer"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.GetProducts">
             <summary>
             Obtener una lista de productos

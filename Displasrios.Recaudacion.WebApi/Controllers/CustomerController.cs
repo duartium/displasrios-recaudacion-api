@@ -118,7 +118,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return NotFound(response.Update(false, "No se encontraron clientes.", null));
 
                 response.Data = customers;
-                return Ok(customers);
+                return Ok(response);
             }
             catch (Exception ex)
             {
