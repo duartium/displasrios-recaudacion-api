@@ -15,5 +15,15 @@ namespace Displasrios.Recaudacion.Core.DTOs
 
         [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
+
+        [JsonPropertyName("fullname")]
+        public string FullName { get; set; }
+
+        [JsonPropertyName("identification")]
+        public string Identification { get; set; }
+
+        [JsonPropertyName("email")]
+        public string Email { get; set; }
+
     }
 }

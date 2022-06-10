@@ -2,6 +2,7 @@
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,16 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public IEnumerable<UserDto> GetAll()
         {
-            return _context.Usuarios.Where(x => x.Estado == true)
+            return _context.Empleados.Where(x => x.Estado == 1)
+                .Include(user => user.Usuario).Where(x => x.Estado == 1)
                 .Select(x => new UserDto{ 
-                    Id = x.IdUsuario,
-                    Username = x.Usuario,
-                    CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
+                    Id = x.Usuario.IdUsuario,
+                    Username = x.Usuario.Usuario,
+                    CreatedAt = x.Usuario.CreadoEn.ToString("dd-MM-yyyy"),
+                    FullName = x.Nombres + " " + x.Apellidos,
+                    Email = x.Email,
+                    Identification = x.Identificacion,
+                    RoleId = x.Usuario.PerfilId
                 }).ToList();
         }
 
