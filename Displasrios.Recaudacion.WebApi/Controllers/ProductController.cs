@@ -40,7 +40,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return NotFound(response.Update(false, "No se encontraron productos.", null));
 
                 response.Data = products;
-                return Ok(products);
+                return Ok(response);
             }
             catch (Exception ex)
             {
