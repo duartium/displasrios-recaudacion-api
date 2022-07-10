@@ -128,5 +128,28 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Crea un nuevo producto
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Create([FromBody] ProductCreation product) {
+            var response = new Response<string>(true, "OK");
+
+            try
+            {
+                if(!_rpsProduct.Create(product))
+                    return NotFound(response.Update(false, "No se pudo crear el producto.", null));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }

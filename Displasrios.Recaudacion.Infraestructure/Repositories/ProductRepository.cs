@@ -37,7 +37,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     CategoryId = (int)x.CategoriaId,
                     ProdiverId = x.ProveedorId,
                     ProdiverName = x.Proveedor.Nombre
-                }).ToList();
+                }).OrderBy(x => x.Name).ToList();
         }
 
         public IEnumerable<ProductSaleDto> GetForSale(string name)
@@ -73,6 +73,31 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                    ProdiverId = x.ProveedorId,
                    ProdiverName = x.Proveedor.Nombre
                }).FirstOrDefault();
+        }
+
+        public bool Create(ProductCreation productCreation)
+        {
+            var product = new Productos
+            {
+                Codigo = productCreation.Code,
+                Nombre = productCreation.Name,
+                Descripcion = productCreation.Description,
+                Stock = productCreation.Stock,
+                CategoriaId = productCreation.CategoryId,
+                Costo = Decimal.Parse(productCreation.Cost, CultureInfo.InvariantCulture),
+                PrecioVenta = Decimal.Parse(productCreation.SalePrice, CultureInfo.InvariantCulture),
+                Descuento = 0,
+                CantXPaquete = productCreation.QuantityPackage,
+                CantXBulto = productCreation.QuantityLump,
+                ProveedorId = productCreation.ProviderId,
+                TarifaIva = productCreation.IvaTariff,
+                UsuarioCrea = productCreation.UserCreation,
+                Estado = true,
+                CreadoEn = DateTime.Now
+            };
+            _context.Productos.Add(product);
+            int rowsAffected = _context.SaveChanges();
+            return rowsAffected > 0;
         }
     }
 }

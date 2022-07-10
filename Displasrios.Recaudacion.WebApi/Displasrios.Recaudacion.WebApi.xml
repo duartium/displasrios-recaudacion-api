@@ -78,6 +78,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.Create(Displasrios.Recaudacion.Core.DTOs.ProductCreation)">
+            <summary>
+            Crea un nuevo producto
+            </summary>
+            <param name="product"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.Create(Displasrios.Recaudacion.Core.DTOs.FullOrderDto)">
             <summary>
             Registra un nuevo pedido

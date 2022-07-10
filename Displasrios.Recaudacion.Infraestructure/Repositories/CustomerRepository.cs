@@ -50,7 +50,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Email = x.Email,
                     PhoneNumber = x.Telefono,
                     CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
-                }).ToList();
+                }).OrderBy(x => x.Names).ToList();
         }
 
         public CustomerSearchOrderDto GetByIdentification(string identification)

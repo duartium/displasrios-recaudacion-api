@@ -1,8 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,7 +44,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                             Id = x.IdItemCatalogo,
                             Description = x.Descripcion
                         }).ToList()
-                    }).Distinct().ToList();
+                    }).Distinct().OrderBy(x => x.Name).ToList();
         }
     }
 }

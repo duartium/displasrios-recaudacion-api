@@ -41,7 +41,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Email = x.Email,
                     Identification = x.Identificacion,
                     RoleId = x.Usuario.PerfilId
-                }).ToList();
+                }).OrderBy(x => x.FullName).ToList();
         }
 
         public UserDto Get(int id)
