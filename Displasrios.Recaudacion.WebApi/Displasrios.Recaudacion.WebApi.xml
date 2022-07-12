@@ -85,6 +85,18 @@
             <param name="product"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProviderController.GetProviders">
+            <summary>
+            Obtiene una lista de proveedores
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProviderController.GetAsCatalogue">
+            <summary>
+            Obtiene una lista de proveedores en formato de catálogo
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.Create(Displasrios.Recaudacion.Core.DTOs.FullOrderDto)">
             <summary>
             Registra un nuevo pedido

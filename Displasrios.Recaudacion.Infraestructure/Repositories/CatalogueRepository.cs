@@ -44,7 +44,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                             Id = x.IdItemCatalogo,
                             Description = x.Descripcion
                         }).ToList()
-                    }).Distinct().OrderBy(x => x.Name).ToList();
+                    }).Distinct().ToList().OrderBy(x => x.Name).ToList();
         }
     }
 }
