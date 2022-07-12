@@ -10,8 +10,9 @@ using System.Linq;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v1/customers")]
+    [Route("api/v{version:apiVersion}/customers")]
     [ApiController]
+    [ApiVersion("1.0")]
     [Authorize]
     public class CustomerController : BaseApiController<CustomerController>
     {

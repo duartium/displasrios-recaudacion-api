@@ -9,8 +9,9 @@ using System.Collections.Generic;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v1/catalogs")]
+    [Route("api/v{version:apiVersion}/catalogs")]
     [ApiController]
+    [ApiVersion("1.0")]
     [Authorize]
     public class CatalogueController : BaseApiController<CatalogueController>
     {

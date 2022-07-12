@@ -2,20 +2,17 @@
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Authentication;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v1/sales")]
+    [Route("api/v{version:apiVersion}/sales")]
     [ApiController]
+    [ApiVersion("1.0")]
     [Authorize]
     public class SaleController : BaseApiController<SaleController>
     {

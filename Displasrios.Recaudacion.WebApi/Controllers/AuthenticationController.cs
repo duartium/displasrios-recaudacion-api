@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Displasrios.Recaudacion.Core.Contracts;
+﻿using Displasrios.Recaudacion.Core.Contracts;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neutrinodevs.PedidosOnline.Infraestructure.Security;
+using System;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v1/authentication")]
+    [Route("api/v{version:apiVersion}/authentication")]
     [ApiController]
+    [ApiVersion("1.0")]
+
     public class AuthenticationController : BaseApiController<AuthenticationController>
     {
 

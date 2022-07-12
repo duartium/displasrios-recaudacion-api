@@ -2,18 +2,16 @@
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v1/order")]
+    [Route("api/v{version:apiVersion}/order")]
     [ApiController]
+    [ApiVersion("1.0")]
     [Authorize]
     public class OrderController : BaseApiController<OrderController>
     {

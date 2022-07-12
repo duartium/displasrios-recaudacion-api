@@ -1,20 +1,17 @@
-﻿using AutoMapper;
-using Displasrios.Recaudacion.Core.Contracts.Repositories;
+﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v1/products")]
+    [Route("api/v{version:apiVersion}/products")]
     [ApiController]
+    [ApiVersion("1.0")]
     [Authorize]
     public class ProductController : BaseApiController<ProductController>
     {

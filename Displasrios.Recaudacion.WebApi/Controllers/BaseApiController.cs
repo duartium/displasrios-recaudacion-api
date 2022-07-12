@@ -9,8 +9,9 @@ using Microsoft.Extensions.Logging;
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
     [ApiController]
-    //[Route("api/v{version:apiVersion}/[controller]")]
-    [Route("api/v1/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
+    //[Route("api/v1/[controller]")]
     public class BaseApiController<T> : ControllerBase where T: BaseApiController<T>
     {
         //private IMediator _mediator;

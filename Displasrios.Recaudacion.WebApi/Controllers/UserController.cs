@@ -11,8 +11,9 @@ using System.Security.Claims;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v1/users")]
+    [Route("api/v{version:apiVersion}/users")]
     [ApiController]
+    [ApiVersion("1.0")]
     [Authorize]
     public class UserController : BaseApiController<UserController>
     {
