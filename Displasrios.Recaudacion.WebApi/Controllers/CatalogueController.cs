@@ -38,7 +38,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return NotFound(response.Update(false, "No se encontraron catálogos.", null));
 
                 response.Data = catalogues;
-                return Ok(catalogues);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return NotFound(response.Update(false, "No se encontró el catálogo.", null));
 
                 response.Data = catalogue;
-                return Ok(catalogue);
+                return Ok(response);
             }
             catch (Exception ex)
             {
