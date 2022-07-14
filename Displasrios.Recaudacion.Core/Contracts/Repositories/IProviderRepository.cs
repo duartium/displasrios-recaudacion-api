@@ -1,4 +1,5 @@
 ﻿using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.Models;
 using System.Collections.Generic;
 
 namespace Displasrios.Recaudacion.Core.Contracts.Repositories
@@ -9,6 +10,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         ProviderDto GetById(int id);
         ProviderDto GetByName(string name);
         IEnumerable<ItemCatalogueDto> GetAsCatalogue();
-
+        bool Create(ProviderCreate provider);
     }
 }

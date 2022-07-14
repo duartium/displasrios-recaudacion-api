@@ -1,12 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Displasrios.Recaudacion.Core.DTOs
+namespace Displasrios.Recaudacion.Core.Models
 {
-    public class ProviderDto
+    public class ProviderCreate
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
         [JsonPropertyName("ruc")]
         public string Ruc { get; set; }
 
@@ -26,5 +23,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public string UserCreation { get; set; }
     }
 
-    
+    public class ProviderUpdate : ProviderCreate {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+    }
+
 }

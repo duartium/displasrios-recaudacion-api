@@ -1,5 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,25 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         public ProviderRepository(DISPLASRIOSContext context)
         {
             _context = context;
+        }
+
+        public bool Create(ProviderCreate provider)
+        {
+            var _provider = new Proveedores
+            {
+                Nombre  = provider.Name,
+                Direccion = provider.Address,
+                Email = provider.Email,
+                Ruc = provider.Ruc,
+                Telefono = provider.Phone,
+                Estado = true,
+                CreadoEn = DateTime.Now,
+                UsuarioCrea = provider.UserCreation
+            };
+            _context.Proveedores.Add(_provider);
+            int resp = _context.SaveChanges();
+
+            return resp > 0;
         }
 
         public IEnumerable<ProviderDto> GetAll()
