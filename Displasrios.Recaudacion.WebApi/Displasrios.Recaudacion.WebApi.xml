@@ -51,6 +51,12 @@
             <param name="customer"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.Create(Displasrios.Recaudacion.Core.Models.CustomerCreate)">
+            <summary>
+            Registra un nuevo cliente
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.GetProducts">
             <summary>
             Obtener una lista de productos

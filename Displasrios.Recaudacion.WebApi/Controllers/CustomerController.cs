@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
@@ -149,6 +150,33 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             {
                 Logger.LogError(ex.ToString());
                 return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        /// <summary>
+        /// Registra un nuevo cliente
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("create")]
+        public IActionResult Create([FromBody] CustomerCreate customer)
+        {
+            var response = new Response<int>(true, "Creado");
+
+            try
+            {
+                customer.CurrentUser = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+
+                int idCustomer = _rpsCustomer.Create(customer);
+                if (idCustomer <= 0)
+                    response.Update(false, "No se pudo registrar el cliente.", -1);
+
+                response.Data = idCustomer;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, -1));
             }
         }
 

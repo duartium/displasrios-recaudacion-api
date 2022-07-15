@@ -11,4 +11,10 @@
         CONTADO = 1,
         CREDITO = 1019
     }
+
+    public enum TipoIdentificacion { 
+        C = 1, //Cédula
+        R = 2, //Ruc
+        P = 3 //Pasaporte
+    }
 }

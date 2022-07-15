@@ -1,5 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.Enums;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
@@ -113,5 +114,26 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return (rowAffected > 0);
         }
 
+        public int Create(CustomerCreate customer)
+        {
+            var _customer = new Clientes
+            {
+                Identificacion = customer.Identification,
+                TipoIdentificacion = TipoIdentificacion.C.ToString(),
+                Nombres = customer.Names,
+                Apellidos = customer.Surnames,
+                Direccion = customer.Address,
+                Email = customer.Email,
+                Telefono = customer.Phone,
+                TipoCliente = 1,
+                Estado = true,
+                CreadoEn = DateTime.Now,
+                UsuarioCrea = customer.CurrentUser
+            };
+            _context.Clientes.Add(_customer);
+            _context.SaveChanges();
+
+            return _customer.IdCliente;
+        }
     }
 }
