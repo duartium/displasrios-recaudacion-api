@@ -12,5 +12,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         CustomerSearchOrderDto[] GetByNames(string names);
         bool Update(CustomerUpdate customer);
         int Create(CustomerCreate customer);
+        bool Delete(int id);
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.Infraestructure.Repositories
 {
@@ -134,6 +135,15 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             _context.SaveChanges();
 
             return _customer.IdCliente;
+        }
+
+        public bool Delete(int id)
+        {
+            var customer = _context.Clientes.Where(x => x.Estado && x.IdCliente == id).First();
+            customer.Estado = false;
+            _context.Update(customer).State = EntityState.Modified;
+            int resp = _context.SaveChanges();
+            return resp > 0;
         }
     }
 }

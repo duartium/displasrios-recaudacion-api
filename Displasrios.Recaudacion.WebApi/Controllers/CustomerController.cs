@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
@@ -134,7 +135,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public IActionResult Update([FromBody] CustomerUpdate customer)
         {
             var response = new Response<string>(true, "OK");
@@ -157,7 +158,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// Registra un nuevo cliente
         /// </summary>
         /// <returns></returns>
-        [HttpPost("create")]
+        [HttpPost]
         public IActionResult Create([FromBody] CustomerCreate customer)
         {
             var response = new Response<int>(true, "Creado");
@@ -171,6 +172,25 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     response.Update(false, "No se pudo registrar el cliente.", -1);
 
                 response.Data = idCustomer;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, -1));
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
+        {
+            var response = new Response<int>(true, "OK");
+
+            try
+            {
+                if(!_rpsCustomer.Delete(id))
+                    response.Update(false, "No se pudo eliminar el cliente.", -1);
+
                 return Ok(response);
             }
             catch (Exception ex)
