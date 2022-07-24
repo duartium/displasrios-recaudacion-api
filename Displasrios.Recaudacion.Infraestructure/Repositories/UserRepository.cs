@@ -45,6 +45,16 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 }).OrderBy(x => x.FullName).ToList();
         }
 
+        public IEnumerable<ItemCatalogueDto> GetUserProfiles()
+        {
+            return _context.Perfiles.Where(x => x.Estado)
+                .Select(x => new ItemCatalogueDto
+                {
+                    Id = x.IdPerfil,
+                    Description = x.Nombre
+                }).OrderBy(x => x.Description).ToList();
+        }
+
         public UserDto Get(int id)
         {
             return _context.Usuarios.Where(x => x.Estado && x.IdUsuario == id)

@@ -74,6 +74,26 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene el catálogo de perfiles de usuario
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("profiles")]
+        public IActionResult GetProfiles()
+        {
+            var response = new Response<IEnumerable<ItemCatalogueDto>>(true, "OK");
+            try
+            {
+                response.Data = _rpsUser.GetUserProfiles();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
 
         /// <summary>
         /// Obtener una lista de usuarios

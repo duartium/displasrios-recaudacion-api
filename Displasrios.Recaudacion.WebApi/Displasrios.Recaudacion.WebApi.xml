@@ -128,6 +128,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetProfiles">
+            <summary>
+            Obtiene el catálogo de perfiles de usuario
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetUsers">
             <summary>
             Obtener una lista de usuarios
