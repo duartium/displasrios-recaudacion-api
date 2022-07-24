@@ -40,7 +40,8 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     FullName = x.Nombres + " " + x.Apellidos,
                     Email = x.Email,
                     Identification = x.Identificacion,
-                    RoleId = x.Usuario.PerfilId
+                    RoleId = x.Usuario.Perfil.IdPerfil,
+                    RoleName = x.Usuario.Perfil.Nombre,
                 }).OrderBy(x => x.FullName).ToList();
         }
 

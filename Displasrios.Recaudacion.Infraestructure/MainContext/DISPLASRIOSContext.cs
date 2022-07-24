@@ -30,6 +30,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual DbSet<NotaCreditoDetalle> NotaCreditoDetalle { get; set; }
         public virtual DbSet<Pagos> Pagos { get; set; }
         public virtual DbSet<Parametros> Parametros { get; set; }
+        public virtual DbSet<Perfiles> Perfiles { get; set; }
         public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<Proveedores> Proveedores { get; set; }
         public virtual DbSet<Secuenciales> Secuenciales { get; set; }
@@ -851,6 +852,23 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Perfiles>(entity =>
+            {
+                entity.HasKey(e => e.IdPerfil);
+
+                entity.ToTable("PERFILES");
+
+                entity.Property(e => e.IdPerfil).HasColumnName("id_perfil");
+
+                entity.Property(e => e.Estado).HasColumnName("estado");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Productos>(entity =>
             {
                 entity.HasKey(e => e.IdProducto);
@@ -1077,6 +1095,12 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("usuario_mod")
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Perfil)
+                    .WithMany(p => p.Usuarios)
+                    .HasForeignKey(d => d.PerfilId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USUARIOS_PERFILES");
             });
 
             OnModelCreatingPartial(modelBuilder);

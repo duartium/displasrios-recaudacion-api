@@ -25,6 +25,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public DateTime? EliminadoEn { get; set; }
         public string UsuarioElim { get; set; }
 
+        public virtual Perfiles Perfil { get; set; }
         public virtual ICollection<Empleados> Empleados { get; set; }
         public virtual ICollection<EstadoCuenta> EstadoCuenta { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }

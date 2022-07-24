@@ -13,6 +13,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("role")]
         public int RoleId { get; set; }
 
+        [JsonPropertyName("role_name")]
+        public string RoleName { get; set; }
+
         [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
 
