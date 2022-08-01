@@ -1,5 +1,6 @@
 using Displasrios.Recaudacion.Core.Contracts;
 using Displasrios.Recaudacion.Core.Contracts.Repositories;
+using Displasrios.Recaudacion.Core.Contracts.Services;
 using Displasrios.Recaudacion.Core.Models.Security;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Displasrios.Recaudacion.Infraestructure.Repositories;
@@ -132,6 +133,7 @@ namespace Displasrios.Recaudacion.WebApi
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProviderRepository, ProviderRepository>();
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

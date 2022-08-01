@@ -107,5 +107,34 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return (rowAffected > 0);
         }
 
+        public bool Exists(string username, string identification, out string message)
+        {
+            message = String.Empty;
+            int count = -1;
+
+            count = (from client in _context.Clientes
+                     where client.Estado
+                     && client.Identificacion == identification
+                     select client).Count();
+
+            if (count > 0) {
+                message = $"El usuario {username} ya está en uso, por favor cambialo para continuar con el registro.";
+                return true;
+            };
+
+            count = (from user in _context.Usuarios
+                     where user.Estado
+                     && user.Usuario == username
+                     select user).Count();
+            
+            if (count > 0)
+            {
+                message = $"Ya existe un usuario con identificación {identification}.";
+                return true;
+            };
+
+            return false;
+        }
+
     }
 }

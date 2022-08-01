@@ -1,9 +1,13 @@
-﻿using Displasrios.Recaudacion.Core.Contracts;
+﻿using Displasrios.Recaudacion.Core.Constants;
+using Displasrios.Recaudacion.Core.Contracts;
+using Displasrios.Recaudacion.Core.Contracts.Services;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Neutrinodevs.PedidosOnline.Infraestructure.Security;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +22,12 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
     public class UserController : BaseApiController<UserController>
     {
         private readonly IUserRepository _rpsUser;
+        private readonly IEmailService _srvEmail;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IEmailService emailService)
         {
             _rpsUser = userRepository;
+            _srvEmail = emailService;
         }
 
         /// <summary>
@@ -131,9 +137,26 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
             try
             {
-                if (!_rpsUser.Create(user))
-                    return Ok(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
-                
+                user.CodeEmailVerification = Password.Generate(6);
+                user.Password = Security.GetSHA256(user.Password);
+
+                //if (!_rpsUser.Create(user))
+                //    return Ok(response.Update(false, "Lo sentimos, no se pudo crear el usuario.", null));
+
+                string bodyHtml = CString.EMAIL_TEMPLATE.Replace("@code", user.CodeEmailVerification);
+                string responseEmail = "";
+
+                _srvEmail.Send(new EmailParams
+                {
+                    SenderEmail = "asistencia@displasrios.com",
+                    SenderName = "DISPLASRIOS S.A.",
+                    Subject = "¡Te damos la bienvenida!",
+                    EmailTo = user.Email,
+                    Body = bodyHtml
+                }, out responseEmail);
+
+                Logger.LogError(JsonConvert.SerializeObject(user)+" :" + responseEmail);
+
                 return Ok(response);
             }
             catch (Exception ex)

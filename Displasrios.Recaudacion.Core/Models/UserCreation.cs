@@ -20,6 +20,9 @@ namespace Displasrios.Recaudacion.Core.Models
         public string Email { get; set; }
 
         [JsonIgnore]
+        public string CodeEmailVerification { get; set; }
+
+        [JsonIgnore]
         public string Username { get; set; }
 
         [JsonIgnore]
