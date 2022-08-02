@@ -137,32 +137,33 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
             try
             {
+                user.CurrentUser = User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
                 user.CodeEmailVerification = Password.Generate(6);
-                user.Password = Security.GetSHA256(user.Password);
+                user.Password = Security.GetSHA256(user.CodeEmailVerification);
 
-                //if (!_rpsUser.Create(user))
-                //    return Ok(response.Update(false, "Lo sentimos, no se pudo crear el usuario.", null));
+                if (!_rpsUser.Create(user))
+                    return Ok(response.Update(false, "Lo sentimos, no se pudo crear el usuario.", null));
 
-                string bodyHtml = CString.EMAIL_TEMPLATE.Replace("@code", user.CodeEmailVerification);
-                string responseEmail = "";
+                //string bodyHtml = CString.EMAIL_TEMPLATE.Replace("@code", user.CodeEmailVerification);
+                //string responseEmail = "";
 
-                _srvEmail.Send(new EmailParams
-                {
-                    SenderEmail = "asistencia@displasrios.com",
-                    SenderName = "DISPLASRIOS S.A.",
-                    Subject = "¡Te damos la bienvenida!",
-                    EmailTo = user.Email,
-                    Body = bodyHtml
-                }, out responseEmail);
+                //_srvEmail.Send(new EmailParams
+                //{
+                //    SenderEmail = "asistencia@displasrios.com",
+                //    SenderName = "DISPLASRIOS S.A.",
+                //    Subject = "¡Te damos la bienvenida!",
+                //    EmailTo = user.Email,
+                //    Body = bodyHtml
+                //}, out responseEmail);
 
-                Logger.LogError(JsonConvert.SerializeObject(user)+" :" + responseEmail);
+                //Logger.LogError(JsonConvert.SerializeObject(user)+" :" + responseEmail);
 
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.ToString());
-                return Conflict(response.Update(false, ex.Message, null));
+                Logger.LogError(ex.InnerException != null ? "INNER EX: "+ex.InnerException.ToString() : "EXECPTION:" + ex.ToString());
+                return Conflict(response.Update(false, ex.InnerException != null ? ex.InnerException.Message : ex.Message, null));
             }
         }
 

@@ -77,6 +77,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Usuario = user.Username,
                     Clave = user.Password,
                     PerfilId = user.Type,
+                    CodigoVerificacion = user.CodeEmailVerification,
                     Estado = true,
                     CreadoEn = DateTime.Now,
                     UsuarioCrea = user.CurrentUser

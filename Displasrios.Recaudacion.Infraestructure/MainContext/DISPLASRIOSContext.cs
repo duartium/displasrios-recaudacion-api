@@ -1058,6 +1058,12 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasMaxLength(300)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CodigoVerificacion)
+                    .IsRequired()
+                    .HasColumnName("codigo_verificacion")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CreadoEn)
                     .HasColumnName("creado_en")
                     .HasColumnType("datetime");
@@ -1095,6 +1101,10 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("usuario_mod")
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.Property(e => e.VerificadoEn)
+                    .HasColumnName("verificado_en")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Perfil)
                     .WithMany(p => p.Usuarios)

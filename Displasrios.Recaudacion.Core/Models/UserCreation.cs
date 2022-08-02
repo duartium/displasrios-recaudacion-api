@@ -13,6 +13,9 @@ namespace Displasrios.Recaudacion.Core.Models
         [JsonPropertyName("surnames")]
         public string Surnames { get; set; }
 
+        [JsonPropertyName("username")]
+        public string Username { get; set; }
+
         [JsonPropertyName("type")]
         public int Type { get; set; }
 
@@ -21,9 +24,6 @@ namespace Displasrios.Recaudacion.Core.Models
 
         [JsonIgnore]
         public string CodeEmailVerification { get; set; }
-
-        [JsonIgnore]
-        public string Username { get; set; }
 
         [JsonIgnore]
         public string Password { get; set; }
