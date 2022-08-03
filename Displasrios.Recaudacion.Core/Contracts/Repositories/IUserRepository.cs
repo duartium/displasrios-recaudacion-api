@@ -11,6 +11,7 @@ namespace Displasrios.Recaudacion.Core.Contracts
         IEnumerable<UserDto> GetAll();
         UserDto Get(int id);
         bool Create(UserCreation user);
+        bool Remove(int idUser);
         IEnumerable<ItemCatalogueDto> GetUserProfiles();
     }
 }

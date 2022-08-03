@@ -147,5 +147,12 @@
             <param name="user"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.Delete(System.Int32)">
+            <summary>
+            Elimina un usuario por id
+            </summary>
+            <param name="idUser"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

@@ -137,5 +137,13 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return false;
         }
 
+        public bool Remove(int idUser)
+        {
+            var user = _context.Usuarios.Where(x => x.IdUsuario == idUser && x.Estado).First();
+            user.Estado = false;
+            _context.Update(user);
+            int resp = _context.SaveChanges();
+            return resp > 0;
+        }
     }
 }

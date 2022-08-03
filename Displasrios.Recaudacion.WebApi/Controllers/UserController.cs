@@ -162,7 +162,29 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.InnerException != null ? "INNER EX: "+ex.InnerException.ToString() : "EXECPTION:" + ex.ToString());
+                Logger.LogError(ex.InnerException != null ? "INNER EX: "+ex.InnerException.ToString() : "EXCEPTION:" + ex.ToString());
+                return Conflict(response.Update(false, ex.InnerException != null ? ex.InnerException.Message : ex.Message, null));
+            }
+        }
+
+        /// <summary>
+        /// Elimina un usuario por id
+        /// </summary>
+        /// <param name="idUser"></param>
+        /// <returns></returns>
+        [HttpDelete("{idUser}")]
+        public IActionResult Delete(int idUser) {
+            var response = new Response<string>(true, "OK");
+            try
+            {
+                if (!_rpsUser.Remove(idUser))
+                    return BadRequest(response.Update(false, "No se pudo eliminar el usuario.", null));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.InnerException != null ? "INNER EX: " + ex.InnerException.ToString() : "EXCEPTION:" + ex.ToString());
                 return Conflict(response.Update(false, ex.InnerException != null ? ex.InnerException.Message : ex.Message, null));
             }
         }
