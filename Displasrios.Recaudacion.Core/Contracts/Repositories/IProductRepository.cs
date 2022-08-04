@@ -9,5 +9,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         ProductDto GetById(int id);
         IEnumerable<ProductSaleDto> GetForSale(string name);
         bool Create(ProductCreation product);
+        bool Remove(int id);
     }
 }

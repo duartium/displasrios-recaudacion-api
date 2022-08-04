@@ -91,6 +91,13 @@
             <param name="product"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.Remove(System.Int32)">
+            <summary>
+            Elimina un producto por id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProviderController.GetProviders">
             <summary>
             Obtiene una lista de proveedores

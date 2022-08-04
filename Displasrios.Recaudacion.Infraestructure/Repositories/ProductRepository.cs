@@ -99,5 +99,14 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             int rowsAffected = _context.SaveChanges();
             return rowsAffected > 0;
         }
+
+        public bool Remove(int id)
+        {
+            var product = _context.Productos.Where(x => x.IdProducto == id && x.Estado).First();
+            product.Estado = false;
+            _context.Update(product);
+            int rowAffected = _context.SaveChanges();
+            return rowAffected > 0;
+        }
     }
 }

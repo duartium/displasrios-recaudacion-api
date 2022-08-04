@@ -148,5 +148,29 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un producto por id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}")]
+        public IActionResult Remove(int id) 
+        {
+            var response = new Response<string>(true, "OK");
+
+            try
+            {
+                if (!_rpsProduct.Remove(id))
+                    return BadRequest(response.Update(false, "No se pudo eliminar el producto.", null));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }
