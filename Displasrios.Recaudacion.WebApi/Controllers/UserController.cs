@@ -150,19 +150,19 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (!_rpsUser.Create(user))
                     return Ok(response.Update(false, "Lo sentimos, no se pudo crear el usuario.", null));
 
-                //string bodyHtml = CString.EMAIL_TEMPLATE.Replace("@code", user.CodeEmailVerification);
-                //string responseEmail = "";
+                string bodyHtml = CString.EMAIL_TEMPLATE.Replace("@code", user.CodeEmailVerification);
+                string responseEmail = "";
 
-                //_srvEmail.Send(new EmailParams
-                //{
-                //    SenderEmail = "asistencia@displasrios.com",
-                //    SenderName = "DISPLASRIOS S.A.",
-                //    Subject = "¡Te damos la bienvenida!",
-                //    EmailTo = user.Email,
-                //    Body = bodyHtml
-                //}, out responseEmail);
+                _srvEmail.Send(new EmailParams
+                {
+                    SenderEmail = "asistencia@displasrios.com",
+                    SenderName = "DISPLASRIOS S.A.",
+                    Subject = "¡Te damos la bienvenida!",
+                    EmailTo = user.Email,
+                    Body = bodyHtml
+                }, out responseEmail);
 
-                //Logger.LogError(JsonConvert.SerializeObject(user)+" :" + responseEmail);
+                Logger.LogError(JsonConvert.SerializeObject(user) + " :" + responseEmail);
 
                 return Ok(response);
             }
