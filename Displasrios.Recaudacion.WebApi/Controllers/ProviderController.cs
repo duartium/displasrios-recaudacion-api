@@ -88,5 +88,31 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 return Conflict(response.Update(false, ex.Message, null));
             }
         }
+
+
+        /// <summary>
+        /// Elimina un proveedor por id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}")]
+        public IActionResult Remove(int id)
+        {
+            var response = new Response<string>(true, "OK");
+
+            try
+            {
+                if (!_rpsProvider.Remove(id))
+                    return BadRequest(response.Update(false, "No se pudo eliminar el proveedor.", null));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }

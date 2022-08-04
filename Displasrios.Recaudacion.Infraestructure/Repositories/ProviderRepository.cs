@@ -69,5 +69,14 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public bool Remove(int id)
+        {
+            var provider = _context.Proveedores.Where(x => x.Estado && x.IdProveedor == id).First();
+            provider.Estado = false;
+            _context.Update(provider);
+            int rowsAffected =_context.SaveChanges();
+            return rowsAffected > 0;
+        }
     }
 }

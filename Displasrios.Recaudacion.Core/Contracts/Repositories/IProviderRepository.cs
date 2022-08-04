@@ -11,5 +11,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         ProviderDto GetByName(string name);
         IEnumerable<ItemCatalogueDto> GetAsCatalogue();
         bool Create(ProviderCreate provider);
+        bool Remove(int id);
     }
 }
