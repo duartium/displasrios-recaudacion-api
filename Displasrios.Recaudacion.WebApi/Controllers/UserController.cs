@@ -3,6 +3,7 @@ using Displasrios.Recaudacion.Core.Contracts;
 using Displasrios.Recaudacion.Core.Contracts.Services;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
+using Displasrios.Recaudacion.Infraestructure.Validations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -137,6 +138,11 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
             try
             {
+                var userValidation = new UserCreationValidator().Validate(user);
+                if (!userValidation.IsValid)
+                    return BadRequest(response.Update(false, JsonConvert.SerializeObject(userValidation.Errors.Select(x => x.ErrorMessage).ToArray()), null));
+                
+
                 user.CurrentUser = User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
                 user.CodeEmailVerification = Password.Generate(6);
                 user.Password = Security.GetSHA256(user.CodeEmailVerification);

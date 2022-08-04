@@ -5,6 +5,7 @@ using Displasrios.Recaudacion.Core.Models.Security;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Displasrios.Recaudacion.Infraestructure.Repositories;
 using Displasrios.Recaudacion.Infraestructure.Services;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -51,7 +52,11 @@ namespace Displasrios.Recaudacion.WebApi
              {
                  o.JsonSerializerOptions.PropertyNamingPolicy = null;
                  o.JsonSerializerOptions.DictionaryKeyPolicy = null;
+             }).AddFluentValidation(cfg =>
+             {
+                 cfg.ImplicitlyValidateChildProperties = true;
              });
+
             services.AddSwaggerGen(options =>
             {
                 var groupName = "v1";
