@@ -20,13 +20,13 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public UserEntity GetByAuth(string username, string password)
         {
-            return _context.Usuarios.Where(x => x.Estado && x.Usuario.Equals(username) && x.Clave.Equals(password))
+            return _context.Usuarios.Where(x => x.Estado && x.Usuario.Equals(username.Trim()) && x.Clave.Equals(password))
                 .Select(x => new UserEntity { 
                     IdUser = x.IdUsuario,
                     Username = x.Usuario,
                     ProfileId = x.PerfilId.ToString(),
                     CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
-                }).FirstOrDefault();
+                }).First();
         }
 
         public IEnumerable<UserDto> GetAll()
