@@ -1,9 +1,11 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
+using Displasrios.Recaudacion.Infraestructure.Validations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -165,6 +167,11 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
             try
             {
+                var customerValidator = new CustomerCreationValidator().Validate(customer);
+                if (!customerValidator.IsValid)
+                    return BadRequest(response.Update(false, JsonConvert.SerializeObject(customerValidator.Errors.Select(x => x.ErrorMessage).ToArray()), -1));
+
+
                 customer.CurrentUser = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
                 int idCustomer = _rpsCustomer.Create(customer);
