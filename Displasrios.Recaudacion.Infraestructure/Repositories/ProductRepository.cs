@@ -19,7 +19,9 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         }
         public IEnumerable<ProductDto> GetAll()
         {
-            return _context.Productos.Where(x => x.Estado)
+            var categories = _context.ItemCatalogo.Where(x => x.Estado && x.CatalogoId == 1005).ToArray();
+
+            var products = _context.Productos.Where(x => x.Estado)
                 .Include(x => x.Proveedor)
                 .Select(x => new ProductDto
                 {
@@ -35,9 +37,13 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Discount = x.Descuento.ToString(),
                     IvaTariff = (int)x.TarifaIva,
                     CategoryId = (int)x.CategoriaId,
+                    
                     ProdiverId = x.ProveedorId,
                     ProdiverName = x.Proveedor.Nombre
                 }).OrderBy(x => x.Name).ToList();
+
+            products.ForEach(x => x.CategorName = Array.Find(categories, z => z.IdItemCatalogo.Equals(x.CategoryId)).Descripcion);
+            return products;
         }
 
         public IEnumerable<ProductSaleDto> GetForSale(string name)
