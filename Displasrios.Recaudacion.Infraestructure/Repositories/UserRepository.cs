@@ -26,7 +26,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Username = x.Usuario,
                     ProfileId = x.PerfilId.ToString(),
                     CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
-                }).First();
+                }).FirstOrDefault();
         }
 
         public IEnumerable<UserDto> GetAll()
@@ -57,13 +57,15 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public UserDto Get(int id)
         {
-            return _context.Usuarios.Where(x => x.Estado && x.IdUsuario == id)
+            return _context.Empleados.Where(emp => emp.Estado == 1 && emp.Usuario.IdUsuario == id)
+                .Include(user => user.Usuario)
                 .Select(x => new UserDto
                 {
-                    Id = x.IdUsuario,
-                    Username = x.Usuario,
-                    RoleId = x.PerfilId,
-                    CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
+                    Id = x.Usuario.IdUsuario,
+                    Username = x.Usuario.Usuario,
+                    RoleId = x.Usuario.PerfilId,
+                    FullName = x.Nombres + " " + x.Apellidos,
+                    CreatedAt = x.Usuario.CreadoEn.ToString("dd-MM-yyyy")
                 }).FirstOrDefault();
         }
 
