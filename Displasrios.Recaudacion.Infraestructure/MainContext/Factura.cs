@@ -27,6 +27,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public decimal Descuento { get; set; }
         public int FormaPago { get; set; }
         public int MetodoPago { get; set; }
+        public int Plazo { get; set; }
         public decimal? PagoCliente { get; set; }
         public decimal? Cambio { get; set; }
         public int Estado { get; set; }

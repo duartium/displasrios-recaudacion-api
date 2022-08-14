@@ -22,11 +22,11 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         public int Create(FullOrderDto order)
         {
             int idPedido = -1;
-
+            int numeroPedido = -1;
             using (_context.Database.BeginTransaction())
             {
                 //generación de secuencial de pedido y factura
-                int numeroPedido = (int)_context.Secuenciales.Where(x => x.Nombre.Equals("pedido"))
+                numeroPedido = (int)_context.Secuenciales.Where(x => x.Nombre.Equals("pedido"))
                                  .Select(x => x.Secuencial).FirstOrDefault() + 1;
 
                 var pedido = new Factura
@@ -38,6 +38,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Secuencial = null,
                     Subtotal = order.Subtotal,
                     BaseImponible = order.Total * 1.12M,
+                    Cambio = order.Change,
                     Iva = order.Iva,
                     Total = order.Total,
                     Etapa = (int)OrderStage.PENDIENTE_PAGO,
@@ -47,6 +48,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     FormaPago = order.PaymentMode,
                     MetodoPago = order.PaymentMethod,
                     PagoCliente = order.CustomerPayment,
+                    Plazo = order.Deadline,
                     UsuarioCrea = order.Username,
                     CreadoEn = DateTime.Now,
                     Estado = 1
@@ -96,7 +98,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
                 _context.Database.CommitTransaction();
             }
-            return idPedido;
+            return idPedido > 0 ? numeroPedido : idPedido;
         }
     }
 }

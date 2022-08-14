@@ -493,6 +493,8 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("pago_cliente")
                     .HasColumnType("decimal(10, 2)");
 
+                entity.Property(e => e.Plazo).HasColumnName("plazo");
+
                 entity.Property(e => e.Secuencial).HasColumnName("secuencial");
 
                 entity.Property(e => e.Subtotal)
