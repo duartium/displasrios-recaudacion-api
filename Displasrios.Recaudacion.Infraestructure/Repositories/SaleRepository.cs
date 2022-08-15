@@ -90,6 +90,20 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     secuencialRow.Secuencial = nuevoSecuencial;
                     _context.Secuenciales.Update(secuencialRow);
                 }
+
+                //registra abono
+                if (order.CustomerPayment > 0) {
+                    var pago = new Pagos
+                    {
+                        Fecha = DateTime.Now,
+                        FacturaId = idPedido,
+                        Pago = order.CustomerPayment,
+                        Cambio = order.Change,
+                        NumComprobantePago = order.NumPaymentReceipt
+                    };
+                    _context.Pagos.Add(pago);
+                    _context.SaveChanges();
+                }
                 
                 var numPedidoRow = _context.Secuenciales.First(x => x.Nombre.Equals("pedido"));
                 numPedidoRow.Secuencial = numeroPedido;

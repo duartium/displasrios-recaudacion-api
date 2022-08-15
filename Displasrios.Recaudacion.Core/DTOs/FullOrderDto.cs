@@ -35,6 +35,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("deadline")]
         public int Deadline { get; set; }
 
+        [JsonPropertyName("num_payment_receipt")]
+        public string NumPaymentReceipt { get; set; }
+
         [JsonPropertyName("customer_payment")]
         public decimal CustomerPayment { get; set; }
 

@@ -10,6 +10,9 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public decimal Pago { get; set; }
         public decimal Cambio { get; set; }
         public DateTime Fecha { get; set; }
+        public string NumComprobantePago { get; set; }
+        public string ImagenComprobante { get; set; }
+        public string Usuario { get; set; }
 
         public virtual Factura Factura { get; set; }
     }

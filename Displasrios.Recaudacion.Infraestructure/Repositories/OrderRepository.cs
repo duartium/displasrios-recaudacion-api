@@ -19,7 +19,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public OrderReceivableDto GetOrderReceivable(int idOrder)
         {
-            var orderReceivable = _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.NumeroPedido == idOrder)
+            var orderReceivable = _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.IdFactura == idOrder)
                 .Include(detail => detail.FacturaDetalle).ThenInclude(product => product.Producto)
                 .Include(paymenths => paymenths.Pagos)
                 .Include(client => client.Cliente)

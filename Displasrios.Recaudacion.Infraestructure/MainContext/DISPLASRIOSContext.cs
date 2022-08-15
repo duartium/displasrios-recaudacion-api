@@ -817,9 +817,24 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("fecha")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.ImagenComprobante)
+                    .HasColumnName("imagen_comprobante")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NumComprobantePago)
+                    .HasColumnName("num_comprobante_pago")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Pago)
                     .HasColumnName("pago")
                     .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.Usuario)
+                    .HasColumnName("usuario")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Factura)
                     .WithMany(p => p.Pagos)
