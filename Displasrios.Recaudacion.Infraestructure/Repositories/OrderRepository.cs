@@ -125,5 +125,18 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Username = x.UsuarioCrea
                 }).ToList();
         }
+
+        public bool RecordVisit(VisitCreation visitCreation) {
+            var visit = new Visitas { 
+                Fecha = DateTime.Now,
+                UsuarioVisita = visitCreation.Username,
+                OrderId = visitCreation.OrderId,
+                Observacion = visitCreation.Observations
+            };
+            _context.Visitas.Add(visit);
+            int rowsAffected = _context.SaveChanges();
+            return rowsAffected > 0;
+        }
+
     }
 }

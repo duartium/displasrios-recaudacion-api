@@ -35,6 +35,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual DbSet<Proveedores> Proveedores { get; set; }
         public virtual DbSet<Secuenciales> Secuenciales { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<Visitas> Visitas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -1128,6 +1129,39 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasForeignKey(d => d.PerfilId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USUARIOS_PERFILES");
+            });
+
+            modelBuilder.Entity<Visitas>(entity =>
+            {
+                entity.HasKey(e => e.IdVisita);
+
+                entity.ToTable("VISITAS");
+
+                entity.Property(e => e.IdVisita).HasColumnName("id_visita");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Observacion)
+                    .IsRequired()
+                    .HasColumnName("observacion")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+                entity.Property(e => e.UsuarioVisita)
+                    .IsRequired()
+                    .HasColumnName("usuario_visita")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.Visitas)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_VISITAS_FACTURA");
             });
 
             OnModelCreatingPartial(modelBuilder);

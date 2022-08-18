@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
@@ -94,6 +96,24 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        [HttpPost("record-visit")]
+        public IActionResult RecordVisit([FromBody] VisitCreation visit)
+        {
+            var response = new Response<bool>(true, "OK");
+
+            try
+            {
+                visit.Username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+
+                response.Data = _rpsOrder.RecordVisit(visit);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, false));
+            }
+        }
 
     }
 }
