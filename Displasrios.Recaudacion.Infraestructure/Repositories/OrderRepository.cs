@@ -31,7 +31,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
                     Payments = order.Pagos.Select(x => new PaymentDto { 
                         Amount = x.Pago,
-                        Date = x.Fecha.ToString("dd/mm/yyyy")
+                        Date = x.Fecha.ToString("dd/MM/yyyy")
                         }).ToArray(),
                     Products = order.FacturaDetalle.Select(det => new ProductResumeDto { 
                         Name = det.Producto.Nombre,
@@ -40,6 +40,13 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                         Total = Math.Round(det.Cantidad * det.PrecioUnitario, 2)
                     }).ToArray()
                 }).FirstOrDefault();
+
+            orderReceivable.Visits = _context.Visitas.Where(x => x.OrderId == idOrder)
+                .Select(visit => new VisitDto { 
+                    Date= visit.Fecha.ToString("dd/MM/yyyy"),
+                    Observations = visit.Observacion,
+                    Username = visit.UsuarioVisita
+                }).ToArray();
 
             orderReceivable.Balance = orderReceivable.Payments.Length > 0
                 ? orderReceivable.TotalAmount - orderReceivable.Payments.Sum(x => x.Amount) : orderReceivable.TotalAmount; 

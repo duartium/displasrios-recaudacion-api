@@ -106,6 +106,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
 
         [JsonPropertyName("total_amount")]
         public decimal TotalAmount { get; set; }
+
+        [JsonPropertyName("visits")]
+        public VisitDto[] Visits { get; set; }
     }
 
     public class OrderReceivableCreateRequest
