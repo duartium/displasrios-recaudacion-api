@@ -115,5 +115,24 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        [HttpDelete("cancel-order/{id}")]
+        public IActionResult CancelOrder(int id)
+        {
+            var response = new Response<bool>(true, "OK");
+
+            try
+            {
+                string username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+
+                response.Data = _rpsOrder.CancelOrder(id, username);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, false));
+            }
+        }
+
     }
 }

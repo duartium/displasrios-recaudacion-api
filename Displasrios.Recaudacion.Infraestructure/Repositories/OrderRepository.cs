@@ -1,5 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.Enums;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
@@ -141,6 +142,18 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 Observacion = visitCreation.Observations
             };
             _context.Visitas.Add(visit);
+            int rowsAffected = _context.SaveChanges();
+            return rowsAffected > 0;
+        }
+
+        public bool CancelOrder(int idOrder, string username)
+        {
+            var order = _context.Factura.Where(x => x.IdFactura == idOrder).FirstOrDefault();
+            order.Estado = (int)OrderStage.ANULADO;
+            order.UsuarioElim = username;
+            order.EliminadoEn = DateTime.Now;
+
+            _context.Update(order);
             int rowsAffected = _context.SaveChanges();
             return rowsAffected > 0;
         }

@@ -79,6 +79,9 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                         Estado = true
                     };
                     pedidoDetalle.Add(orderItem);
+
+                    var product = _context.Productos.Where(pro => pro.IdProducto == item.Id).FirstOrDefault();
+                    product.Stock -= item.Quantity;
                 }
                 _context.FacturaDetalle.AddRange(pedidoDetalle);
                 _context.SaveChanges();

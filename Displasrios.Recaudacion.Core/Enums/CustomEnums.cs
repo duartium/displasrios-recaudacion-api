@@ -3,7 +3,8 @@
     public enum OrderStage
     {
         PENDIENTE_PAGO = 1,
-        PAGADO = 2
+        PAGADO = 2,
+        ANULADO = 3
     }
 
     public enum MetodoPago
