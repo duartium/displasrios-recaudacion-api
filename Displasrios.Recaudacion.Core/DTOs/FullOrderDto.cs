@@ -107,8 +107,35 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("total_amount")]
         public decimal TotalAmount { get; set; }
 
+        [JsonPropertyName("subtotal")]
+        public decimal Subtotal { get; set; }
+
+        [JsonPropertyName("subtotal0")]
+        public decimal Subtotal0 { get; set; }
+
+        [JsonPropertyName("subtotal2")]
+        public decimal Subtotal12 { get; set; }
+
+        [JsonPropertyName("iva")]
+        public decimal Iva { get; set; }
+
+        [JsonPropertyName("discount")]
+        public decimal Discount { get; set; }
+
         [JsonPropertyName("visits")]
         public VisitDto[] Visits { get; set; }
+
+        [JsonPropertyName("deadline")]
+        public int Deadline { get; set; }
+
+        [JsonPropertyName("way_to_pay")]
+        public string WayToPay { get; set; }
+
+        [JsonPropertyName("payment_method")]
+        public string PaymentMethod { get; set; }
+
+        [JsonPropertyName("collector_name")]
+        public string CollectorName { get; set; }
     }
 
     public class OrderReceivableCreateRequest

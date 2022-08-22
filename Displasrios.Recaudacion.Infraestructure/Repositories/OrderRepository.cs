@@ -24,23 +24,41 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 .Include(detail => detail.FacturaDetalle).ThenInclude(product => product.Producto)
                 .Include(paymenths => paymenths.Pagos)
                 .Include(client => client.Cliente)
-                .Select(order => new OrderReceivableDto { 
+                .Select(order => new OrderReceivableDto
+                {
                     Date = order.FechaEmision.ToString("dd/MM/yyyy"),
                     OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
                     DaysDebt = (DateTime.Now - order.FechaEmision).Days,
                     TotalAmount = order.Total,
-                    FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
-                    Payments = order.Pagos.Select(x => new PaymentDto { 
+                    Iva = order.Iva,
+                    Subtotal = order.Subtotal,
+                    Subtotal0 = order.Subtotal0,
+                    Subtotal12 = order.Subtotal12,
+                    Discount = order.Descuento,
+                    FullNames = order.Cliente.Nombres.ToUpper() + " " + order.Cliente.Apellidos.ToUpper(),
+                    Deadline = order.Plazo,
+                    WayToPay = order.MetodoPago.ToString(),
+                    PaymentMethod = order.FormaPago.ToString(),
+                    Payments = order.Pagos.Select(x => new PaymentDto
+                    {
                         Amount = x.Pago,
                         Date = x.Fecha.ToString("dd/MM/yyyy")
-                        }).ToArray(),
-                    Products = order.FacturaDetalle.Select(det => new ProductResumeDto { 
+                    }).ToArray(),
+                    Products = order.FacturaDetalle.Select(det => new ProductResumeDto
+                    {
                         Name = det.Producto.Nombre,
                         Price = det.PrecioUnitario,
                         Quantity = det.Cantidad,
                         Total = Math.Round(det.Cantidad * det.PrecioUnitario, 2)
-                    }).ToArray()
+                    }).ToArray(),
+                    CollectorName = order.UsuarioCrea
                 }).FirstOrDefault();
+
+            orderReceivable.WayToPay = _context.ItemCatalogo.Where(x => x.Estado && x.IdItemCatalogo == int.Parse(orderReceivable.WayToPay))
+                .Select(x => x.Descripcion).First();
+
+            orderReceivable.PaymentMethod = _context.ItemCatalogo.Where(x => x.Estado && x.IdItemCatalogo == int.Parse(orderReceivable.PaymentMethod))
+                .Select(x => x.Descripcion).First();
 
             orderReceivable.Visits = _context.Visitas.Where(x => x.OrderId == idOrder)
                 .Select(visit => new VisitDto { 
