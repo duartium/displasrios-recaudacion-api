@@ -20,13 +20,31 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public UserEntity GetByAuth(string username, string password)
         {
-            return _context.Usuarios.Where(x => x.Estado && x.Usuario.Equals(username.Trim()) && x.Clave.Equals(password))
-                .Select(x => new UserEntity { 
-                    IdUser = x.IdUsuario,
-                    Username = x.Usuario,
-                    ProfileId = x.PerfilId.ToString(),
-                    CreatedAt = x.CreadoEn.ToString("dd-MM-yyyy")
-                }).FirstOrDefault();
+            UserEntity userEntity = null;
+            var user = _context.Usuarios.Where(x => x.Estado && x.Usuario.Equals(username.Trim()) && x.Clave.Equals(password))
+                .FirstOrDefault();
+                
+
+            if(user != null && user.VerificadoEn == null)
+            {
+                user.VerificadoEn = DateTime.Now;
+                _context.Update(user);
+                _context.SaveChanges();
+            }
+
+            if(user != null)
+            {
+                userEntity = new UserEntity
+                 {
+                     IdUser = user.IdUsuario,
+                     Username = user.Usuario,
+                     ProfileId = user.PerfilId.ToString(),
+                     CreatedAt = user.CreadoEn.ToString("dd-MM-yyyy"),
+                     VerifiedAt = user.VerificadoEn.ToString()
+                 };
+            }
+
+            return userEntity;
         }
 
         public IEnumerable<UserDto> GetAll()
@@ -146,6 +164,36 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             _context.Update(user);
             int resp = _context.SaveChanges();
             return resp > 0;
+        }
+
+        public string GenerateUsername(string names, string surnames)
+        {
+            string nameAbreviation = names.Trim().ToLower().Substring(0, 1);
+            surnames = surnames.TrimStart().TrimEnd().ToLower();
+
+            string username = nameAbreviation;
+            
+            if (surnames.Contains(" "))
+                surnames = surnames.Split(' ').GetValue(0).ToString();
+
+            username += surnames;
+
+            var user = _context.Usuarios.Where(x => x.Estado && x.Usuario == username).FirstOrDefault();
+            if(user != null)//ya existe usuario, se vuelve a generar otro
+            {
+                //verifico si el último caracter es un número para incrementarlo caso contrario le agrego un 1
+                char lastChar = username.Substring(username.Length - 1, 1).ToCharArray()[0];
+                if (Char.IsNumber(lastChar))
+                {
+                    int number = int.Parse(lastChar.ToString());
+                    number = number++;
+                    username = username.Remove(username.Length - 1, 1).Insert(username.Length - 1, number.ToString());
+                }
+                else
+                    username += "1";
+            }
+
+            return username;
         }
     }
 }

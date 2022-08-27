@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
-    [Route("api/v{version:apiVersion}/catalogs")]
+    [Route("api/v{version:apiVersion}/reports")]
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize]
@@ -30,13 +30,13 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetProviders()
+        public IActionResult GetIncomePerSellers()
         {
             var response = new Response<IEnumerable<string>>(true, "OK");
 
             try
             {
-                response.Data = _rpsProvider.GetAll(); ;
+                response.Data = _rpsSales.GetIncomePerSellers();
                 return Ok(response);
             }
             catch (Exception ex)

@@ -124,7 +124,8 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public IEnumerable<OrderSummaryDto> GetOrdersReceivable(FiltersOrdersReceivable filters)
         {
-            return _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.Secuencial == null)
+            return _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.Secuencial == null 
+                    && x.UsuarioId == filters.IdUser)
                 .Include(client => client.Cliente)
                 .Include(pagos => pagos.Pagos)
                 .Select(order => new OrderSummaryDto { 

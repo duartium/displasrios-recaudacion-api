@@ -117,5 +117,10 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             }
             return idPedido > 0 ? numeroPedido : idPedido;
         }
+
+        public IEnumerable<string> GetIncomePerSellers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

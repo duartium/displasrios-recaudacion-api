@@ -31,7 +31,11 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
             try
             {
-                response.Data = _rpsOrder.GetOrdersReceivable(new FiltersOrdersReceivable());
+
+                var filters = new FiltersOrdersReceivable();
+                filters.IdUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid).Value);
+
+                response.Data = _rpsOrder.GetOrdersReceivable(filters);
                 return Ok(response);
             }
             catch (Exception ex)

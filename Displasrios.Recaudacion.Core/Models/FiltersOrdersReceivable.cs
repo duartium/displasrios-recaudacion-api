@@ -7,6 +7,9 @@ namespace Displasrios.Recaudacion.Core.Models
         [JsonPropertyName("search_type")]
         public string SearchType { get; set; }
 
+        [JsonPropertyName("id_user")]
+        public int IdUser { get; set; }
+
         [JsonPropertyName("identification")]
         public string Identification { get; set; }
 

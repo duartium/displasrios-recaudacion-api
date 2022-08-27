@@ -146,6 +146,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 user.CurrentUser = User.Claims.First(x => x.Type == ClaimTypes.Name).Value;
                 user.CodeEmailVerification = Password.Generate(6);
                 user.Password = Security.GetSHA256(user.CodeEmailVerification);
+                user.Username = _rpsUser.GenerateUsername(user.Names, user.Surnames);
 
                 if (!_rpsUser.Create(user))
                     return Ok(response.Update(false, "Lo sentimos, no se pudo crear el usuario.", null));

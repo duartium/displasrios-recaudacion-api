@@ -16,7 +16,7 @@ namespace Displasrios.Recaudacion.Core.Models
         [JsonPropertyName("username")]
         public string Username { get; set; }
 
-        [JsonPropertyName("type")]
+        [JsonPropertyName("id_profile")]
         public int Type { get; set; }
 
         [JsonPropertyName("email")]
