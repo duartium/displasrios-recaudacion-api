@@ -20,10 +20,12 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
     public class ReportController : BaseApiController<ReportController>
     {
         private readonly ISaleRepository _rpsSales;
+        private readonly IOrderRepository _rpsOrders;
 
-        public ReportController(ISaleRepository saleRepository)
+        public ReportController(ISaleRepository saleRepository, IOrderRepository orderRepository)
         {
             _rpsSales = saleRepository;
+            _rpsOrders = orderRepository;
         }
 
 
@@ -45,6 +47,27 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             {
                 Logger.LogError(ex.ToString());
                 return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        /// <summary>
+        /// Obtiene total de ingresos diarios en el día de vendedor
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-total-sales-today/{idUser}")]
+        public IActionResult GetTotal([FromQuery] int idUser)
+        {
+            var response = new Response<decimal>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsOrders.GetTotalSalesTodayBySeller(idUser);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, 0));
             }
         }
 

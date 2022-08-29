@@ -177,5 +177,13 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return rowsAffected > 0;
         }
 
+        public decimal GetTotalSalesTodayBySeller(int idUser) {
+            decimal totalSalesToday = _context.Factura.Where(x => x.Estado == 1 && x.Secuencial != null
+            && x.CreadoEn.Date == DateTime.Now.Date && x.UsuarioId == idUser)
+                .Select(x => x.Total).Sum();
+
+            return totalSalesToday;
+        }
+
     }
 }

@@ -132,7 +132,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 .GroupBy(group => group.Usuario.Usuario)
                 .Select(x => new IncomeBySellersDto
                 {
-                    Total = x.Max(y => y.Total).ToString(),
+                    Total = x.Sum(y => y.Total).ToString(),
                     User = x.Key
                 }).ToArray();
 

@@ -129,6 +129,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetTotal(System.Int32)">
+            <summary>
+            Obtiene total de ingresos diarios en el día de vendedor
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.Create(Displasrios.Recaudacion.Core.DTOs.FullOrderDto)">
             <summary>
             Registra un nuevo pedido

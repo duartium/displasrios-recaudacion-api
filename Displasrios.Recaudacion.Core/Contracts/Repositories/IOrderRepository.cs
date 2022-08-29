@@ -12,5 +12,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersOfDay();
         bool RecordVisit(VisitCreation visitCreation);
         bool CancelOrder(int idOrder, string username);
+        decimal GetTotalSalesTodayBySeller(int idUser);
     }
 }
