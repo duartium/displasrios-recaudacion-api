@@ -7,7 +7,7 @@
         ANULADO = 3
     }
 
-    public enum MetodoPago
+    public enum FormaPago
     {
         CONTADO = 1,
         CREDITO = 1019

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Displasrios.Recaudacion.Core.DTOs.Sales
 {
-    public class SaleBySeller
+    public class IncomeBySellersDto
     {
-        [JsonPropertyName("description")]
-        public string Description { get; set; }
+        [JsonPropertyName("total")]
+        public string Total { get; set; }
+
+        [JsonPropertyName("user")]
+        public string User { get; set; }
     }
 }

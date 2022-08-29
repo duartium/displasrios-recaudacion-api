@@ -123,7 +123,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetIncomePerSellers">
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetIncomePerSellers(Displasrios.Recaudacion.Core.Models.Sales.IncomeBySellers)">
             <summary>
             Obtiene los ingresos por vendedor
             </summary>

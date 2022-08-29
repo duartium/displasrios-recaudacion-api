@@ -1,7 +1,10 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Enums;
+using Displasrios.Recaudacion.Core.Models.Sales;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -33,7 +36,6 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 {
                     UsuarioId = order.IdUser,
                     ClienteId = order.IdClient,
-                    FechaEmision = DateTime.Now,
                     NumeroPedido = numeroPedido,
                     Secuencial = null,
                     Subtotal = order.Subtotal,
@@ -55,11 +57,12 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 };
 
                 int nuevoSecuencial = 0;
-                if (order.PaymentMode == (int)MetodoPago.CONTADO)
+                if (order.PaymentMethod == (int)FormaPago.CONTADO)
                 {
                     nuevoSecuencial = (int)_context.Secuenciales.Where(x => x.Nombre.Equals("factura"))
                                  .Select(x => x.Secuencial).FirstOrDefault() + 1;
                     pedido.Secuencial = nuevoSecuencial;
+                    pedido.FechaEmision = DateTime.Now;
                 }
 
                 _context.Factura.Add(pedido);
@@ -87,7 +90,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 _context.SaveChanges();
 
                 //establece el nuevo secuencial
-                if (order.PaymentMode == (int)MetodoPago.CONTADO)
+                if (order.PaymentMethod == (int)FormaPago.CONTADO)
                 {
                     var secuencialRow = _context.Secuenciales.First(x => x.Nombre.Equals("factura"));
                     secuencialRow.Secuencial = nuevoSecuencial;
@@ -118,9 +121,22 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return idPedido > 0 ? numeroPedido : idPedido;
         }
 
-        public IEnumerable<string> GetIncomePerSellers()
+        public IEnumerable<IncomeBySellersDto> GetIncomePerSellers(IncomeBySellers incomeBySellers)
         {
-            throw new NotImplementedException();
+            var dateFrom = DateTime.Parse(incomeBySellers.DateFrom);
+            var dateUntil = DateTime.Parse(incomeBySellers.DateUntil);
+
+            var salesReport = _context.Factura.Where(x => x.Estado == 1 && x.Secuencial != null
+            && x.CreadoEn.Date >= dateFrom.Date && x.CreadoEn.Date <= dateUntil.Date)
+                .Include(fac => fac.Usuario)
+                .GroupBy(group => group.Usuario.Usuario)
+                .Select(x => new IncomeBySellersDto
+                {
+                    Total = x.Max(y => y.Total).ToString(),
+                    User = x.Key
+                }).ToArray();
+
+            return salesReport;
         }
     }
 }

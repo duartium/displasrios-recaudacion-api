@@ -1,5 +1,7 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Models;
+using Displasrios.Recaudacion.Core.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,14 +31,14 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// Obtiene los ingresos por vendedor
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public IActionResult GetIncomePerSellers()
+        [HttpGet("income-per-sellers")]
+        public IActionResult GetIncomePerSellers([FromQuery] IncomeBySellers incomeBySellers)
         {
-            var response = new Response<IEnumerable<string>>(true, "OK");
+            var response = new Response<IEnumerable<IncomeBySellersDto>>(true, "OK");
 
             try
             {
-                response.Data = _rpsSales.GetIncomePerSellers();
+                response.Data = _rpsSales.GetIncomePerSellers(incomeBySellers);
                 return Ok(response);
             }
             catch (Exception ex)
