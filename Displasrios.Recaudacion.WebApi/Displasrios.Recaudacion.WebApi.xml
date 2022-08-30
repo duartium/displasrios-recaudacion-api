@@ -129,9 +129,15 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetTotal">
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetTotalSalesToday">
             <summary>
             Obtiene total de ingresos diarios en el día de vendedor
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetSellerPersonalReport">
+            <summary>
+            Obtiene resumen (totales) para presentación en pantalla de mi reporte del vendedor
             </summary>
             <returns></returns>
         </member>

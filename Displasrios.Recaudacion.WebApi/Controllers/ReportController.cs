@@ -56,7 +56,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-total-sales-today")]
-        public IActionResult GetTotal()
+        public IActionResult GetTotalSalesToday()
         {
             var response = new Response<decimal>(true, "OK");
 
@@ -72,6 +72,29 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 return Conflict(response.Update(false, ex.Message, 0));
             }
         }
+
+        /// <summary>
+        /// Obtiene resumen (totales) para presentación en pantalla de mi reporte del vendedor
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-seller-personal-report")]
+        public IActionResult GetSellerPersonalReport()
+        {
+            var response = new Response<SellerPersonalReportDto>(true, "OK");
+
+            try
+            {
+                int idUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid).Value);
+                response.Data = _rpsOrders.GetSellerPersonalReport(idUser);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
 
     }
 }

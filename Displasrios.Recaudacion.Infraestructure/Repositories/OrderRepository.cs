@@ -1,5 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Enums;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
@@ -178,11 +179,31 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         }
 
         public decimal GetTotalSalesTodayBySeller(int idUser) {
-            decimal totalSalesToday = _context.Factura.Where(x => x.Estado == 1 && x.Secuencial != null
+            decimal totalSalesToday = _context.Factura
+                .Include(fac => fac.Usuario).Where(x => x.Estado == 1 && x.Secuencial != null
             && x.CreadoEn.Date == DateTime.Now.Date && x.UsuarioId == idUser)
                 .Select(x => x.Total).Sum();
 
             return totalSalesToday;
+        }
+
+        public SellerPersonalReportDto GetSellerPersonalReport(int idUser)
+        {
+            var totalsReport = new SellerPersonalReportDto();
+
+            totalsReport.TotalSalesToday = _context.Factura.Where(x => x.Estado == 1 && x.Secuencial != null
+            && x.CreadoEn.Date == DateTime.Now.Date && x.UsuarioId == idUser)
+                .Select(x => x.Total).Sum();
+
+            totalsReport.totalMonthSales = _context.Factura.Where(x => x.Estado == 1 && x.Secuencial != null
+            && x.CreadoEn.Date.Month == DateTime.Now.Month && x.CreadoEn.Date.Year == DateTime.Now.Year 
+            && x.UsuarioId == idUser)
+                .Select(x => x.Total).Sum();
+
+            totalsReport.NumOrdersReceivable = _context.Factura.Where(x => x.Estado == 1 && x.Secuencial == null
+            && x.UsuarioId == idUser).Count();
+
+            return totalsReport;
         }
 
     }

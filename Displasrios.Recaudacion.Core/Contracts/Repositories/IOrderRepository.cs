@@ -1,4 +1,5 @@
 ﻿using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Models;
 using System.Collections.Generic;
 
@@ -13,5 +14,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         bool RecordVisit(VisitCreation visitCreation);
         bool CancelOrder(int idOrder, string username);
         decimal GetTotalSalesTodayBySeller(int idUser);
+        SellerPersonalReportDto GetSellerPersonalReport(int idUser);
     }
 }
