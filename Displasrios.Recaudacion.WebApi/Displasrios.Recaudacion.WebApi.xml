@@ -129,7 +129,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetTotal(System.Int32)">
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetTotal">
             <summary>
             Obtiene total de ingresos diarios en el día de vendedor
             </summary>

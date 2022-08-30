@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
@@ -54,13 +55,14 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         /// Obtiene total de ingresos diarios en el día de vendedor
         /// </summary>
         /// <returns></returns>
-        [HttpGet("get-total-sales-today/{idUser}")]
-        public IActionResult GetTotal([FromQuery] int idUser)
+        [HttpGet("get-total-sales-today")]
+        public IActionResult GetTotal()
         {
             var response = new Response<decimal>(true, "OK");
 
             try
             {
+                int idUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid).Value);
                 response.Data = _rpsOrders.GetTotalSalesTodayBySeller(idUser);
                 return Ok(response);
             }
