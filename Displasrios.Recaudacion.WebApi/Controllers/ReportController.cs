@@ -3,14 +3,12 @@ using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Core.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
