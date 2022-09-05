@@ -6,6 +6,7 @@ using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -63,6 +64,33 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     FullNames = $"{x.Nombres} {x.Apellidos}",
                     Identification = x.Identificacion
                 }).FirstOrDefault();
+        }
+
+        public CustomerDebtDto GetDebts(string identification)
+        {
+            var debts = new CustomerDebtDto();
+
+            debts.OrdersReceivable = _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.Secuencial == null
+                    && x.Cliente.Identificacion == identification)
+                .Include(client => client.Cliente)
+                .Include(pagos => pagos.Pagos)
+                .Select(order => new OrderSummaryDto
+                {
+                    Id = order.IdFactura,
+                    OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
+                    FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
+                    TotalAmount = order.Pagos.Count > 0
+                        ? Math.Round(order.Total - order.Pagos.Sum(x => x.Pago), 2).ToString() : order.Total.ToString(),
+                    Date = order.FechaEmision.ToString("dd/MM/yyyy")
+                }).ToArray();
+
+            if(debts.OrdersReceivable != null)
+            {
+                debts.Fullnames = debts.OrdersReceivable.FirstOrDefault().FullNames.ToUpper();
+                debts.TotalDebts = debts.OrdersReceivable.Sum(x => decimal.Parse(x.TotalAmount, CultureInfo.InvariantCulture));
+            }
+
+            return debts;
         }
 
         public CustomerSearchOrderDto GetByNames(string names)
