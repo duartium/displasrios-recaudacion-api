@@ -77,6 +77,9 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("total_amount")]
         public string TotalAmount { get; set; }
 
+        [JsonPropertyName("collector")]
+        public string Collector { get; set; }
+
         [JsonPropertyName("date")]
         public string Date { get; set; }
     }

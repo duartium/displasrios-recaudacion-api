@@ -15,6 +15,6 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public string Fullnames { get; set; }
 
         [JsonPropertyName("ordersReceivable")]
-        public IEnumerable<OrderSummaryDto> OrdersReceivable{ get; set; }
+        public List<OrderSummaryDto> OrdersReceivable{ get; set; }
     }
 }

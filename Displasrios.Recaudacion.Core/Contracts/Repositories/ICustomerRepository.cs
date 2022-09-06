@@ -13,6 +13,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         bool Update(CustomerUpdate customer);
         int Create(CustomerCreate customer);
         bool Delete(int id);
-        CustomerDebtDto GetDebts(string identification);
+        CustomerDebtDto GetDebts(string identification, string names);
     }
 }

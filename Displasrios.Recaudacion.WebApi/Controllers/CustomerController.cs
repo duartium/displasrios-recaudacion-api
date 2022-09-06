@@ -53,19 +53,21 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+
         /// <summary>
         /// Obtiene deudas del cliente por identificación
         /// </summary>
         /// <param name="identification"></param>
+        /// <param name="names"></param>
         /// <returns></returns>
-        [HttpGet("debts/{identification}")]
-        public IActionResult GetDebts(string identification)
+        [HttpGet("debts")]
+        public IActionResult GetDebts(string identification, string names)
         {
             var response = new Response<CustomerDebtDto>(true, "OK");
 
             try
             {
-                var debts = _rpsCustomer.GetDebts(identification);
+                var debts = _rpsCustomer.GetDebts(identification, names);
                 if (debts == null)
                     return NotFound(response.Update(false, "No se encontraron deudas.", null));
 

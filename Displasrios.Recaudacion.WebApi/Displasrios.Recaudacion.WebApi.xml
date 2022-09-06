@@ -24,11 +24,12 @@
             <param name="identification"></param>
             <returns></returns>
         </member>
-        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetDebts(System.String)">
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetDebts(System.String,System.String)">
             <summary>
             Obtiene deudas del cliente por identificación
             </summary>
             <param name="identification"></param>
+            <param name="names"></param>
             <returns></returns>
         </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomerByNames(System.String)">
