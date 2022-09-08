@@ -4,6 +4,24 @@
         <name>Displasrios.Recaudacion.WebApi</name>
     </assembly>
     <members>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CashRegisterController.IsCashOpenend">
+            <summary>
+            Retorna true cuando detecta que ya se ha aperturado caja
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CashRegisterController.Open(System.Decimal)">
+            <summary>
+            Registra apertura de caja
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CashRegisterController.Close(System.Decimal,System.String)">
+            <summary>
+            Registra cierre de caja
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CatalogueController.GetCatalogs">
             <summary>
             Obtiene una lista de catálogos

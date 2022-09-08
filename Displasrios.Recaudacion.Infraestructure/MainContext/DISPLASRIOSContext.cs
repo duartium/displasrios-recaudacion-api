@@ -42,7 +42,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=BDUARTE-LAP; Initial Catalog=DISPLASRIOS; user id=sa; password=12345678");
+                optionsBuilder.UseSqlServer("Data Source=SQL8004.site4now.net; Initial Catalog=db_a89177_displasrios; user id=db_a89177_displasrios_admin; password=jw2V9ir6miaPSqP");
             }
         }
 
@@ -650,17 +650,9 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("diferencia")
                     .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.Egresos)
-                    .HasColumnName("egresos")
-                    .HasColumnType("decimal(10, 2)");
-
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
                     .HasColumnType("datetime");
-
-                entity.Property(e => e.Ingresos)
-                    .HasColumnName("ingresos")
-                    .HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.MontoRecibido)
                     .HasColumnName("monto_recibido")

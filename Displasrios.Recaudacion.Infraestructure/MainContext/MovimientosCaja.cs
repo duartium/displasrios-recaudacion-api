@@ -8,8 +8,6 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public int IdMovimiento { get; set; }
         public DateTime Fecha { get; set; }
         public short? TipoMovimiento { get; set; }
-        public decimal? Ingresos { get; set; }
-        public decimal? Egresos { get; set; }
         public decimal? MontoRecibido { get; set; }
         public decimal? MontoSistema { get; set; }
         public decimal? Diferencia { get; set; }

@@ -18,4 +18,11 @@
         R = 2, //Ruc
         P = 3 //Pasaporte
     }
+
+    public enum CashMovement
+    {
+        APERTURA = 1,
+        CIERRE = 2,
+        ARQUEO = 3
+    }
 }
