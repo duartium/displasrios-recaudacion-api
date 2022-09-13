@@ -63,6 +63,17 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 }).OrderBy(x => x.FullName).ToList();
         }
 
+        public IEnumerable<CollectorResumeDto> GetCollectors()
+        {
+            return _context.Empleados.Where(x => x.Estado == 1 && x.TipoEmpleado == 1)
+                .Include(user => user.Usuario).Where(x => x.Estado == 1)
+                .Select(x => new CollectorResumeDto
+                {
+                    IdUser = x.Usuario.IdUsuario,
+                    FullUsername = x.Usuario.Usuario + " - " + x.Nombres + " " + x.Apellidos
+                }).OrderBy(x => x.FullUsername).ToList();
+        }
+
         public IEnumerable<ItemCatalogueDto> GetUserProfiles()
         {
             return _context.Perfiles.Where(x => x.Estado)

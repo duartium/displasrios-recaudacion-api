@@ -127,6 +127,30 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         }
 
         /// <summary>
+        /// Obtener una lista de todos los recaudadores habilitados
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("collectors-catalog")]
+        public IActionResult GetCollectors()
+        {
+            var response = new Response<IEnumerable<CollectorResumeDto>>(true, "OK");
+            try
+            {
+                var users = _rpsUser.GetCollectors();
+                if (users.ToList().Count == 0)
+                    return NotFound(response.Update(false, "No se encontraron recaudadores.", null));
+
+                response.Data = users;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        /// <summary>
         /// Crea un nuevo usuario
         /// </summary>
         /// <param name="user"></param>

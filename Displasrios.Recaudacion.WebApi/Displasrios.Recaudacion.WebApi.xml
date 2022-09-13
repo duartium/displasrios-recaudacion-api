@@ -198,6 +198,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetCollectors">
+            <summary>
+            Obtener una lista de todos los recaudadores habilitados
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.Create(Displasrios.Recaudacion.Core.Models.UserCreation)">
             <summary>
             Crea un nuevo usuario

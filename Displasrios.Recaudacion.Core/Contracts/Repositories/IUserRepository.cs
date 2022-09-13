@@ -9,6 +9,7 @@ namespace Displasrios.Recaudacion.Core.Contracts
     {
         UserEntity GetByAuth(string username, string password);
         IEnumerable<UserDto> GetAll();
+        IEnumerable<CollectorResumeDto> GetCollectors();
         UserDto Get(int id);
         bool Create(UserCreation user);
         bool Remove(int idUser);
