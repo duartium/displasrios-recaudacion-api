@@ -24,6 +24,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual DbSet<EstadoCuenta> EstadoCuenta { get; set; }
         public virtual DbSet<Factura> Factura { get; set; }
         public virtual DbSet<FacturaDetalle> FacturaDetalle { get; set; }
+        public virtual DbSet<Ingresos> Ingresos { get; set; }
         public virtual DbSet<ItemCatalogo> ItemCatalogo { get; set; }
         public virtual DbSet<MovimientosCaja> MovimientosCaja { get; set; }
         public virtual DbSet<NotaCredito> NotaCredito { get; set; }
@@ -579,6 +580,53 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasForeignKey(d => d.ProductoId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FACTURA_DETALLE_PRODUCTOS");
+            });
+
+            modelBuilder.Entity<Ingresos>(entity =>
+            {
+                entity.HasKey(e => e.IdIngresos);
+
+                entity.ToTable("INGRESOS");
+
+                entity.Property(e => e.IdIngresos).HasColumnName("id_ingresos");
+
+                entity.Property(e => e.Estado).HasColumnName("estado");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaModifica)
+                    .HasColumnName("fecha_modifica")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsuarioCrea)
+                    .IsRequired()
+                    .HasColumnName("usuario_crea")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+
+                entity.Property(e => e.UsuarioModifica)
+                    .HasColumnName("usuario_modifica")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Valor)
+                    .HasColumnName("valor")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.Usuario)
+                    .WithMany(p => p.Ingresos)
+                    .HasForeignKey(d => d.UsuarioId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_INGRESOS_USUARIOS");
             });
 
             modelBuilder.Entity<ItemCatalogo>(entity =>

@@ -173,6 +173,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.SaveCollectorSales(Displasrios.Recaudacion.Core.Models.Sales.SalesSellerToday)">
+            <summary>
+            Registra las ventas del día del vendedor previo al cierre de caja del administrador de ventas
+            </summary>
+            <param name="salesSellerToday"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetUser(System.Int32)">
             <summary>
             Obtiene un usuario por id.
@@ -200,7 +207,7 @@
         </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetCollectors">
             <summary>
-            Obtener una lista de todos los recaudadores habilitados
+            Obtener una lista de todos los recaudadores que aún no han entregado sus ingresos del día para el arqueo de caja
             </summary>
             <returns></returns>
         </member>

@@ -65,13 +65,20 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public IEnumerable<CollectorResumeDto> GetCollectors()
         {
-            return _context.Empleados.Where(x => x.Estado == 1 && x.TipoEmpleado == 1)
+            //retorna los vendedores que aún no han entregado sus ingresos del día para el arqueo de caja
+            var collectorsResume = _context.Empleados.Where(x => x.Estado == 1 && x.TipoEmpleado == 1)
                 .Include(user => user.Usuario).Where(x => x.Estado == 1)
                 .Select(x => new CollectorResumeDto
                 {
                     IdUser = x.Usuario.IdUsuario,
                     FullUsername = x.Usuario.Usuario + " - " + x.Nombres + " " + x.Apellidos
                 }).OrderBy(x => x.FullUsername).ToList();
+
+            int[] collectorsConArqueoIds = _context.Ingresos.Where(x => x.Fecha.Date == DateTime.Now.Date)
+                .Select(x => x.UsuarioId).ToArray();
+
+            IEnumerable<CollectorResumeDto> collectorsFiltered = collectorsResume.Where(x => !collectorsConArqueoIds.Contains(x.IdUser)).ToList();
+            return collectorsFiltered;
         }
 
         public IEnumerable<ItemCatalogueDto> GetUserProfiles()

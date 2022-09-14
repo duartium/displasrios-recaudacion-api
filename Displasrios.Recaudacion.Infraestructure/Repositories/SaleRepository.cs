@@ -7,9 +7,7 @@ using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace Displasrios.Recaudacion.Infraestructure.Repositories
 {
@@ -138,5 +136,22 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
             return salesReport;
         }
+
+        public bool SaveCollectorSale(SalesSellerToday salesSellerToday)
+        {
+            var salesSeller = new Ingresos
+            {
+                UsuarioId = salesSellerToday.IdUser,
+                Valor = salesSellerToday.Amount,
+                Estado = 1,
+                Fecha = DateTime.Now,
+                UsuarioCrea = salesSellerToday.Username
+            };
+
+            _context.Ingresos.Add(salesSeller);
+            int resp = _context.SaveChanges();
+            return resp > 0;
+        }
+
     }
 }

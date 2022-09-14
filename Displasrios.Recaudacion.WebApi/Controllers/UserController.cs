@@ -127,7 +127,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         }
 
         /// <summary>
-        /// Obtener una lista de todos los recaudadores habilitados
+        /// Obtener una lista de todos los recaudadores que aún no han entregado sus ingresos del día para el arqueo de caja
         /// </summary>
         /// <returns></returns>
         [HttpGet("collectors-catalog")]
@@ -136,11 +136,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             var response = new Response<IEnumerable<CollectorResumeDto>>(true, "OK");
             try
             {
-                var users = _rpsUser.GetCollectors();
-                if (users.ToList().Count == 0)
-                    return NotFound(response.Update(false, "No se encontraron recaudadores.", null));
-
-                response.Data = users;
+                response.Data = _rpsUser.GetCollectors();
                 return Ok(response);
             }
             catch (Exception ex)

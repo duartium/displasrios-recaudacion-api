@@ -10,6 +10,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
             Empleados = new HashSet<Empleados>();
             EstadoCuenta = new HashSet<EstadoCuenta>();
             Factura = new HashSet<Factura>();
+            Ingresos = new HashSet<Ingresos>();
             MovimientosCaja = new HashSet<MovimientosCaja>();
         }
 
@@ -31,6 +32,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual ICollection<Empleados> Empleados { get; set; }
         public virtual ICollection<EstadoCuenta> EstadoCuenta { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }
+        public virtual ICollection<Ingresos> Ingresos { get; set; }
         public virtual ICollection<MovimientosCaja> MovimientosCaja { get; set; }
     }
 }

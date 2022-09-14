@@ -1,6 +1,7 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
+using Displasrios.Recaudacion.Core.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -64,6 +65,30 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             {
                 Logger.LogError(ex.ToString());
                 return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        /// <summary>
+        /// Registra las ventas del día del vendedor previo al cierre de caja del administrador de ventas
+        /// </summary>
+        /// <param name="salesSellerToday"></param>
+        /// <returns></returns>
+        [HttpPost("save-collector-sales")]
+        public IActionResult SaveCollectorSales([FromBody] SalesSellerToday salesSellerToday)
+        {
+            var response = new Response<bool>(true, "OK");
+
+            try
+            {
+                salesSellerToday.Username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+
+                response.Data = _rpsSale.SaveCollectorSale(salesSellerToday);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, false));
             }
         }
 

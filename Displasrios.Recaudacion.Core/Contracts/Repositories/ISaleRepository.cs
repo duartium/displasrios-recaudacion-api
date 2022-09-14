@@ -9,5 +9,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
     {
         int Create(FullOrderDto order);
         IEnumerable<IncomeBySellersDto> GetIncomePerSellers(IncomeBySellers incomeBySellers);
+        bool SaveCollectorSale(SalesSellerToday salesSellerToday);
     }
 }
