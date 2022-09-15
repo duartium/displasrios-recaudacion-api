@@ -63,8 +63,8 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.ToString());
-                return Conflict(response.Update(false, ex.Message, null));
+                Logger.LogError(ex.InnerException != null ? "INNER EX: " + ex.InnerException.ToString() : "EXCEPTION:" + ex.ToString());
+                return Conflict(response.Update(false, ex.InnerException != null ? ex.InnerException.Message : ex.Message, null));
             }
         }
 
@@ -87,8 +87,8 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.ToString());
-                return Conflict(response.Update(false, ex.Message, false));
+                Logger.LogError(ex.InnerException != null ? "INNER EX: " + ex.InnerException.ToString() : "EXCEPTION:" + ex.ToString());
+                return Conflict(response.Update(false, ex.InnerException != null ? ex.InnerException.Message : ex.Message, false));
             }
         }
 

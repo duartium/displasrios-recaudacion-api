@@ -33,6 +33,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 var pedido = new Factura
                 {
                     UsuarioId = order.IdUser,
+                    FechaEmision = DateTime.Now,
                     ClienteId = order.IdClient,
                     NumeroPedido = numeroPedido,
                     Secuencial = null,
