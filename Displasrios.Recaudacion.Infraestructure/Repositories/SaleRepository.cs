@@ -125,6 +125,13 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             var dateFrom = DateTime.Parse(incomeBySellers.DateFrom);
             var dateUntil = DateTime.Parse(incomeBySellers.DateUntil);
 
+            //obtiene todos los usuarios recaudadores y los inicializa con cero
+            var allUsers = _context.Usuarios.Where(x => x.Estado && x.PerfilId == 1)
+                .Select(x => new IncomeBySellersDto { 
+                    Total = "0",
+                    User = x.Usuario
+                }).ToList();
+
             var salesReport = _context.Factura.Where(x => x.Estado == 1 && x.Secuencial != null
             && x.CreadoEn.Date >= dateFrom.Date && x.CreadoEn.Date <= dateUntil.Date)
                 .Include(fac => fac.Usuario)
@@ -135,7 +142,16 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     User = x.Key
                 }).ToArray();
 
-            return salesReport;
+            foreach (var sales in salesReport)
+            {
+                var user = allUsers.Where(x => x.User == sales.User).FirstOrDefault();
+                if(user != null)
+                {
+                    allUsers.Where(x => x.User == sales.User).First().Total = sales.Total;
+                }
+            }
+
+            return allUsers;
         }
 
         public bool SaveCollectorSale(SalesSellerToday salesSellerToday)
