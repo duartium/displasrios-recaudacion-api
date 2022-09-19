@@ -149,6 +149,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.PurchaseController.Create(Displasrios.Recaudacion.Core.Models.PurchaseCreate)">
+            <summary>
+            Registra una nueva compra
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetIncomePerSellers(Displasrios.Recaudacion.Core.Models.Sales.IncomeBySellers)">
             <summary>
             Obtiene los ingresos por vendedor
