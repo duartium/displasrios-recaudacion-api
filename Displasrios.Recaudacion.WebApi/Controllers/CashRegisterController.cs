@@ -1,4 +1,5 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -93,5 +94,28 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 return Conflict(response.Update(false, ex.Message, false));
             }
         }
+
+
+        /// <summary>
+        /// Retorna los totales de ingresos por vendedores, total de ventas local, egresos y gastos 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("totals-cash-close")]
+        public IActionResult GetTotalsForCashClose()
+        {
+            var response = new Response<TotalCashCloseDto>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsCashRepository.GetTotalsForCashClose();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }

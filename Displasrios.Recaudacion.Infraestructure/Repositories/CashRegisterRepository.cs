@@ -1,6 +1,8 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Enums;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,5 +57,29 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             int resp = _context.SaveChanges();
             return resp > 0;
         }
+
+        public TotalCashCloseDto GetTotalsForCashClose()
+        {
+            var totals = new TotalCashCloseDto();
+
+            totals.TotalSellersIncome = _context.Ingresos.Where(x => x.Estado == 1 && x.Fecha.Date == DateTime.Now.Date 
+                    && x.Usuario.PerfilId == (int)Perfil.Recaudador)
+               .Include(fac => fac.Usuario)
+               .Select(x => x.Valor).Sum();
+
+            totals.TotalLocal = _context.Ingresos.Where(x => x.Estado == 1 && x.Fecha.Date == DateTime.Now.Date 
+                && x.Usuario.PerfilId == (int)Perfil.Administrador)
+               .Include(fac => fac.Usuario)
+               .Select(x => x.Valor).Sum();
+
+            totals.TotalEgresos = _context.Entradas.Where(x => x.Estado && x.FechaEmision.Date == DateTime.Now.Date)
+                                  .Select(x => x.TotalCompra).Sum();
+
+            totals.TotalExpenses = 0; //TODO: Obtener gastos del día
+
+            return totals;
+        }
+
+
     }
 }

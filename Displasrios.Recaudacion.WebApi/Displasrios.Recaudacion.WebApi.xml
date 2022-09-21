@@ -22,6 +22,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CashRegisterController.GetTotalsForCashClose">
+            <summary>
+            Retorna los totales de ingresos por vendedores, total de ventas local, egresos y gastos 
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CatalogueController.GetCatalogs">
             <summary>
             Obtiene una lista de catálogos

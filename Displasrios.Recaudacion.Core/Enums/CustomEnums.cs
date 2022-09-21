@@ -25,4 +25,12 @@
         CIERRE = 2,
         ARQUEO = 3
     }
+
+    public enum Perfil
+    {
+        Recaudador = 1,
+        Administrador = 2,
+        Gerente = 3
+    }
+
 }
