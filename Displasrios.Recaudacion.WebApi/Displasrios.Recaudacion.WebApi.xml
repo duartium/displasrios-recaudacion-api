@@ -179,6 +179,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetBestCustomers">
+            <summary>
+            Obtiene los 7 mejores clientes
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.Create(Displasrios.Recaudacion.Core.DTOs.FullOrderDto)">
             <summary>
             Registra un nuevo pedido

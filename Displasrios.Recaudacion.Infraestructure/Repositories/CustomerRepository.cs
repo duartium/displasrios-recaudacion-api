@@ -1,5 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.DTOs.Reports;
 using Displasrios.Recaudacion.Core.Enums;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
@@ -184,6 +185,16 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             _context.Update(customer).State = EntityState.Modified;
             int resp = _context.SaveChanges();
             return resp > 0;
+        }
+
+        public IEnumerable<CustomerDto> GetBestCustomers()
+        {
+            var customers = _context.BestCustomersResume.FromSqlRaw("EXECUTE dbo.GET_BEST_CUSTOMERS")
+                .ToList().OrderByDescending(x => x.Totales);
+
+            var x = new List<CustomerDto>();
+
+            return x;
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         int Create(CustomerCreate customer);
         bool Delete(int id);
         CustomerDebtDto GetDebts(string identification, string names);
+        IEnumerable<CustomerDto> GetBestCustomers();
     }
 }

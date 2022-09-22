@@ -1,4 +1,5 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Core.Models.Sales;
@@ -20,11 +21,13 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
     {
         private readonly ISaleRepository _rpsSales;
         private readonly IOrderRepository _rpsOrders;
+        private readonly ICustomerRepository _rpsCustomer;
 
-        public ReportController(ISaleRepository saleRepository, IOrderRepository orderRepository)
+        public ReportController(ISaleRepository saleRepository, IOrderRepository orderRepository, ICustomerRepository customerRepository)
         {
             _rpsSales = saleRepository;
             _rpsOrders = orderRepository;
+            _rpsCustomer = customerRepository;
         }
 
 
@@ -93,6 +96,26 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene los 7 mejores clientes
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("best-customers")]
+        public IActionResult GetBestCustomers()
+        {
+            var response = new Response<IEnumerable<CustomerDto>>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsCustomer.GetBestCustomers();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
 
     }
 }
