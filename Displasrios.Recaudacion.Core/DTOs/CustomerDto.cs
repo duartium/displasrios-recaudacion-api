@@ -34,4 +34,16 @@ namespace Displasrios.Recaudacion.Core.DTOs
         [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
     }
+
+    public class BestCustomerDto
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("totalPurchases")]
+        public decimal TotalPurchases { get; set; }
+
+        [JsonPropertyName("fullNames")]
+        public string FullNames { get; set; }
+    }
 }

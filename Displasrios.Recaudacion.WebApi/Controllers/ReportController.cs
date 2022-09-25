@@ -103,7 +103,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpGet("best-customers")]
         public IActionResult GetBestCustomers()
         {
-            var response = new Response<IEnumerable<CustomerDto>>(true, "OK");
+            var response = new Response<IEnumerable<BestCustomerDto>>(true, "OK");
 
             try
             {

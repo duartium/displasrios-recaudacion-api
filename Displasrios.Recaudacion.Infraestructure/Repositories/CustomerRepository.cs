@@ -187,14 +187,24 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return resp > 0;
         }
 
-        public IEnumerable<CustomerDto> GetBestCustomers()
+        public IEnumerable<BestCustomerDto> GetBestCustomers()
         {
             var customers = _context.BestCustomersResume.FromSqlRaw("EXECUTE dbo.GET_BEST_CUSTOMERS")
                 .ToList().OrderByDescending(x => x.Totales);
 
-            var x = new List<CustomerDto>();
+            var result = new List<BestCustomerDto>();
+            foreach (var item in customers)
+            {
+                var _customer = _context.Clientes.Where(x => x.Estado && x.IdCliente == item.IdCliente).First();
+                result.Add(new BestCustomerDto
+                {
+                    Id = _customer.IdCliente,
+                    FullNames = _customer.Nombres.ToUpper() + " " + _customer.Apellidos.ToUpper(),
+                    TotalPurchases = item.Totales
+                }); ;
+            }
 
-            return x;
+            return result;
         }
     }
 }
