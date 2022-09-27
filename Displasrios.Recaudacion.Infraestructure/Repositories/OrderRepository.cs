@@ -176,6 +176,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             order.Estado = (int)OrderStage.ANULADO;
             order.UsuarioElim = username;
             order.EliminadoEn = DateTime.Now;
+            order.Etapa = (int)OrderStage.ANULADO;
 
             _context.Update(order);
             int rowsAffected = _context.SaveChanges();

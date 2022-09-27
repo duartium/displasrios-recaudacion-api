@@ -62,6 +62,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                                  .Select(x => x.Secuencial).FirstOrDefault() + 1;
                     pedido.Secuencial = nuevoSecuencial;
                     pedido.FechaEmision = DateTime.Now;
+                    pedido.Etapa = (int)OrderStage.PAGADO;
                 }
 
                 _context.Factura.Add(pedido);
