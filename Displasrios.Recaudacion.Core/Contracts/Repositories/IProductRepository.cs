@@ -1,4 +1,5 @@
 ﻿using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.DTOs.Reports;
 using System.Collections.Generic;
 
 namespace Displasrios.Recaudacion.Core.Contracts.Repositories
@@ -10,5 +11,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         IEnumerable<ProductSaleDto> GetForSale(string name);
         bool Create(ProductCreation product);
         bool Remove(int id);
+        IEnumerable<MostSelledProductDto> GetMostSelledProducts();
     }
 }

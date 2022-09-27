@@ -1,4 +1,5 @@
-﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+﻿using Displasrios.Recaudacion.Core.Constants;
+using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Enums;
@@ -141,17 +142,20 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersOfDay()
         {
-            return _context.Factura.Where(x => x.Estado == 1 && x.Secuencial == null && x.FechaEmision.Date == DateTime.Now.Date.Date)
+            var orders = _context.Factura.Where(x => x.Estado == 1 && x.FechaEmision.Date == DateTime.Now.Date.Date)
                 .Include(fac => fac.Cliente)
                 .Select(x => new SummaryOrdersOfDay {
                     IdOrder = x.IdFactura,
-                    Date = x.CreadoEn.ToString("dd-MM-yyyy"),
+                    Date = x.CreadoEn.ToString("dd-MM-yyyy HH:mm"),
                     OrderNumber = x.NumeroPedido.ToString().PadLeft(5, '0'),
-                    Stage = x.Etapa,
+                    Stage =  x.Etapa.ToString(),
                     FullNames = x.Cliente.Nombres + " " + x.Cliente.Apellidos,
                     TotalAmount = x.Total,
                     Username = x.UsuarioCrea
                 }).ToList();
+
+            orders.ForEach(x => x.Stage = CValues.ETAPA_PEDIDO[int.Parse(x.Stage) - 1]);
+            return orders;
         }
 
         public bool RecordVisit(VisitCreation visitCreation) {

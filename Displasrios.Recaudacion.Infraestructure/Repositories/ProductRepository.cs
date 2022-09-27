@@ -1,5 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.DTOs.Reports;
 using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -113,6 +114,12 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             _context.Update(product);
             int rowAffected = _context.SaveChanges();
             return rowAffected > 0;
+        }
+
+        public IEnumerable<MostSelledProductDto> GetMostSelledProducts()
+        {
+            var products = _context.MostSelledProduct.FromSqlRaw("EXECUTE dbo.GET_MOST_SELLED_PRODUCTS").ToList();
+            return products;
         }
     }
 }

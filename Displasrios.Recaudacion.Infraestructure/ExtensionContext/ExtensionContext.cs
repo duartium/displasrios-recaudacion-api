@@ -6,5 +6,6 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
     public partial class DISPLASRIOSContext
     {
         public virtual DbSet<BestCustomersDto> BestCustomersResume { get; set; }
+        public virtual DbSet<MostSelledProductDto> MostSelledProduct { get; set; }
     }
 }

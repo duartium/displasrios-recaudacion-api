@@ -185,6 +185,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ReportController.GetMostSelledProducts">
+            <summary>
+            Obtiene los 10 productos más vendidos
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.Create(Displasrios.Recaudacion.Core.DTOs.FullOrderDto)">
             <summary>
             Registra un nuevo pedido

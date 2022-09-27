@@ -17,7 +17,7 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public string Date { get; set; }
 
         [JsonPropertyName("stage")]
-        public int Stage { get; set; }
+        public string Stage { get; set; }
 
         [JsonPropertyName("total_amount")]
         public decimal TotalAmount { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
+using Displasrios.Recaudacion.Core.DTOs.Reports;
 using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Core.Models.Sales;
@@ -22,12 +23,15 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         private readonly ISaleRepository _rpsSales;
         private readonly IOrderRepository _rpsOrders;
         private readonly ICustomerRepository _rpsCustomer;
+        private readonly IProductRepository _rpsProduct;
 
-        public ReportController(ISaleRepository saleRepository, IOrderRepository orderRepository, ICustomerRepository customerRepository)
+        public ReportController(ISaleRepository saleRepository, IOrderRepository orderRepository, 
+            ICustomerRepository customerRepository, IProductRepository productRepository)
         {
             _rpsSales = saleRepository;
             _rpsOrders = orderRepository;
             _rpsCustomer = customerRepository;
+            _rpsProduct = productRepository;
         }
 
 
@@ -108,6 +112,27 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             try
             {
                 response.Data = _rpsCustomer.GetBestCustomers();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        /// <summary>
+        /// Obtiene los 10 productos más vendidos
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("most-selled-products")]
+        public IActionResult GetMostSelledProducts()
+        {
+            var response = new Response<IEnumerable<MostSelledProductDto>>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsProduct.GetMostSelledProducts();
                 return Ok(response);
             }
             catch (Exception ex)
