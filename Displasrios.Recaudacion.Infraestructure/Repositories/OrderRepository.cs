@@ -77,7 +77,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public bool RegisterPayment(OrderReceivableCreateRequest order, out string mensaje)
         {
-            mensaje = $"Se ha registrado el abono de {order.CustomerPayment}.";
+            mensaje = $"Se registró el abono de ${order.CustomerPayment}.";
             using (var trans = _context.Database.BeginTransaction())
             {
                 //registra el nuevo pago
@@ -112,10 +112,11 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
                     var invoice = _context.Factura.Where(x => x.Estado == 1 && x.IdFactura == order.IdOrder).First();
                     invoice.Secuencial = nuevoSecuencial;
+                    invoice.Etapa = (int)OrderStage.PAGADO;
                     _context.Factura.Update(invoice);
                     _context.SaveChanges();
 
-                    mensaje = $"Se ha generado la factura Nº{nuevoSecuencial.ToString().PadLeft(5, '0')}";
+                    mensaje = $"Se generó la factura Nº{nuevoSecuencial.ToString().PadLeft(5, '0')}";
                 }
                 
                 _context.Database.CommitTransaction();
