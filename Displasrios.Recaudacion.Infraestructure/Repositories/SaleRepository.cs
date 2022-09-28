@@ -85,6 +85,8 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
                     var product = _context.Productos.Where(pro => pro.IdProducto == item.Id).FirstOrDefault();
                     product.Stock -= item.Quantity;
+                    _context.Update(product);
+                    _context.SaveChanges();
                 }
                 _context.FacturaDetalle.AddRange(pedidoDetalle);
                 _context.SaveChanges();

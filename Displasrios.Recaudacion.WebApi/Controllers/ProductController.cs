@@ -172,5 +172,29 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Obtiene el stock actual de un producto según su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("current-stock/{id:int}")]
+        public IActionResult GetCurrentStock(int id)
+        {
+            var response = new Response<int>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsProduct.GetCurrentStock(id);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, -1));
+            }
+        }
+
     }
 }

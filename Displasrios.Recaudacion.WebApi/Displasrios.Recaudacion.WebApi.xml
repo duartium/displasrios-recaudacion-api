@@ -130,6 +130,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.GetCurrentStock(System.Int32)">
+            <summary>
+            Obtiene el stock actual de un producto según su id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProviderController.GetProviders">
             <summary>
             Obtiene una lista de proveedores

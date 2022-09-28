@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace Displasrios.Recaudacion.Infraestructure.Repositories
 {
@@ -120,6 +119,12 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         {
             var products = _context.MostSelledProduct.FromSqlRaw("EXECUTE dbo.GET_MOST_SELLED_PRODUCTS").ToList();
             return products;
+        }
+
+        public int GetCurrentStock(int id)
+        {
+            return _context.Productos.Where(x => x.Estado && x.IdProducto == id)
+                .Select(x => x.Stock).FirstOrDefault();
         }
     }
 }

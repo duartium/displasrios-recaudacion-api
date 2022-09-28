@@ -12,5 +12,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         bool Create(ProductCreation product);
         bool Remove(int id);
         IEnumerable<MostSelledProductDto> GetMostSelledProducts();
+        int GetCurrentStock(int id);
     }
 }
