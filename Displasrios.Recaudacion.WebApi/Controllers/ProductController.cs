@@ -1,6 +1,7 @@
 ﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
+using Displasrios.Recaudacion.Core.Models.Sales;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -193,6 +194,50 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             {
                 Logger.LogError(ex.ToString());
                 return Conflict(response.Update(false, ex.Message, -1));
+            }
+        }
+
+        /// <summary>
+        /// Aumenta el stock de un producto por id
+        /// </summary>
+        /// <param name="updateStock"></param>
+        /// <returns></returns>
+        [HttpPost("increase-stock")]
+        public IActionResult IncreaseStock([FromBody] UpdateStock updateStock)
+        {
+            var response = new Response<bool>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsProduct.IncreaseStock(updateStock.Id, updateStock.Quantity);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, false));
+            }
+        }
+
+        /// <summary>
+        /// Disminuye el stock de un producto por id
+        /// </summary>
+        /// <param name="updateStock"></param>
+        /// <returns></returns>
+        [HttpPost("decrease-stock")]
+        public IActionResult DecreaseStock([FromBody] UpdateStock updateStock)
+        {
+            var response = new Response<bool>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsProduct.DecreaseStock(updateStock.Id, updateStock.Quantity);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, false));
             }
         }
 

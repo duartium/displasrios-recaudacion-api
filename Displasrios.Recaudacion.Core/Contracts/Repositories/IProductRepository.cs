@@ -13,5 +13,7 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         bool Remove(int id);
         IEnumerable<MostSelledProductDto> GetMostSelledProducts();
         int GetCurrentStock(int id);
+        bool IncreaseStock(int id, int quantity);
+        bool DecreaseStock(int id, int quantity);
     }
 }

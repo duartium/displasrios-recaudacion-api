@@ -126,5 +126,23 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return _context.Productos.Where(x => x.Estado && x.IdProducto == id)
                 .Select(x => x.Stock).FirstOrDefault();
         }
+
+        public bool IncreaseStock(int id, int quantity)
+        {
+            var product = _context.Productos.Where(x => x.Estado && x.IdProducto == id).FirstOrDefault();
+            product.Stock += quantity;
+            _context.Update(product);
+            int resp = _context.SaveChanges();
+            return resp > 0;
+        }
+
+        public bool DecreaseStock(int id, int quantity)
+        {
+            var product = _context.Productos.Where(x => x.Estado && x.IdProducto == id).FirstOrDefault();
+            product.Stock -= quantity;
+            _context.Update(product);
+            int resp = _context.SaveChanges();
+            return resp > 0;
+        }
     }
 }

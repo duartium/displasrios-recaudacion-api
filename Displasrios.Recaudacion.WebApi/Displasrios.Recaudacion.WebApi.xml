@@ -137,6 +137,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.IncreaseStock(Displasrios.Recaudacion.Core.Models.Sales.UpdateStock)">
+            <summary>
+            Aumenta el stock de un producto por id
+            </summary>
+            <param name="updateStock"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProductController.DecreaseStock(Displasrios.Recaudacion.Core.Models.Sales.UpdateStock)">
+            <summary>
+            Disminuye el stock de un producto por id
+            </summary>
+            <param name="updateStock"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.ProviderController.GetProviders">
             <summary>
             Obtiene una lista de proveedores
