@@ -21,6 +21,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.SignalR;
+using Displasrios.Recaudacion.WebApi.Hubs;
 
 namespace Displasrios.Recaudacion.WebApi
 {
@@ -38,12 +40,15 @@ namespace Displasrios.Recaudacion.WebApi
         {
             services.AddCors(options => options.AddPolicy("DisplasriosPolicy", builder =>
             {
-            //builder.WithOrigins("http://localhost:4200")
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                //builder.WithOrigins("http://localhost:4200")
+                //builder.AllowAnyOrigin()
+                builder.AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .SetIsOriginAllowed((Host) => true)
+                       .AllowCredentials();
             }));
 
+            services.AddSignalR();
             //services.AddControllers().AddNewtonsoftJson(options =>
             //{
             //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
@@ -165,6 +170,7 @@ namespace Displasrios.Recaudacion.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<OrderHub>("hub");
             });
 
             app.UseHttpsRedirection();

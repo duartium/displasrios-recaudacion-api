@@ -2,12 +2,15 @@
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Core.Models.Sales;
+using Displasrios.Recaudacion.WebApi.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace Displasrios.Recaudacion.WebApi.Controllers
 {
@@ -18,9 +21,14 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
     public class SaleController : BaseApiController<SaleController>
     {
         private readonly ISaleRepository _rpsSale;
-        public SaleController(ISaleRepository saleRepository)
+        private readonly IHubContext<OrderHub> _hubOrder;
+        private readonly IOrderRepository _rpsOrder;
+        public SaleController(ISaleRepository saleRepository, IHubContext<OrderHub> hubContext,
+            IOrderRepository orderRepository)
         {
             _rpsSale = saleRepository;
+            _hubOrder = hubContext;
+            _rpsOrder = orderRepository;
         }
 
         /// <summary>
@@ -53,13 +61,17 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 order.IdUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid).Value);
                 order.Username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
-                int resp =_rpsSale.Create(order);
+                int idInvoice =_rpsSale.Create(order);
 
-                if (resp <= 0)
+                if (idInvoice <= 0)
                     return Ok(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
 
-                response.Data = resp.ToString().PadLeft(5, '0');
-                return Created("http://localhost:63674/api/v1/sales/1", response);
+                var summaryOrder = _rpsOrder.GetSummaryOrder(idInvoice);
+                response.Data = idInvoice.ToString().PadLeft(5, '0');
+
+
+                _hubOrder.Clients.All.SendAsync("orderentry", JsonSerializer.Serialize(summaryOrder));
+                return Created("http://localhost:63674/api/v1/sales/", response);
             }
             catch (Exception ex)
             {

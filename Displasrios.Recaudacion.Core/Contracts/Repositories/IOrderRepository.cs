@@ -15,5 +15,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         bool CancelOrder(int idOrder, string username);
         decimal GetTotalSalesTodayBySeller(int idUser);
         SellerPersonalReportDto GetSellerPersonalReport(int idUser);
+        SummaryOrdersOfDay GetSummaryOrder(int idOrder);
     }
 }

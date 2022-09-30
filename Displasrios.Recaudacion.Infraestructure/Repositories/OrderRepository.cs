@@ -159,6 +159,25 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return orders;
         }
 
+        public SummaryOrdersOfDay GetSummaryOrder(int idOrder)
+        {
+            var order = _context.Factura.Where(x => x.Estado == 1 && x.IdFactura == idOrder)
+                .Include(fac => fac.Cliente)
+                .Select(x => new SummaryOrdersOfDay
+                {
+                    IdOrder = x.IdFactura,
+                    Date = x.CreadoEn.ToString("dd-MM-yyyy HH:mm"),
+                    OrderNumber = x.NumeroPedido.ToString().PadLeft(5, '0'),
+                    Stage = x.Etapa.ToString(),
+                    FullNames = x.Cliente.Nombres + " " + x.Cliente.Apellidos,
+                    TotalAmount = x.Total,
+                    Username = x.UsuarioCrea
+                }).FirstOrDefault();
+
+            order.Stage = CValues.ETAPA_PEDIDO[int.Parse(order.Stage) - 1];
+            return order;
+        }
+
         public bool RecordVisit(VisitCreation visitCreation) {
             var visit = new Visitas { 
                 Fecha = DateTime.Now,
