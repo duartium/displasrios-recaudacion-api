@@ -61,13 +61,13 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 order.IdUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid).Value);
                 order.Username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
-                int idInvoice =_rpsSale.Create(order);
+                int orderNumber =_rpsSale.Create(order);
 
-                if (idInvoice <= 0)
+                if (orderNumber <= 0)
                     return Ok(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
 
-                var summaryOrder = _rpsOrder.GetSummaryOrder(idInvoice);
-                response.Data = idInvoice.ToString().PadLeft(5, '0');
+                var summaryOrder = _rpsOrder.GetSummaryOrder(orderNumber);
+                response.Data = orderNumber.ToString().PadLeft(5, '0');
 
 
                 _hubOrder.Clients.All.SendAsync("orderentry", JsonSerializer.Serialize(summaryOrder));

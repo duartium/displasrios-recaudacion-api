@@ -153,15 +153,15 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     FullNames = x.Cliente.Nombres + " " + x.Cliente.Apellidos,
                     TotalAmount = x.Total,
                     Username = x.UsuarioCrea
-                }).ToList();
+                }).ToList().OrderByDescending(x => x.OrderNumber);
 
-            orders.ForEach(x => x.Stage = CValues.ETAPA_PEDIDO[int.Parse(x.Stage) - 1]);
+            orders.ToList().ForEach(x => x.Stage = CValues.ETAPA_PEDIDO[int.Parse(x.Stage) - 1]);
             return orders;
         }
 
-        public SummaryOrdersOfDay GetSummaryOrder(int idOrder)
+        public SummaryOrdersOfDay GetSummaryOrder(int orderNumber)
         {
-            var order = _context.Factura.Where(x => x.Estado == 1 && x.IdFactura == idOrder)
+            var order = _context.Factura.Where(x => x.Estado == 1 && x.NumeroPedido == orderNumber)
                 .Include(fac => fac.Cliente)
                 .Select(x => new SummaryOrdersOfDay
                 {

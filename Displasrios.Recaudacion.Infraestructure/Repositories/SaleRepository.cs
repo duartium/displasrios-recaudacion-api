@@ -120,7 +120,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
                 _context.Database.CommitTransaction();
             }
-            return idPedido > 0 ? numeroPedido : idPedido;
+            return numeroPedido;
         }
 
         public IEnumerable<IncomeBySellersDto> GetIncomePerSellers(IncomeBySellers incomeBySellers)
