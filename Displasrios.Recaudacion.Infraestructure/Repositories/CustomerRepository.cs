@@ -93,7 +93,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                    FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
                    Collector = order.Usuario.Usuario,
                    TotalAmount = order.Pagos.Count > 0
-                       ? Math.Round(order.Total - order.Pagos.Sum(x => x.Pago), 2).ToString() : order.Total.ToString(),
+                       ? Math.Round(order.Total - order.Pagos.Sum(x => x.PagoReal), 2).ToString() : order.Total.ToString(),
                    Date = order.FechaEmision.ToString("dd/MM/yyyy")
                }).ToList();
 

@@ -106,7 +106,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                         Fecha = DateTime.Now,
                         FacturaId = idPedido,
                         Pago = order.CustomerPayment,
-                        Cambio = order.Change,
+                        PagoReal = order.CustomerPayment - order.Change,
                         NumComprobantePago = order.NumPaymentReceipt
                     };
                     _context.Pagos.Add(pago);

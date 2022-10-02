@@ -22,7 +22,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public OrderReceivableDto GetOrderReceivable(int idOrder)
         {
-            var orderReceivable = _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.IdFactura == idOrder)
+            var orderReceivable = _context.Factura.Where(x => x.Estado == 1 && x.IdFactura == idOrder)
                 .Include(detail => detail.FacturaDetalle).ThenInclude(product => product.Producto)
                 .Include(paymenths => paymenths.Pagos)
                 .Include(client => client.Cliente)
@@ -35,7 +35,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Iva = order.Iva,
                     Subtotal = order.Subtotal,
                     Subtotal0 = order.Subtotal0,
-                    Subtotal12 = order.Subtotal12,
+                    Subtotal12 = order.Subtotal12 - order.Iva,
                     Discount = order.Descuento,
                     FullNames = order.Cliente.Nombres.ToUpper() + " " + order.Cliente.Apellidos.ToUpper(),
                     Deadline = order.Plazo,
@@ -43,7 +43,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     PaymentMethod = order.FormaPago.ToString(),
                     Payments = order.Pagos.Select(x => new PaymentDto
                     {
-                        Amount = x.Pago,
+                        Amount = x.PagoReal,
                         Date = x.Fecha.ToString("dd/MM/yyyy")
                     }).ToArray(),
                     Products = order.FacturaDetalle.Select(det => new ProductResumeDto
@@ -86,6 +86,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     Fecha = DateTime.Now,
                     FacturaId = order.IdOrder,
                     Pago = order.CustomerPayment,
+                    PagoReal = order.CustomerPayment - order.Change,
                     Cambio = order.Change
                 };
                 _context.Pagos.Add(pago);
@@ -95,7 +96,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     .Include(order => order.Pagos)
                     .Select(order => new PaymentsTotal { 
                         TotalOrder = order.Total,
-                        TotalPaymentsCurrent = order.Pagos.Select(x => x.Pago).Sum()
+                        TotalPaymentsCurrent = order.Pagos.Select(x => x.PagoReal).Sum()
                     }).First();
 
                 int nuevoSecuencial = 0;
@@ -136,9 +137,9 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                     OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
                     FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
                     TotalAmount = order.Pagos.Count > 0 
-                        ? Math.Round(order.Total - order.Pagos.Sum(x => x.Pago), 2).ToString() : order.Total.ToString(),
+                        ? Math.Round(order.Total - order.Pagos.Sum(x => x.PagoReal), 2).ToString() : order.Total.ToString(),
                     Date = order.FechaEmision.ToString("dd/MM/yyyy")
-                }).ToArray();
+                }).ToList().OrderBy(x => x.OrderNumber).ToList();
         }
 
         public IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersOfDay()

@@ -872,6 +872,10 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("pago")
                     .HasColumnType("decimal(10, 2)");
 
+                entity.Property(e => e.PagoReal)
+                    .HasColumnName("pago_real")
+                    .HasColumnType("decimal(10, 2)");
+
                 entity.Property(e => e.Usuario)
                     .HasColumnName("usuario")
                     .HasMaxLength(20)
