@@ -7,8 +7,10 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
 {
     public interface ISaleRepository
     {
-        int Create(FullOrderDto order);
+        SaleCreated Create(FullOrderDto order);
         IEnumerable<IncomeBySellersDto> GetIncomePerSellers(IncomeBySellers incomeBySellers);
         bool SaveCollectorSale(SalesSellerToday salesSellerToday);
+        string GetSaleTemplateForEmail(int idInvoice);
+        string GetEmailFromInvoice(int idInvoice);
     }
 }

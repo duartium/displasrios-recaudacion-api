@@ -1,4 +1,5 @@
-﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+﻿using Displasrios.Recaudacion.Core.Constants;
+using Displasrios.Recaudacion.Core.Contracts.Repositories;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.DTOs.Sales;
 using Displasrios.Recaudacion.Core.Enums;
@@ -20,8 +21,10 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             _context = context;
         }
 
-        public int Create(FullOrderDto order)
+        public SaleCreated Create(FullOrderDto order)
         {
+            var result = new SaleCreated() { SendEmail = false };
+
             int idPedido = -1;
             int numeroPedido = -1;
             using (_context.Database.BeginTransaction())
@@ -91,15 +94,17 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 _context.FacturaDetalle.AddRange(pedidoDetalle);
                 _context.SaveChanges();
 
-                //establece el nuevo secuencial
+                //establece el nuevo secuencial a factura
                 if (order.PaymentMethod == (int)FormaPago.CONTADO)
                 {
                     var secuencialRow = _context.Secuenciales.First(x => x.Nombre.Equals("factura"));
                     secuencialRow.Secuencial = nuevoSecuencial;
                     _context.Secuenciales.Update(secuencialRow);
+
+                    result.SendEmail = true;
                 }
 
-                //registra abono
+                //registra abono/pago
                 if (order.CustomerPayment > 0) {
                     var pago = new Pagos
                     {
@@ -120,7 +125,9 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
                 _context.Database.CommitTransaction();
             }
-            return numeroPedido;
+
+            result.OrderNumber = numeroPedido;
+            return result;
         }
 
         public IEnumerable<IncomeBySellersDto> GetIncomePerSellers(IncomeBySellers incomeBySellers)
@@ -171,6 +178,60 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             _context.Ingresos.Add(salesSeller);
             int resp = _context.SaveChanges();
             return resp > 0;
+        }
+
+        public string GetSaleTemplateForEmail(int orderNumber)
+        {
+            var sale = _context.Factura.Where(x => x.Estado == 1 && x.NumeroPedido == orderNumber)
+                .Include(detail => detail.FacturaDetalle).ThenInclude(product => product.Producto)
+                .Include(client => client.Cliente)
+                .Select(order => new OrderEmail
+                {
+                    Date = order.FechaEmision.ToString("dd/MM/yyyy HH:mm"),
+                    OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
+                    InvoiceNumber = order.Secuencial.ToString().PadLeft(5, '0'),
+                    TotalAmount = order.Total,
+                    Iva = order.Iva,
+                    Subtotal = order.Subtotal,
+                    Subtotal0 = order.Subtotal0,
+                    Subtotal12 = order.Subtotal12 - order.Iva,
+                    Discount = order.Descuento,
+                    Address = order.Cliente.Direccion,
+                    Email = order.Cliente.Email,
+                    FullNames = order.Cliente.Nombres.ToUpper() + " " + order.Cliente.Apellidos.ToUpper(),
+                    Products = order.FacturaDetalle.Select(det => new ProductResumeDto
+                    {
+                        Name = det.Producto.Nombre,
+                        Price = det.PrecioUnitario,
+                        Quantity = det.Cantidad,
+                        Total = Math.Round(det.Cantidad * det.PrecioUnitario, 2)
+                    }).ToArray(),
+                }).FirstOrDefault();
+
+            string templateEmail = CString.RECIBO_TEMPLATE.Replace("@nombreCliente", sale.FullNames)
+                .Replace("@direccion", sale.Address).Replace("@email", sale.Email)
+                .Replace("@orderNumber", sale.OrderNumber).Replace("@numInvoice", sale.InvoiceNumber)
+                .Replace("@orderNumber", sale.OrderNumber).Replace("@fechaEmision", sale.Date)
+                .Replace("@subtotal", String.Format("{0:0.00}", Math.Round(sale.Subtotal * 1.12M, 2)).Replace("@iva", String.Format("{0:0.00}", sale.Iva))
+                .Replace("@descuento", String.Format("{0:0.00}", sale.Discount)).Replace("@total", String.Format("{0:0.00}", sale.TotalAmount)));
+
+            string itemInvoice = "";
+            foreach (var product in sale.Products)
+            {
+                itemInvoice += ($" <div style='display: flex;justify-content: space-between;margin-bottom: 20px;'>"+
+                    $"<div >{product.Quantity}</div>" +
+                    $"<div ><p>{product.Name}</p></div>" +
+                    $"<div><span>$</span>{product.Total}</div></div>");
+            }
+            templateEmail = templateEmail.Replace("@details", itemInvoice);
+
+            return templateEmail;
+        }
+
+        public string GetEmailFromInvoice(int orderNumber)
+        {
+            return _context.Factura.Where(x => x.Estado == 1 && x.NumeroPedido == orderNumber)
+                .Include(client => client.Cliente).Select(x => x.Cliente.Email).FirstOrDefault();
         }
 
     }

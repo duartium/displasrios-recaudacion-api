@@ -153,4 +153,22 @@ namespace Displasrios.Recaudacion.Core.DTOs
         public decimal CustomerPayment { get; set; }
     }
 
+    public class OrderEmail
+    {
+        public string OrderNumber { get; set; }
+        public string InvoiceNumber { get; set; }
+        public string FullNames { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public string Date { get; set; }
+        public ProductResumeDto[] Products { get; set; }
+        public decimal Balance { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal Subtotal0 { get; set; }
+        public decimal Subtotal12 { get; set; }
+        public decimal Iva { get; set; }
+        public decimal Discount { get; set; }
+    }
+
 }

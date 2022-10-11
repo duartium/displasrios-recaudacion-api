@@ -77,7 +77,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
         public bool RegisterPayment(OrderReceivableCreateRequest order, out string mensaje)
         {
-            mensaje = $"Se registró el abono de ${order.CustomerPayment}.";
+            
             using (var trans = _context.Database.BeginTransaction())
             {
                 //registra el nuevo pago
@@ -91,6 +91,8 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 };
                 _context.Pagos.Add(pago);
                 _context.SaveChanges();
+
+                mensaje = $"Se registró el abono de ${String.Format("{0:0.00}", pago.PagoReal)}.";
 
                 var totals = _context.Factura.Where(x => x.Estado == 1 && x.IdFactura == order.IdOrder)
                     .Include(order => order.Pagos)

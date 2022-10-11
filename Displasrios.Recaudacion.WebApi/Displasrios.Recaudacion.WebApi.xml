@@ -225,6 +225,13 @@
             <param name="salesSellerToday"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.SaleController.SendReceipt(System.Int32)">
+            <summary>
+            Envía al cliente el recibo de compra por correo electrónico
+            </summary>
+            <param name="orderNumber"></param>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.UserController.GetUser(System.Int32)">
             <summary>
             Obtiene un usuario por id.

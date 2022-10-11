@@ -1,4 +1,6 @@
-﻿using Displasrios.Recaudacion.Core.Contracts.Repositories;
+﻿using Displasrios.Recaudacion.Core.Constants;
+using Displasrios.Recaudacion.Core.Contracts.Repositories;
+using Displasrios.Recaudacion.Core.Contracts.Services;
 using Displasrios.Recaudacion.Core.DTOs;
 using Displasrios.Recaudacion.Core.Models;
 using Displasrios.Recaudacion.Core.Models.Sales;
@@ -6,6 +8,7 @@ using Displasrios.Recaudacion.WebApi.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -23,12 +26,14 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         private readonly ISaleRepository _rpsSale;
         private readonly IHubContext<OrderHub> _hubOrder;
         private readonly IOrderRepository _rpsOrder;
+        private readonly IEmailService _srvEmail;
         public SaleController(ISaleRepository saleRepository, IHubContext<OrderHub> hubContext,
-            IOrderRepository orderRepository)
+            IOrderRepository orderRepository, IEmailService emailService)
         {
             _rpsSale = saleRepository;
             _hubOrder = hubContext;
             _rpsOrder = orderRepository;
+            _srvEmail = emailService;
         }
 
         /// <summary>
@@ -38,7 +43,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] FullOrderDto order)
         {
-            var response = new Response<string>(true, "OK");
+            var response = new Response<SaleCreated>(true, "OK");
 
             try
             {
@@ -61,14 +66,13 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 order.IdUser = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.PrimarySid).Value);
                 order.Username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
-                int orderNumber =_rpsSale.Create(order);
+                var respSale = _rpsSale.Create(order);
 
-                if (orderNumber <= 0)
+                if (respSale.OrderNumber <= 0)
                     return Ok(response.Update(false, "Lo sentimos, no se pudo procesar la venta.", null));
 
-                var summaryOrder = _rpsOrder.GetSummaryOrder(orderNumber);
-                response.Data = orderNumber.ToString().PadLeft(5, '0');
-
+                var summaryOrder = _rpsOrder.GetSummaryOrder(respSale.OrderNumber);
+                response.Data = respSale;
 
                 _hubOrder.Clients.All.SendAsync("orderentry", JsonSerializer.Serialize(summaryOrder));
                 return Created("http://localhost:63674/api/v1/sales/", response);
@@ -95,6 +99,54 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 salesSellerToday.Username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
                 response.Data = _rpsSale.SaveCollectorSale(salesSellerToday);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.InnerException != null ? "INNER EX: " + ex.InnerException.ToString() : "EXCEPTION:" + ex.ToString());
+                return Conflict(response.Update(false, ex.InnerException != null ? ex.InnerException.Message : ex.Message, false));
+            }
+        }
+
+
+        /// <summary>
+        /// Envía al cliente el recibo de compra por correo electrónico
+        /// </summary>
+        /// <param name="orderNumber"></param>
+        /// <returns></returns>
+        [HttpPost("send-receipt")]
+        public IActionResult SendReceipt([FromBody] int orderNumber)
+        {
+            var response = new Response<bool>(true, "OK");
+
+            try
+            {
+                
+                string emailString = _rpsSale.GetSaleTemplateForEmail(orderNumber);
+                
+                var mailSettings = Configuration.GetSection("MailSettings").Get<MailSettings>();
+
+                if (mailSettings.SendEmail.Equals("N"))
+                    return Ok(response.Update(true, "Envío de email está desactivado (N)", false));
+
+                string emailAddress = mailSettings.EmailTo;
+                
+                if (mailSettings.SendEmailToMe.Equals("N"))
+                    emailAddress = _rpsSale.GetEmailFromInvoice(orderNumber);
+                
+                string responseEmail = "";
+
+                _srvEmail.Send(new EmailParams
+                {
+                    SenderEmail = "asistencia@displasrios.com",
+                    SenderName = "DISPLASRIOS S.A.",
+                    Subject = "Ha recibido un comprobante de pago",
+                    EmailTo = emailAddress,
+                    Body = emailString
+                }, out responseEmail);
+
+                Logger.LogError($"Respuesta email comprobante de pago: idInvoice: ${orderNumber} | " + responseEmail);
+
                 return Ok(response);
             }
             catch (Exception ex)
