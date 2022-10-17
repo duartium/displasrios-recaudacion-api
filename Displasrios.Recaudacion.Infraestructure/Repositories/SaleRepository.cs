@@ -212,17 +212,22 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 .Replace("@direccion", sale.Address).Replace("@email", sale.Email)
                 .Replace("@orderNumber", sale.OrderNumber).Replace("@numInvoice", sale.InvoiceNumber)
                 .Replace("@orderNumber", sale.OrderNumber).Replace("@fechaEmision", sale.Date)
-                .Replace("@subtotal", String.Format("{0:0.00}", Math.Round(sale.Subtotal * 1.12M, 2)).Replace("@iva", String.Format("{0:0.00}", sale.Iva))
-                .Replace("@descuento", String.Format("{0:0.00}", sale.Discount)).Replace("@total", String.Format("{0:0.00}", sale.TotalAmount)));
+                .Replace("@subtotal", String.Format("{0:0.00}", Math.Round(sale.Subtotal * 1.12M, 2))
+                .Replace("@eliva", String.Format("{0:0.00}", sale.Iva))
+                .Replace("@descuento", String.Format("{0:0.00}", sale.Discount))
+                .Replace("@total", String.Format("{0:0.00}", sale.TotalAmount)))
+                .Replace("@heigthWrapper", (550 + (sale.Products.Count() * 5)).ToString() + "px")
+                .Replace("@heigthChild", (420 + (sale.Products.Count() * 5)).ToString() + "px");
 
-            string itemInvoice = "";
+            string itemInvoice = "<table border='0' cellspacing='0' cellpadding='0' style='width:100%'>";
             foreach (var product in sale.Products)
             {
-                itemInvoice += ($" <div style='display: flex;justify-content: space-between;margin-bottom: 20px;'>"+
-                    $"<div >{product.Quantity}</div>" +
-                    $"<div ><p>{product.Name}</p></div>" +
-                    $"<div><span>$</span>{product.Total}</div></div>");
+                itemInvoice += ($"<tr>"+
+                    $"<td style='width:10%; text-align:center'>{product.Quantity}</td>" +
+                    $"<td style='width:70%; text-align:left'>{product.Name}</td>" +
+                    $"<td style='width:20%; text-align:right'>${String.Format("{0:0.00}", product.Total)}</td></tr>");
             }
+            itemInvoice += "</table>";
             templateEmail = templateEmail.Replace("@details", itemInvoice);
 
             return templateEmail;

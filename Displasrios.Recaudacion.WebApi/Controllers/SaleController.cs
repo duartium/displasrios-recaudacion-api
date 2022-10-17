@@ -75,6 +75,11 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 response.Data = respSale;
 
                 _hubOrder.Clients.All.SendAsync("orderentry", JsonSerializer.Serialize(summaryOrder));
+
+                //Se envía email desde aquí
+                if (respSale.SendEmail)
+                    SendReceipt(respSale.OrderNumber);
+                
                 return Created("http://localhost:63674/api/v1/sales/", response);
             }
             catch (Exception ex)
