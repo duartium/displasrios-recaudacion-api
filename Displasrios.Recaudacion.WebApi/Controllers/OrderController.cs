@@ -100,6 +100,23 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        [HttpGet("orders-customer/{id}")]
+        public IActionResult GetOrdersByCustomer(int id)
+        {
+            var response = new Response<IEnumerable<SummaryOrdersOfDay>>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsOrder.GetSummaryOrdersByCustomer(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
         [HttpPost("record-visit")]
         public IActionResult RecordVisit([FromBody] VisitCreation visit)
         {
