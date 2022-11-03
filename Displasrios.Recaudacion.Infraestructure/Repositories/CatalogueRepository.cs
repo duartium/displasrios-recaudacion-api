@@ -46,5 +46,15 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                         }).ToList()
                     }).Distinct().ToList().OrderBy(x => x.Name).ToList();
         }
+
+        public IEnumerable<ItemCatalogueDto> GetSellers()
+        {
+            return _context.Empleados.Where(x => x.Estado == 1 && x.TipoEmpleado == 1)
+                .Select(x => new ItemCatalogueDto
+                { 
+                    Id = x.IdEmpleado,
+                    Description = x.Nombres.ToUpper() + " " + x.Apellidos.ToUpper()
+                }).OrderBy(x => x.Description);
+        }
     }
 }

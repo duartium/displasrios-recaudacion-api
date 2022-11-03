@@ -41,6 +41,12 @@
             <param name="name"></param>
             <returns></returns>
         </member>
+        <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CatalogueController.GetSellers">
+            <summary>
+            Obtiene el catálogo de vendedores
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Displasrios.Recaudacion.WebApi.Controllers.CustomerController.GetCustomer(System.String)">
             <summary>
             Obtiene un cliente por identificación

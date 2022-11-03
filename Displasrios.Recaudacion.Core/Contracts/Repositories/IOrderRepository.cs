@@ -17,5 +17,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         SellerPersonalReportDto GetSellerPersonalReport(int idUser);
         SummaryOrdersOfDay GetSummaryOrder(int idOrder);
         IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersByCustomer(int idCustomer);
+        IEnumerable<SummaryOrdersOfDay> GetCollectionOfDay();
     }
 }

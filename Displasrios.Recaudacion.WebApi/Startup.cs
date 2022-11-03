@@ -146,6 +146,7 @@ namespace Displasrios.Recaudacion.WebApi
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ICashRegisterRepository, CashRegisterRepository>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<ISellerRepository, SellerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
