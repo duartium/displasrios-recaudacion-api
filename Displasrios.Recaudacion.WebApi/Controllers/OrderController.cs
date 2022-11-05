@@ -107,7 +107,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
             try
             {
-                response.Data = _rpsOrder.GetSummaryOrdersOfDay();
+                response.Data = _rpsOrder.GetCollectionOfDay();
                 return Ok(response);
             }
             catch (Exception ex)
