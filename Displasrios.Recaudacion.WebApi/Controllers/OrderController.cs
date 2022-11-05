@@ -172,5 +172,22 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
             }
         }
 
+        [HttpGet("seller-debts/{id}")]
+        public IActionResult GetSellerDebts(int id)
+        {
+            var response = new Response<CustomerDebtDto>(true, "OK");
+
+            try
+            {
+                response.Data = _rpsOrder.GetSellerDebts(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
     }
 }

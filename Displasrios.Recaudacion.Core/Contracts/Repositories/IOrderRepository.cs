@@ -18,5 +18,6 @@ namespace Displasrios.Recaudacion.Core.Contracts.Repositories
         SummaryOrdersOfDay GetSummaryOrder(int idOrder);
         IEnumerable<SummaryOrdersOfDay> GetSummaryOrdersByCustomer(int idCustomer);
         IEnumerable<SummaryOrdersOfDay> GetCollectionOfDay();
+        CustomerDebtDto GetSellerDebts(int id);
     }
 }

@@ -8,6 +8,7 @@ using Displasrios.Recaudacion.Infraestructure.MainContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Displasrios.Recaudacion.Infraestructure.Repositories
@@ -275,5 +276,37 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return totalsReport;
         }
 
+        public CustomerDebtDto GetSellerDebts(int id)
+        {
+            IQueryable<Factura> query = null;
+            var debts = new CustomerDebtDto();
+
+            int idEmployee = (int)_context.Empleados.Where(x => x.IdEmpleado == id)
+                .Select(x => x.UsuarioId).FirstOrDefault();
+
+            query = _context.Factura.Where(x => x.Estado == 1 && x.Etapa == 1 && x.Secuencial == null
+                    && x.UsuarioId == idEmployee);
+
+            debts.OrdersReceivable = query.Include(client => client.Cliente).Include(pagos => pagos.Pagos)
+                .Include(fac => fac.Usuario)
+               .Select(order => new OrderSummaryDto
+               {
+                   Id = order.IdFactura,
+                   OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
+                   FullNames = order.Cliente.Nombres + " " + order.Cliente.Apellidos,
+                   Collector = order.Usuario.Usuario,
+                   TotalAmount = order.Pagos.Count > 0
+                       ? Math.Round(order.Total - order.Pagos.Sum(x => x.PagoReal), 2).ToString() : order.Total.ToString(),
+                   Date = order.FechaEmision.ToString("dd/MM/yyyy")
+               }).ToList();
+
+            if (debts.OrdersReceivable != null && debts.OrdersReceivable.Count > 0)
+            {
+                debts.Fullnames = debts.OrdersReceivable.FirstOrDefault().FullNames.ToUpper();
+                debts.TotalDebts = debts.OrdersReceivable.Sum(x => decimal.Parse(x.TotalAmount, CultureInfo.InvariantCulture));
+            }
+
+            return debts;
+        }
     }
 }
