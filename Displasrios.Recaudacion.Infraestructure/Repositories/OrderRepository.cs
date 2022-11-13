@@ -31,6 +31,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
                 {
                     Date = order.FechaEmision.ToString("dd/MM/yyyy"),
                     OrderNumber = order.NumeroPedido.ToString().PadLeft(5, '0'),
+                    InvoiceNumber = String.IsNullOrEmpty(order.Secuencial.ToString()) ? "" : order.Secuencial.ToString().PadLeft(5, '0'),
                     DaysDebt = (DateTime.Now - order.FechaEmision).Days,
                     TotalAmount = order.Total,
                     Iva = order.Iva,
