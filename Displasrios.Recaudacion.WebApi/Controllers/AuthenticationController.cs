@@ -1,4 +1,6 @@
-﻿using Displasrios.Recaudacion.Core.Contracts;
+﻿using Displasrios.Recaudacion.Core.Constants;
+using Displasrios.Recaudacion.Core.Contracts;
+using Displasrios.Recaudacion.Core.Contracts.Services;
 using Displasrios.Recaudacion.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +18,15 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
     {
 
         private readonly IAuthenticationService _srvAuthentication;
+        private readonly IEmailService _srvEmail;
+        private readonly IUserRepository _rpsUser;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, IEmailService emailService,
+            IUserRepository userRepository)
         {
             _srvAuthentication = authenticationService;
+            _srvEmail = emailService;
+            _rpsUser = userRepository;
         }
 
         [AllowAnonymous]
@@ -39,6 +46,44 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return BadRequest(response.Update(false, "Usuario o contraseña incorrectas.", null));
 
                 response.Data = token;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost, Route("forgot-password")]
+        public ActionResult ForgotPassword([FromBody] ForgotPassword request)
+        {
+            var response = new Response<string>(true, "OK");
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(response.Update(false, "El correo electrónico es obligatorio", null));
+
+                if (!_rpsUser.Exists(request.Email))
+                    return BadRequest(response.Update(false, "El correo electrónico no se encuentra vinculado a una cuenta.", null));
+
+                string code = VerificationCode.Generate(6);
+                string bodyHtml = CString.VERIFICACION_CODE_TEMPLATE.Replace("@code", code);
+                string responseEmail = "";
+
+                _srvEmail.Send(new EmailParams
+                {
+                    SenderEmail = "asistencia@displasrios.com",
+                    SenderName = "DISPLASRIOS S.A.",
+                    Subject = "RECUPERACIÓN DE CONTRASEÑA",
+                    EmailTo = request.Email,
+                    Body = bodyHtml
+                }, out responseEmail);
+
+                Logger.LogError($"Respuesta email con código de verificación: ${code} | " + responseEmail);
+
+                response.Message = responseEmail;
                 return Ok(response);
             }
             catch (Exception ex)

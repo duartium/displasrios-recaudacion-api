@@ -175,6 +175,12 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return false;
         }
 
+        public bool Exists(string email)
+        {
+            var employee = _context.Empleados.Where(x => x.Email == email && x.Estado == 1).FirstOrDefault();
+            return employee == null;
+        }
+
         public bool Remove(int idUser)
         {
             var user = _context.Usuarios.Where(x => x.IdUsuario == idUser && x.Estado).First();
@@ -213,5 +219,6 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
 
             return username;
         }
+
     }
 }

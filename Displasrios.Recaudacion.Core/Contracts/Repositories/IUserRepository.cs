@@ -15,5 +15,6 @@ namespace Displasrios.Recaudacion.Core.Contracts
         bool Remove(int idUser);
         IEnumerable<ItemCatalogueDto> GetUserProfiles();
         string GenerateUsername(string names, string surnames);
+        bool Exists(string email);
     }
 }
