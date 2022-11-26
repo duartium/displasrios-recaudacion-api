@@ -69,6 +69,8 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                     return BadRequest(response.Update(false, "El correo electrónico no se encuentra vinculado a una cuenta.", null));
 
                 string code = VerificationCode.Generate(6);
+                _rpsUser.RegisterVerificationCode(request.Email, code);
+                
                 string bodyHtml = CString.VERIFICACION_CODE_TEMPLATE.Replace("@code", code);
                 string responseEmail = "";
 

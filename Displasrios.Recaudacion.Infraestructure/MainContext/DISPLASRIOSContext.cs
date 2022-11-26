@@ -31,6 +31,7 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public virtual DbSet<NotaCreditoDetalle> NotaCreditoDetalle { get; set; }
         public virtual DbSet<Pagos> Pagos { get; set; }
         public virtual DbSet<Parametros> Parametros { get; set; }
+        public virtual DbSet<PasswordReset> PasswordReset { get; set; }
         public virtual DbSet<Perfiles> Perfiles { get; set; }
         public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<Proveedores> Proveedores { get; set; }
@@ -912,6 +913,43 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
                     .HasColumnName("valor")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PasswordReset>(entity =>
+            {
+                entity.HasKey(e => e.IdVerificacion);
+
+                entity.ToTable("PASSWORD_RESET");
+
+                entity.Property(e => e.IdVerificacion).HasColumnName("id_verificacion");
+
+                entity.Property(e => e.ActualizadoEn)
+                    .HasColumnName("actualizado_en")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.CodigoVerificacion)
+                    .IsRequired()
+                    .HasColumnName("codigo_verificacion")
+                    .HasMaxLength(6)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("email")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EmpleadoId).HasColumnName("empleado_id");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.HasOne(d => d.Empleado)
+                    .WithMany(p => p.PasswordReset)
+                    .HasForeignKey(d => d.EmpleadoId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PASSWORD_RESET_EMPLEADOS");
             });
 
             modelBuilder.Entity<Perfiles>(entity =>

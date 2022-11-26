@@ -178,7 +178,7 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
         public bool Exists(string email)
         {
             var employee = _context.Empleados.Where(x => x.Email == email && x.Estado == 1).FirstOrDefault();
-            return employee == null;
+            return employee != null;
         }
 
         public bool Remove(int idUser)
@@ -220,5 +220,21 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             return username;
         }
 
+        public bool RegisterVerificationCode(string email, string code)
+        {
+            int idEmployee = _context.Empleados.Where(x => x.Email == email && x.Estado == 1)
+                .Select(x => x.IdEmpleado).FirstOrDefault();
+
+            var _passwordReset = new PasswordReset
+            {
+                Email = email,
+                CodigoVerificacion = code,
+                Fecha = DateTime.Now,
+                EmpleadoId = idEmployee
+            };
+            _context.PasswordReset.Add(_passwordReset);
+            var resp = _context.SaveChanges();
+            return resp > 0;
+        }
     }
 }

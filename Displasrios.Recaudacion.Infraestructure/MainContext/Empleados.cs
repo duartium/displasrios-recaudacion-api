@@ -5,6 +5,11 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
 {
     public partial class Empleados
     {
+        public Empleados()
+        {
+            PasswordReset = new HashSet<PasswordReset>();
+        }
+
         public int IdEmpleado { get; set; }
         public string Identificacion { get; set; }
         public string Nombres { get; set; }
@@ -21,5 +26,6 @@ namespace Displasrios.Recaudacion.Infraestructure.MainContext
         public int? UsuarioId { get; set; }
 
         public virtual Usuarios Usuario { get; set; }
+        public virtual ICollection<PasswordReset> PasswordReset { get; set; }
     }
 }

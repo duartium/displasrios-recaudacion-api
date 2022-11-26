@@ -16,5 +16,6 @@ namespace Displasrios.Recaudacion.Core.Contracts
         IEnumerable<ItemCatalogueDto> GetUserProfiles();
         string GenerateUsername(string names, string surnames);
         bool Exists(string email);
+        bool RegisterVerificationCode(string email, string code);
     }
 }
