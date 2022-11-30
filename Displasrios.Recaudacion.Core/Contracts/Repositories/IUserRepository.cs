@@ -17,5 +17,6 @@ namespace Displasrios.Recaudacion.Core.Contracts
         string GenerateUsername(string names, string surnames);
         bool Exists(string email);
         bool RegisterVerificationCode(string email, string code);
+        bool IsValidVerificationCode(string email, string code);
     }
 }

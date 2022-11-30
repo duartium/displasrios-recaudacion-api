@@ -74,18 +74,46 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 string bodyHtml = CString.VERIFICACION_CODE_TEMPLATE.Replace("@code", code);
                 string responseEmail = "";
 
-                _srvEmail.Send(new EmailParams
-                {
-                    SenderEmail = "asistencia@displasrios.com",
-                    SenderName = "DISPLASRIOS S.A.",
-                    Subject = "RECUPERACIÓN DE CONTRASEÑA",
-                    EmailTo = request.Email,
-                    Body = bodyHtml
-                }, out responseEmail);
+                //_srvEmail.Send(new EmailParams
+                //{
+                //    SenderEmail = "asistencia@displasrios.com",
+                //    SenderName = "DISPLASRIOS S.A.",
+                //    Subject = "RECUPERACIÓN DE CONTRASEÑA",
+                //    EmailTo = request.Email,
+                //    Body = bodyHtml
+                //}, out responseEmail);
 
-                Logger.LogError($"Respuesta email con código de verificación: ${code} | " + responseEmail);
+                //Logger.LogError($"Respuesta email con código de verificación: ${code} | " + responseEmail);
 
-                response.Message = responseEmail;
+                //response.Message = responseEmail;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost, Route("verify-code")]
+        public ActionResult VerifyCode([FromBody] VerificationCode request)
+        {
+            var response = new Response<string>(true, "OK");
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(response.Update(false, "El correo electrónico es obligatorio", null));
+
+                if (!_rpsUser.Exists(request.Email))
+                    return BadRequest(response.Update(false, "El correo electrónico no se encuentra vinculado a una cuenta.", null));
+
+                string code = VerificationCode.Generate(6);
+                _rpsUser.RegisterVerificationCode(request.Email, code);
+
+                string bodyHtml = CString.VERIFICACION_CODE_TEMPLATE.Replace("@code", code);
+                string responseEmail = "";
+
                 return Ok(response);
             }
             catch (Exception ex)

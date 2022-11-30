@@ -23,4 +23,15 @@ namespace Displasrios.Recaudacion.Core.Models
         [JsonIgnore]
         public int MyProperty { get; set; }
     }
+
+    public class CodeForgotPassword
+    {
+        [Required]
+        [JsonPropertyName("email")]
+        public string Email { get; set; }
+
+        [Required]
+        [JsonPropertyName("code")]
+        public string Code { get; set; }
+    }
 }
