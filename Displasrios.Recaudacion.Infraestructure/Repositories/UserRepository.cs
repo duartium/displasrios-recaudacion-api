@@ -236,5 +236,74 @@ namespace Displasrios.Recaudacion.Infraestructure.Repositories
             var resp = _context.SaveChanges();
             return resp > 0;
         }
+
+        public VerifyCodeResponse VerifyCode(string email, string code)
+        {
+            var response = new VerifyCodeResponse {
+                IsSuccess = true,
+                Message = "OK"
+            };
+
+            var rowPassword = _context.PasswordReset.Where(x => x.Email == email)
+                .ToList().OrderByDescending(x => x.Fecha).FirstOrDefault();
+
+            if (rowPassword.CodigoVerificacion != code) {
+                response.IsSuccess = false;
+                response.Message = "El código de verificación es incorrecto";
+                return response;
+            }
+
+            rowPassword.ActualizadoEn = DateTime.Now;
+            _context.Entry(rowPassword).State = EntityState.Modified;
+            int resp = _context.SaveChanges();
+
+            if (resp <= 0)
+            {
+                response.IsSuccess = false;
+                response.Message = "Error en la verificación de código";
+            }
+
+            return response;
+        }
+
+        public ChangePasswordResponse ChangePassword(string email, string newPassword)
+        {
+            var response = new ChangePasswordResponse
+            {
+                IsSuccess = true,
+                Message = "OK"
+            };
+
+            var rowUserEmployee = (from users in _context.Usuarios
+                                  join empl in _context.Empleados
+                                    on users.IdUsuario equals empl.UsuarioId
+                                  where empl.Email == email
+                                  select new { users, empl }).FirstOrDefault();
+;
+
+            if (rowUserEmployee == null)
+            {
+                response.IsSuccess = false;
+                response.Message = $"No se encontró un usuario con el correo {email}";
+                return response;
+            }
+
+            var user = rowUserEmployee.users;
+            user.ModificadoEn = DateTime.Now;
+            user.UsuarioMod = "reset_password";
+            user.Clave = newPassword;
+
+            _context.Entry(user).State = EntityState.Modified;
+            int resp = _context.SaveChanges();
+
+            if (resp <= 0)
+            {
+                response.IsSuccess = false;
+                response.Message = "Error en al actualizar la contraseña";
+            }
+
+            return response;
+        }
+
     }
 }

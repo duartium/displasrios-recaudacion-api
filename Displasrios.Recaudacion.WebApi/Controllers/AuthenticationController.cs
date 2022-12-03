@@ -68,24 +68,24 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (!_rpsUser.Exists(request.Email))
                     return BadRequest(response.Update(false, "El correo electrónico no se encuentra vinculado a una cuenta.", null));
 
-                string code = VerificationCode.Generate(6);
-                _rpsUser.RegisterVerificationCode(request.Email, code);
+                string code = VerificationCode.Generate(5);
+                _rpsUser.RegisterVerificationCode(request.Email, code.ToUpper());
                 
                 string bodyHtml = CString.VERIFICACION_CODE_TEMPLATE.Replace("@code", code);
                 string responseEmail = "";
 
-                //_srvEmail.Send(new EmailParams
-                //{
-                //    SenderEmail = "asistencia@displasrios.com",
-                //    SenderName = "DISPLASRIOS S.A.",
-                //    Subject = "RECUPERACIÓN DE CONTRASEÑA",
-                //    EmailTo = request.Email,
-                //    Body = bodyHtml
-                //}, out responseEmail);
+                _srvEmail.Send(new EmailParams
+                {
+                    SenderEmail = "asistencia@displasrios.com",
+                    SenderName = "DISPLASRIOS S.A.",
+                    Subject = "RECUPERACIÓN DE CONTRASEÑA",
+                    EmailTo = request.Email,
+                    Body = bodyHtml
+                }, out responseEmail);
 
-                //Logger.LogError($"Respuesta email con código de verificación: ${code} | " + responseEmail);
+                Logger.LogError($"Respuesta email con código de verificación: ${code} | " + responseEmail);
 
-                //response.Message = responseEmail;
+                response.Message = responseEmail;
                 return Ok(response);
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost, Route("verify-code")]
-        public ActionResult VerifyCode([FromBody] VerificationCode request)
+        public ActionResult VerifyCode([FromBody] CodeForgotPassword request)
         {
             var response = new Response<string>(true, "OK");
             try
@@ -108,11 +108,34 @@ namespace Displasrios.Recaudacion.WebApi.Controllers
                 if (!_rpsUser.Exists(request.Email))
                     return BadRequest(response.Update(false, "El correo electrónico no se encuentra vinculado a una cuenta.", null));
 
-                string code = VerificationCode.Generate(6);
-                _rpsUser.RegisterVerificationCode(request.Email, code);
+                var verifyResponse = _rpsUser.VerifyCode(request.Email, request.Code.ToUpper());
+                response.Message = verifyResponse.Message;
+                response.Success = verifyResponse.IsSuccess;
 
-                string bodyHtml = CString.VERIFICACION_CODE_TEMPLATE.Replace("@code", code);
-                string responseEmail = "";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+                return Conflict(response.Update(false, ex.Message, null));
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost, Route("change-password")]
+        public ActionResult ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            var response = new Response<string>(true, "OK");
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(response.Update(false, "El correo electrónico es obligatorio", null));
+
+                request.NewPassword = Security.GetSHA256(request.NewPassword);
+
+                var verifyResponse = _rpsUser.ChangePassword(request.Email, request.NewPassword);
+                response.Message = verifyResponse.Message;
+                response.Success = verifyResponse.IsSuccess;
 
                 return Ok(response);
             }
